@@ -1,13 +1,24 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+	Resolver,
+	Query,
+	Mutation,
+	Args,
+	ResolveProperty,
+	Parent
+} from '@nestjs/graphql';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
 import { newProductInput } from './dto/newProduct.input';
 import { updatedProductInput } from './dto/updatedProduct.input';
 import { ID } from 'type-graphql';
+import { VoteService } from '../vote/vote.service';
 
 @Resolver(of => Product)
 export class ProductResolver {
-	constructor(private readonly productService: ProductService) {}
+	constructor(
+		private readonly productService: ProductService,
+		private readonly voteService: VoteService
+	) {}
 
 	@Query(returns => [Product])
 	async products(): Promise<Product[]> {
@@ -43,5 +54,11 @@ export class ProductResolver {
 		@Args({ name: 'id', type: () => ID }) id: string
 	): Promise<Boolean> {
 		return await this.productService.delete(id);
+	}
+
+	@ResolveProperty('votes')
+	async votes(@Parent() product) {
+		const { id } = product;
+		return await this.voteService.findAll({ productId: id });
 	}
 }

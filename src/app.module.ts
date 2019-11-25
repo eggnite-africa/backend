@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductModule } from './modules/Product/product.module';
-import { Product } from './modules/Product/product.entity';
+import { ProductModule } from './modules/product/product.module';
+import { Product } from './modules/product/product.entity';
+import { VoteModule } from './modules/vote/vote.module';
+import { Vote } from './modules/vote/vote.entity';
 
 @Module({
 	imports: [
@@ -16,9 +18,11 @@ import { Product } from './modules/Product/product.entity';
 			username: 'postgres',
 			password: 'root',
 			database: 'platform',
-			entities: [Product],
+			entities: [Product, Vote],
 			synchronize: true
-		})
+		}),
+		ProductModule,
+		VoteModule
 	]
 })
 export class AppModule {}

@@ -4,14 +4,16 @@ import {
 	Column,
 	PrimaryGeneratedColumn,
 	CreateDateColumn,
-	UpdateDateColumn
+	UpdateDateColumn,
+	OneToMany
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { Length } from 'class-validator';
 import { Media } from './dto/media.type';
+import { Vote } from '../vote/vote.entity';
 
 @ObjectType()
-@Entity({ name: 'products' })
+@Entity()
 export class Product extends BaseEntity {
 	@Field(type => ID)
 	@PrimaryGeneratedColumn()
@@ -43,4 +45,11 @@ export class Product extends BaseEntity {
 	@Field(type => Media)
 	@Column('json')
 	media: Media;
+
+	@Field(type => [Vote], { nullable: true })
+	@OneToMany(
+		type => Vote,
+		vote => vote.product
+	)
+	votes: Vote[];
 }
