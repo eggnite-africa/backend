@@ -1,5 +1,7 @@
 # What is this ?
 
+A platform for devs and entrepreneurs alike to share their works and discover the community around them.
+
 # Why am I doing this ?
 
 # Features
