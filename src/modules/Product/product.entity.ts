@@ -1,0 +1,46 @@
+import {
+	BaseEntity,
+	Entity,
+	Column,
+	PrimaryGeneratedColumn,
+	CreateDateColumn,
+	UpdateDateColumn
+} from 'typeorm';
+import { ObjectType, Field, ID } from 'type-graphql';
+import { Length } from 'class-validator';
+import { Media } from './dto/media.type';
+
+@ObjectType()
+@Entity({ name: 'products' })
+export class Product extends BaseEntity {
+	@Field(type => ID)
+	@PrimaryGeneratedColumn()
+	readonly id: string;
+
+	@CreateDateColumn()
+	createdAt: Date;
+
+	@UpdateDateColumn()
+	updatedAt: Date;
+
+	@Field(type => String)
+	@Column({ type: 'text', unique: true, nullable: false })
+	name: string;
+
+	@Field(type => String)
+	@Length(50, 140)
+	@Column()
+	tagline: string;
+
+	@Field(type => String, { nullable: true })
+	@Column('text', { nullable: true })
+	description?: string;
+
+	@Field(type => [String])
+	@Column('simple-array')
+	links: string[];
+
+	@Field(type => Media)
+	@Column('json')
+	media: Media;
+}
