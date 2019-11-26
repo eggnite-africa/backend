@@ -1,4 +1,10 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import {
+	Resolver,
+	Mutation,
+	Args,
+	ResolveProperty,
+	Parent
+} from '@nestjs/graphql';
 import { Comment } from './comment.entitiy';
 import { CommentService } from './comment.service';
 import { ID } from 'type-graphql';
@@ -9,17 +15,29 @@ export class CommentResolver {
 	constructor(private readonly commentService: CommentService) {}
 
 	@Mutation(returns => Comment)
-	async addComment(@Args('commentInput') { id, content }: CommentInput) {
-		return await this.commentService.addComment(id, content);
+	async addComment(
+		@Args('commentInput') { productId, content, parentId }: CommentInput
+	) {
+		return await this.commentService.addComment(productId, content, parentId);
 	}
 
 	@Mutation(returns => Boolean)
-	async deleteComment(@Args({ name: 'id', type: () => ID }) commentId: number) {
+	async deleteComment(
+		@Args({ name: 'commentId', type: () => ID }) commentId: number
+	) {
 		return await this.commentService.deleteComment(commentId);
 	}
 
 	@Mutation(returns => Comment)
-	async updateComment(@Args('commentInput') { id, content }: CommentInput) {
-		return await this.commentService.updateComment(id, content);
+	async updateComment(
+		@Args('commentInput') { parentId, content }: CommentInput
+	) {
+		return await this.commentService.updateComment(parentId, content);
+	}
+
+	@ResolveProperty('replies')
+	async replies(@Parent() Comment) {
+		const { id } = Comment;
+		return await this.commentService.findAllReplies(id);
 	}
 }

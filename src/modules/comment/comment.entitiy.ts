@@ -5,7 +5,8 @@ import {
 	Column,
 	ManyToOne,
 	CreateDateColumn,
-	UpdateDateColumn
+	UpdateDateColumn,
+	OneToMany
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { Product } from '../product/product.entity';
@@ -33,6 +34,22 @@ export class Comment extends BaseEntity {
 	)
 	product: Product;
 	@Field(type => ID)
-	@Column()
+	@Column({ nullable: true })
 	productId: number;
+
+	@ManyToOne(
+		type => Comment,
+		comment => comment.replies
+	)
+	parent: Comment;
+	@Field(type => ID, { nullable: true })
+	@Column({ nullable: true })
+	parentId: number;
+
+	@OneToMany(
+		type => Comment,
+		comment => comment.parent
+	)
+	@Field(type => [Comment], { nullable: 'itemsAndList' })
+	replies: Comment[];
 }

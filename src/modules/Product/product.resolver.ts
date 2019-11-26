@@ -67,6 +67,6 @@ export class ProductResolver {
 	@ResolveProperty('comments')
 	async comments(@Parent() product) {
 		const { id } = product;
-		return await this.commentService.findAll({ productId: id });
+		return await this.commentService.findAllComments(id);
 	}
 }
