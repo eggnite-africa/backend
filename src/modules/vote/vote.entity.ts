@@ -30,7 +30,10 @@ export class Vote extends BaseEntity {
 
 	@ManyToOne(
 		type => Product,
-		product => product.votes
+		product => product.votes,
+		{
+			onDelete: 'CASCADE'
+		}
 	)
 	product: Product;
 }
