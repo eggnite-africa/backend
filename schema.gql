@@ -4,85 +4,85 @@
 # -----------------------------------------------
 
 type Comment {
-	id: ID!
-	content: String!
-	productId: ID!
-	parentId: ID
-	replies: [Comment]
+  id: ID!
+  content: String!
+  productId: ID!
+  parentId: ID
+  replies: [Comment]
 }
 
 input CommentInput {
-	productId: ID
-	content: String
+  productId: ID
+  content: String
 
-	"""
-	This refers to the comment id whether it's the parent or a standalone comment
-	"""
-	parentId: ID
+  """
+  This refers to the comment id whether it's the parent or a standalone comment
+  """
+  parentId: ID
 }
 
 type Media {
-	logo: String!
-	pictures: [String!]!
-	videos: [String]
+  logo: String!
+  pictures: [String!]!
+  videos: [String]
 }
 
 input MediaInput {
-	logo: String!
-	pictures: [String!]!
-	videos: [String]
+  logo: String!
+  pictures: [String!]!
+  videos: [String]
 }
 
 type Mutation {
-	create(newProduct: newProductInput!): Product!
-	update(updatedProduct: updatedProductInput!): Product!
-	delete(id: ID!): Boolean!
-	upvote(voteInput: VoteInput!): Vote!
-	deleteVote(voteInput: VoteInput!): Boolean!
-	addComment(commentInput: CommentInput!): Comment!
-	deleteComment(commentId: ID!): Boolean!
-	updateComment(commentInput: CommentInput!): Comment!
+  addProduct(newProduct: newProductInput!): Product!
+  updateProduct(updatedProduct: updatedProductInput!): Product!
+  deleteProduct(id: ID!): Boolean!
+  upvote(voteInput: VoteInput!): Vote!
+  deleteVote(voteInput: VoteInput!): Boolean!
+  addComment(commentInput: CommentInput!): Comment!
+  deleteComment(commentId: ID!): Boolean!
+  updateComment(commentInput: CommentInput!): Comment!
 }
 
 input newProductInput {
-	name: String!
-	tagline: String!
-	description: String
-	links: [String!]!
-	media: MediaInput!
+  name: String!
+  tagline: String!
+  description: String
+  links: [String!]!
+  media: MediaInput!
 }
 
 type Product {
-	id: ID!
-	name: String!
-	tagline: String!
-	description: String
-	links: [String!]!
-	media: Media!
-	votes: [Vote!]
-	comments: [Comment]
+  id: ID!
+  name: String!
+  tagline: String!
+  description: String
+  links: [String!]!
+  media: Media!
+  votes: [Vote!]
+  comments: [Comment]
 }
 
 type Query {
-	products: [Product!]!
-	product(id: ID!): Product!
+  products: [Product!]!
+  product(id: ID!): Product!
 }
 
 input updatedProductInput {
-	id: ID!
-	tagline: String
-	description: String
-	links: [String]
-	Media: MediaInput
+  id: ID!
+  tagline: String
+  description: String
+  links: [String]
+  Media: MediaInput
 }
 
 type Vote {
-	id: ID!
-	voterId: ID!
-	productId: ID!
+  id: ID!
+  voterId: ID!
+  productId: ID!
 }
 
 input VoteInput {
-	productId: ID!
-	voterId: ID!
+  productId: ID!
+  voterId: ID!
 }
