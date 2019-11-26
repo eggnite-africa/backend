@@ -23,10 +23,6 @@ export class Comment extends BaseEntity {
 	@UpdateDateColumn()
 	updatedAt: Date;
 
-	@Field(type => ID)
-	@Column()
-	productId: number;
-
 	@Field(type => String)
 	@Column({ type: 'text' })
 	content: string;
@@ -36,4 +32,7 @@ export class Comment extends BaseEntity {
 		product => product.comments
 	)
 	product: Product;
+	@Field(type => ID)
+	@Column()
+	productId: number;
 }
