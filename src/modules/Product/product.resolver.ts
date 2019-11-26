@@ -37,14 +37,14 @@ export class ProductResolver {
 	}
 
 	@Mutation(returns => Product)
-	async create(
+	async addProduct(
 		@Args('newProduct') newProduct: newProductInput
 	): Promise<Product> {
 		return await this.productService.create(newProduct);
 	}
 
 	@Mutation(returns => Product)
-	async update(
+	async updateProduct(
 		@Args('updatedProduct') updatedProuduct: updatedProductInput
 	): Promise<Product> {
 		return await this.productService.update(
@@ -54,7 +54,7 @@ export class ProductResolver {
 	}
 
 	@Mutation(returns => Boolean)
-	async delete(
+	async deleteProduct(
 		@Args({ name: 'id', type: () => ID }) id: string
 	): Promise<Boolean> {
 		return await this.productService.delete(id);
