@@ -12,12 +12,14 @@ import { newProductInput } from './dto/newProduct.input';
 import { updatedProductInput } from './dto/updatedProduct.input';
 import { ID } from 'type-graphql';
 import { VoteService } from '../vote/vote.service';
+import { CommentService } from '../comment/comment.service';
 
 @Resolver(of => Product)
 export class ProductResolver {
 	constructor(
 		private readonly productService: ProductService,
-		private readonly voteService: VoteService
+		private readonly voteService: VoteService,
+		private readonly commentService: CommentService
 	) {}
 
 	@Query(returns => [Product])
@@ -60,5 +62,11 @@ export class ProductResolver {
 	async votes(@Parent() product) {
 		const { id } = product;
 		return await this.voteService.findAll({ productId: id });
+	}
+
+	@ResolveProperty('comments')
+	async comments(@Parent() product) {
+		const { id } = product;
+		return await this.commentService.findAll({ productId: id });
 	}
 }

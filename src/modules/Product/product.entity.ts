@@ -11,6 +11,7 @@ import { ObjectType, Field, ID } from 'type-graphql';
 import { Length } from 'class-validator';
 import { Media } from './dto/media.type';
 import { Vote } from '../vote/vote.entity';
+import { Comment } from '../comment/comment.entitiy';
 
 @ObjectType()
 @Entity()
@@ -52,4 +53,11 @@ export class Product extends BaseEntity {
 		vote => vote.product
 	)
 	votes: Vote[];
+
+	@Field(type => [Comment], { nullable: 'itemsAndList' })
+	@OneToMany(
+		type => Comment,
+		comment => comment.product
+	)
+	comments: Comment[];
 }

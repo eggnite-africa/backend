@@ -5,6 +5,8 @@ import { ProductModule } from './modules/product/product.module';
 import { Product } from './modules/product/product.entity';
 import { VoteModule } from './modules/vote/vote.module';
 import { Vote } from './modules/vote/vote.entity';
+import { CommentModule } from './modules/comment/comment.module';
+import { Comment } from './modules/comment/comment.entitiy';
 
 @Module({
 	imports: [
@@ -18,11 +20,12 @@ import { Vote } from './modules/vote/vote.entity';
 			username: 'postgres',
 			password: 'root',
 			database: 'platform',
-			entities: [Product, Vote],
+			entities: [Product, Vote, Comment],
 			synchronize: true
 		}),
 		ProductModule,
-		VoteModule
+		VoteModule,
+		CommentModule
 	]
 })
 export class AppModule {}

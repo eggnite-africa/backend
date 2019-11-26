@@ -3,6 +3,17 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Comment {
+  id: ID!
+  productId: ID!
+  content: String!
+}
+
+input CommentInput {
+  id: ID!
+  content: String!
+}
+
 type Media {
   logo: String!
   pictures: [String!]!
@@ -21,6 +32,9 @@ type Mutation {
   delete(id: ID!): Boolean!
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
+  addComment(commentInput: CommentInput!): Comment!
+  deleteComment(id: ID!): Boolean!
+  updateComment(commentInput: CommentInput!): Comment!
 }
 
 input newProductInput {
@@ -39,6 +53,7 @@ type Product {
   links: [String!]!
   media: Media!
   votes: [Vote!]
+  comments: [Comment]
 }
 
 type Query {
