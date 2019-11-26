@@ -10,7 +10,7 @@ export class CommentService {
 		private readonly commentRepository: Repository<Comment>
 	) {}
 
-	async findAllReplies(id: number) {
+	async findAllReplies(id: number): Promise<Comment[]> {
 		return await this.commentRepository.find({
 			where: {
 				parentId: id
@@ -18,7 +18,7 @@ export class CommentService {
 		});
 	}
 
-	async findAllComments(id: number) {
+	async findAllComments(id: number): Promise<Comment[]> {
 		return await this.commentRepository.find({
 			where: {
 				productId: id,
@@ -28,7 +28,7 @@ export class CommentService {
 		});
 	}
 
-	async getCommentById(id: number) {
+	async getCommentById(id: number): Promise<Comment> {
 		return await this.commentRepository.findOne(id);
 	}
 
@@ -36,7 +36,7 @@ export class CommentService {
 		productId: number,
 		content: string,
 		parentId: number = null
-	) {
+	): Promise<Comment> {
 		if (parentId) {
 			return await this.addReply(parentId, content);
 		}
@@ -48,7 +48,7 @@ export class CommentService {
 		return await this.commentRepository.save(comment);
 	}
 
-	private async addReply(parentId: number, content: string) {
+	private async addReply(parentId: number, content: string): Promise<Comment> {
 		const reply = new Comment();
 		reply.parentId = parentId;
 		reply.content = content;
@@ -56,7 +56,7 @@ export class CommentService {
 		return await this.commentRepository.save(reply);
 	}
 
-	async deleteComment(id: number) {
+	async deleteComment(id: number): Promise<Boolean> {
 		try {
 			await this.commentRepository.delete({ id });
 			const deleted = await this.getCommentById(id);
@@ -65,7 +65,7 @@ export class CommentService {
 			throw err;
 		}
 	}
-	async updateComment(id: number, content: string) {
+	async updateComment(id: number, content: string): Promise<Comment> {
 		try {
 			await this.commentRepository.update({ id }, { content });
 			return await this.getCommentById(id);

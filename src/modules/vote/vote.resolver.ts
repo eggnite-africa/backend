@@ -8,7 +8,7 @@ export class VoteResolver {
 	constructor(private readonly voteService: VoteService) {}
 
 	@Mutation(returns => Vote)
-	async upvote(@Args('voteInput') voteInput: VoteInput) {
+	async upvote(@Args('voteInput') voteInput: VoteInput): Promise<Vote> {
 		return await this.voteService.addVote(
 			voteInput.productId,
 			voteInput.voterId

@@ -13,7 +13,7 @@ export class VoteService {
 		return await this.voteRepository.find(options);
 	}
 
-	async addVote(productId: number, voterId: number = 1) {
+	async addVote(productId: number, voterId: number = 1): Promise<Vote> {
 		const alreadyVoted = await this.voteRepository.findOne({
 			where: {
 				productId,
@@ -31,7 +31,7 @@ export class VoteService {
 		return await this.voteRepository.save(newVote);
 	}
 
-	async removeVote(productId: number, voterId: number) {
+	async removeVote(productId: number, voterId: number): Promise<Boolean> {
 		const voteToRemove = await this.voteRepository.findOneOrFail({
 			where: {
 				productId,

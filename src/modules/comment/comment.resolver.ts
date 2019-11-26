@@ -17,26 +17,26 @@ export class CommentResolver {
 	@Mutation(returns => Comment)
 	async addComment(
 		@Args('commentInput') { productId, content, parentId }: CommentInput
-	) {
+	): Promise<Comment> {
 		return await this.commentService.addComment(productId, content, parentId);
 	}
 
 	@Mutation(returns => Boolean)
 	async deleteComment(
 		@Args({ name: 'commentId', type: () => ID }) commentId: number
-	) {
+	): Promise<Boolean> {
 		return await this.commentService.deleteComment(commentId);
 	}
 
 	@Mutation(returns => Comment)
 	async updateComment(
 		@Args('commentInput') { parentId, content }: CommentInput
-	) {
+	): Promise<Comment> {
 		return await this.commentService.updateComment(parentId, content);
 	}
 
 	@ResolveProperty('replies')
-	async replies(@Parent() Comment) {
+	async replies(@Parent() Comment): Promise<Comment[]> {
 		const { id } = Comment;
 		return await this.commentService.findAllReplies(id);
 	}

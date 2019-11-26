@@ -13,6 +13,8 @@ import { updatedProductInput } from './dto/updatedProduct.input';
 import { ID } from 'type-graphql';
 import { VoteService } from '../vote/vote.service';
 import { CommentService } from '../comment/comment.service';
+import { Comment } from '../comment/comment.entitiy';
+import { Vote } from '../vote/vote.entity';
 
 @Resolver(of => Product)
 export class ProductResolver {
@@ -59,13 +61,13 @@ export class ProductResolver {
 	}
 
 	@ResolveProperty('votes')
-	async votes(@Parent() product) {
+	async votes(@Parent() product): Promise<Vote[]> {
 		const { id } = product;
 		return await this.voteService.findAll({ productId: id });
 	}
 
 	@ResolveProperty('comments')
-	async comments(@Parent() product) {
+	async comments(@Parent() product): Promise<Comment[]> {
 		const { id } = product;
 		return await this.commentService.findAllComments(id);
 	}
