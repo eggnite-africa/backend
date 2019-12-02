@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { Comment } from '../comment/comment.entitiy';
 import { Vote } from '../vote/vote.entity';
-import { Product } from '../productModule/product.entity';
+import { Product } from '../product/product.entity';
 
 @ObjectType()
 @Entity()

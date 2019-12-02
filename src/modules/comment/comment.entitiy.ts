@@ -9,7 +9,7 @@ import {
 	OneToMany
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
-import { Product } from '../productModule/product.entity';
+import { Product } from '../product/product.entity';
 import { User } from '../user/user.entity';
 
 @Entity()

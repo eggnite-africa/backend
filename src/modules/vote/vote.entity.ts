@@ -7,7 +7,7 @@ import {
 	Entity
 } from 'typeorm';
 
-import { Product } from '../productModule/product.entity';
+import { Product } from '../product/product.entity';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { User } from '../user/user.entity';
 

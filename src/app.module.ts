@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductModule } from './modules/productModule/product.module';
-import { Product } from './modules/productModule/product.entity';
+import { ProductModule } from './modules/product/product.module';
+import { Product } from './modules/product/product.entity';
 import { VoteModule } from './modules/vote/vote.module';
 import { Vote } from './modules/vote/vote.entity';
 import { CommentModule } from './modules/comment/comment.module';
