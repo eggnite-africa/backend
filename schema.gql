@@ -9,6 +9,7 @@ type Comment {
   productId: ID!
   parentId: ID
   replies: [Comment]
+  userId: ID!
 }
 
 input CommentInput {
@@ -42,6 +43,8 @@ type Mutation {
   addComment(commentInput: CommentInput!): Comment!
   deleteComment(commentId: ID!): Boolean!
   updateComment(commentInput: CommentInput!): Comment!
+  signUp(UserInput: UserInput!): User!
+  logout: Boolean!
 }
 
 input newProductInput {
@@ -50,6 +53,7 @@ input newProductInput {
   description: String
   links: [String!]!
   media: MediaInput!
+  makersIds: [ID!]
 }
 
 type Product {
@@ -61,6 +65,7 @@ type Product {
   media: Media!
   votes: [Vote!]
   comments: [Comment]
+  makersIds: [ID!]
 }
 
 type Query {
@@ -74,15 +79,28 @@ input updatedProductInput {
   description: String
   links: [String]
   Media: MediaInput
+  makersIds: [ID]
+}
+
+type User {
+  id: ID!
+  username: String!
+  comments: [Comment]
+  votes: [Vote]
+  products: [Product]
+}
+
+input UserInput {
+  username: String!
+  password: String!
 }
 
 type Vote {
   id: ID!
-  voterId: ID!
   productId: ID!
+  userId: ID!
 }
 
 input VoteInput {
   productId: ID!
-  voterId: ID!
 }

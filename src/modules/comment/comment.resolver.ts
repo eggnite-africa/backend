@@ -9,34 +9,49 @@ import { Comment } from './comment.entitiy';
 import { CommentService } from './comment.service';
 import { ID } from 'type-graphql';
 import { CommentInput } from './dto/comment.input';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
+import { CurrentUser } from '../user/decorator/user.decorator';
+import { User } from '../user/user.entity';
 
-@Resolver(of => Comment)
+@Resolver((of: any) => Comment)
 export class CommentResolver {
 	constructor(private readonly commentService: CommentService) {}
 
+	@UseGuards(GraphQLAuth)
 	@Mutation(returns => Comment)
 	async addComment(
-		@Args('commentInput') { productId, content, parentId }: CommentInput
-	): Promise<Comment> {
-		return await this.commentService.addComment(productId, content, parentId);
+		@Args('commentInput') { productId, content, parentId }: CommentInput,
+		@CurrentUser() { id: userId }: User
+	): Promise<Comment | undefined> {
+		return await this.commentService.addComment(
+			productId,
+			content,
+			userId,
+			parentId
+		);
 	}
 
+	@UseGuards(GraphQLAuth)
 	@Mutation(returns => Boolean)
 	async deleteComment(
-		@Args({ name: 'commentId', type: () => ID }) commentId: number
+		@Args({ name: 'commentId', type: () => ID }) commentId: number,
+		@CurrentUser() { id: userId }: User
 	): Promise<Boolean> {
-		return await this.commentService.deleteComment(commentId);
+		return await this.commentService.deleteComment(commentId, userId);
 	}
 
+	@UseGuards(GraphQLAuth)
 	@Mutation(returns => Comment)
 	async updateComment(
-		@Args('commentInput') { parentId, content }: CommentInput
-	): Promise<Comment> {
-		return await this.commentService.updateComment(parentId, content);
+		@Args('commentInput') { parentId, content }: CommentInput,
+		@CurrentUser() { id: userId }: User
+	): Promise<Comment | undefined> {
+		return await this.commentService.updateComment(parentId, content, userId);
 	}
 
 	@ResolveProperty('replies')
-	async replies(@Parent() Comment): Promise<Comment[]> {
+	async replies(@Parent() Comment: Comment): Promise<Comment[]> {
 		const { id } = Comment;
 		return await this.commentService.findAllReplies(id);
 	}

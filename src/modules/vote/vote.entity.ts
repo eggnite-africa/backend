@@ -7,26 +7,23 @@ import {
 	Entity
 } from 'typeorm';
 
-import { Product } from '../product/product.entity';
+import { Product } from '../productModule/product.entity';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { User } from '../user/user.entity';
 
 @ObjectType()
 @Entity()
 export class Vote extends BaseEntity {
 	@Field(type => ID)
 	@PrimaryGeneratedColumn()
-	id: string;
+	id!: number;
 
 	@CreateDateColumn()
-	createdAt: Date;
+	createdAt!: Date;
 
 	@Field(type => ID)
 	@Column()
-	voterId: number;
-
-	@Field(type => ID)
-	@Column()
-	productId: number;
+	productId!: number;
 
 	@ManyToOne(
 		type => Product,
@@ -35,5 +32,14 @@ export class Vote extends BaseEntity {
 			onDelete: 'CASCADE'
 		}
 	)
-	product: Product;
+	product!: Product;
+
+	@ManyToOne(
+		type => User,
+		user => user.votes
+	)
+	user!: User;
+	@Field(type => ID)
+	@Column()
+	userId!: number;
 }

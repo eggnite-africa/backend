@@ -5,7 +5,7 @@ import { Product } from '../product.entity';
 @InputType()
 export class updatedProductInput implements Partial<Product> {
 	@Field(type => ID)
-	id: string;
+	id!: number;
 
 	@Field(type => String, { nullable: true })
 	tagline?: string;
@@ -18,4 +18,7 @@ export class updatedProductInput implements Partial<Product> {
 
 	@Field(type => MediaInput, { nullable: true })
 	Media?: MediaInput;
+
+	@Field(type => [ID], { nullable: 'itemsAndList' })
+	makersIds?: number[];
 }

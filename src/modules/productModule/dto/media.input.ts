@@ -4,10 +4,10 @@ import { Media } from './media.type';
 @InputType()
 export class MediaInput implements Partial<Media> {
 	@Field(type => String)
-	logo: string;
+	logo!: string;
 
 	@Field(type => [String])
-	pictures: string[];
+	pictures!: string[];
 
 	@Field(type => [String], { nullable: 'itemsAndList' })
 	videos?: string[];

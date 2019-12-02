@@ -28,46 +28,57 @@ export class CommentService {
 		});
 	}
 
-	async getCommentById(id: number): Promise<Comment> {
+	async getCommentById(id: number): Promise<Comment | undefined> {
 		return await this.commentRepository.findOne(id);
 	}
 
 	async addComment(
 		productId: number,
 		content: string,
-		parentId: number = null
+		userId: number,
+		parentId?: number
 	): Promise<Comment> {
 		if (parentId) {
-			return await this.addReply(parentId, content);
+			return await this.addReply(parentId, content, userId);
 		}
 
 		const comment = new Comment();
 		comment.productId = productId;
 		comment.content = content;
+		comment.userId = userId;
 
 		return await this.commentRepository.save(comment);
 	}
 
-	private async addReply(parentId: number, content: string): Promise<Comment> {
+	private async addReply(
+		parentId: number,
+		content: string,
+		userId: number
+	): Promise<Comment> {
 		const reply = new Comment();
 		reply.parentId = parentId;
 		reply.content = content;
+		reply.userId = userId;
 
 		return await this.commentRepository.save(reply);
 	}
 
-	async deleteComment(id: number): Promise<Boolean> {
+	async deleteComment(id: number, userId: number): Promise<Boolean> {
 		try {
-			await this.commentRepository.delete({ id });
+			await this.commentRepository.delete({ id, userId });
 			const deleted = await this.getCommentById(id);
 			return deleted === undefined ? true : false;
 		} catch (err) {
 			throw err;
 		}
 	}
-	async updateComment(id: number, content: string): Promise<Comment> {
+	async updateComment(
+		id: number,
+		content: string,
+		userId: number
+	): Promise<Comment | undefined> {
 		try {
-			await this.commentRepository.update({ id }, { content });
+			await this.commentRepository.update({ id, userId }, { content });
 			return await this.getCommentById(id);
 		} catch (e) {}
 	}

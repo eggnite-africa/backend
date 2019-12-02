@@ -5,35 +5,37 @@ import {
 	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	UpdateDateColumn,
-	OneToMany
+	OneToMany,
+	ManyToMany
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { Length } from 'class-validator';
 import { Media } from './dto/media.type';
 import { Vote } from '../vote/vote.entity';
 import { Comment } from '../comment/comment.entitiy';
+import { User } from '../user/user.entity';
 
 @ObjectType()
 @Entity()
 export class Product extends BaseEntity {
 	@Field(type => ID)
 	@PrimaryGeneratedColumn()
-	readonly id: string;
+	readonly id!: number;
 
 	@CreateDateColumn()
-	createdAt: Date;
+	createdAt!: Date;
 
 	@UpdateDateColumn()
-	updatedAt: Date;
+	updatedAt!: Date;
 
 	@Field(type => String)
 	@Column({ type: 'text', unique: true, nullable: false })
-	name: string;
+	name!: string;
 
 	@Field(type => String)
 	@Length(50, 140)
 	@Column()
-	tagline: string;
+	tagline!: string;
 
 	@Field(type => String, { nullable: true })
 	@Column('text', { nullable: true })
@@ -41,23 +43,32 @@ export class Product extends BaseEntity {
 
 	@Field(type => [String])
 	@Column('simple-array')
-	links: string[];
+	links!: string[];
 
 	@Field(type => Media)
 	@Column('json')
-	media: Media;
+	media!: Media;
 
 	@Field(type => [Vote], { nullable: true })
 	@OneToMany(
 		type => Vote,
 		vote => vote.product
 	)
-	votes: Vote[];
+	votes!: Vote[];
 
 	@Field(type => [Comment], { nullable: 'itemsAndList' })
 	@OneToMany(
 		type => Comment,
 		comment => comment.product
 	)
-	comments: Comment[];
+	comments!: Comment[];
+
+	@ManyToMany(
+		type => User,
+		user => user.products
+	)
+	makers!: User[];
+	@Field(type => [ID], { nullable: true })
+	@Column({ type: 'int', array: true })
+	makersIds!: number[];
 }

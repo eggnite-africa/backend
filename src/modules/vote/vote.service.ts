@@ -13,11 +13,11 @@ export class VoteService {
 		return await this.voteRepository.find(options);
 	}
 
-	async addVote(productId: number, voterId: number = 1): Promise<Vote> {
+	async addVote(productId: number, userId: number): Promise<Vote> {
 		const alreadyVoted = await this.voteRepository.findOne({
 			where: {
 				productId,
-				voterId
+				userId
 			}
 		});
 
@@ -27,15 +27,15 @@ export class VoteService {
 
 		const newVote = new Vote();
 		newVote.productId = productId;
-		newVote.voterId = voterId;
+		newVote.userId = userId;
 		return await this.voteRepository.save(newVote);
 	}
 
-	async removeVote(productId: number, voterId: number): Promise<Boolean> {
+	async removeVote(productId: number, userId: number): Promise<Boolean> {
 		const voteToRemove = await this.voteRepository.findOneOrFail({
 			where: {
 				productId,
-				voterId
+				userId
 			}
 		});
 		const isDeleted = await this.voteRepository.remove(voteToRemove);

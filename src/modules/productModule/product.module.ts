@@ -5,9 +5,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { VoteModule } from '../vote/vote.module';
 import { CommentModule } from '../comment/comment.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Product]), VoteModule, CommentModule],
+	imports: [
+		TypeOrmModule.forFeature([Product]),
+		VoteModule,
+		CommentModule,
+		UserModule
+	],
 	providers: [ProductResolver, ProductService]
 })
 export class ProductModule {}
