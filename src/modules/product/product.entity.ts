@@ -41,7 +41,7 @@ export class Product extends BaseEntity {
 	@Column('text', { nullable: true })
 	description?: string;
 
-	@Field(type => [String])
+	@Field(type => [String], { nullable: true })
 	@Column('simple-array')
 	links!: string[];
 

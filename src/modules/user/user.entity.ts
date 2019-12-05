@@ -12,6 +12,7 @@ import {
 import { Comment } from '../comment/comment.entitiy';
 import { Vote } from '../vote/vote.entity';
 import { Product } from '../product/product.entity';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
 @ObjectType()
 @Entity()
@@ -22,13 +23,17 @@ export class User extends BaseEntity {
 
 	@Field(type => String)
 	@Column({ unique: true })
+	@IsNotEmpty()
 	username!: string;
 
 	@Field(type => String)
 	@Column()
+	@IsEmail()
+	@IsNotEmpty()
 	email!: string;
 
 	@Column()
+	@IsNotEmpty()
 	password!: string;
 
 	@Column({ nullable: true, default: null, type: 'varchar' })

@@ -15,7 +15,7 @@ export class newProductInput implements Partial<Product> {
 	@Field(type => String, { nullable: true })
 	description?: string;
 
-	@Field(type => [String])
+	@Field(type => [String], { nullable: true })
 	links!: string[];
 
 	@Field(type => MediaInput)
