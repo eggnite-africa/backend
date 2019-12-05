@@ -23,6 +23,7 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
+import { MakerInput } from './dto/maker.input';
 
 @Resolver((of: any) => Product)
 export class ProductResolver {
@@ -34,14 +35,14 @@ export class ProductResolver {
 
 	@Query(returns => [Product])
 	async products(): Promise<Product[]> {
-		return await this.productService.findAll();
+		return await this.productService.fetchAllProducts();
 	}
 
 	@Query(returns => Product)
 	async product(
 		@Args({ name: 'id', type: () => ID }) id: number
 	): Promise<Product | undefined> {
-		return await this.productService.findOne(id);
+		return await this.productService.fetchProductById(id);
 	}
 
 	@Mutation(returns => Product)
@@ -49,7 +50,7 @@ export class ProductResolver {
 	async addProduct(
 		@Args('newProduct') newProduct: newProductInput
 	): Promise<Product> {
-		return await this.productService.create(newProduct);
+		return await this.productService.addProduct(newProduct);
 	}
 
 	private async checkOwnership(
@@ -57,10 +58,11 @@ export class ProductResolver {
 		productId: number | undefined
 	) {
 		if (ownerId && productId) {
-			const product: Product | undefined = await this.productService.findOne(
+			const makers = await this.productService.fetchMakersByProductId(
 				productId
 			);
-			const isOwner = product?.makersIds.some(id => id == ownerId);
+			const makersIds: number[] | undefined = makers?.map(user => user.id);
+			const isOwner = makersIds?.some(id => id == ownerId);
 			if (!isOwner) {
 				throw new UnauthorizedException("You can't alter what's not yours");
 			}
@@ -74,11 +76,31 @@ export class ProductResolver {
 	async updateProduct(
 		@Args('updatedProduct') updatedProuduct: updatedProductInput,
 		@CurrentUser() { id: userId }: User
-	): Promise<Product> {
+	): Promise<Product | undefined> {
 		const { id: productId } = updatedProuduct;
 		await this.checkOwnership(userId, productId);
 
-		return await this.productService.update(productId, updatedProuduct);
+		return await this.productService.updateProduct(productId, updatedProuduct);
+	}
+
+	@Mutation(returns => Product)
+	@UseGuards(GraphQLAuth)
+	async addMaker(
+		@Args('makerInput') { makerId, productId }: MakerInput,
+		@CurrentUser() { id: userId }: User
+	): Promise<Product> {
+		await this.checkOwnership(userId, productId);
+		return await this.productService.addMaker(productId, makerId);
+	}
+
+	@Mutation(returns => Product)
+	@UseGuards(GraphQLAuth)
+	async deleteMaker(
+		@Args('makerInput') { makerId, productId }: MakerInput,
+		@CurrentUser() { id: userId }: User
+	): Promise<Product> {
+		await this.checkOwnership(userId, productId);
+		return await this.productService.deleteMaker(productId, makerId, userId);
 	}
 
 	@Mutation(returns => Boolean)
@@ -87,21 +109,29 @@ export class ProductResolver {
 		@Args({ name: 'id', type: () => ID }) id: number,
 		@CurrentUser() { id: userId }: User
 	): Promise<Boolean> {
-		const product: Product | undefined = await this.productService.findOne(id);
+		const product:
+			| Product
+			| undefined = await this.productService.fetchProductById(id);
 		const productId = product?.id;
 		await this.checkOwnership(userId, productId);
-		return await this.productService.delete(id);
+		return await this.productService.deleteProduct(id);
 	}
 
 	@ResolveProperty('votes')
 	async votes(@Parent() product: Product): Promise<Vote[]> {
 		const { id } = product;
-		return await this.voteService.findAll({ productId: id });
+		return await this.voteService.fetchAllVotes({ productId: id });
 	}
 
 	@ResolveProperty('comments')
 	async comments(@Parent() product: Product): Promise<Comment[]> {
 		const { id } = product;
-		return await this.commentService.findAllComments(id);
+		return await this.commentService.fetchAllComments(id);
+	}
+
+	@ResolveProperty('makers')
+	async makers(@Parent() product: Product): Promise<User[]> {
+		const { id } = product;
+		return await this.productService.fetchMakersByProductId(id);
 	}
 }

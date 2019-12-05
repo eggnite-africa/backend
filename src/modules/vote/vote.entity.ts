@@ -36,7 +36,10 @@ export class Vote extends BaseEntity {
 
 	@ManyToOne(
 		type => User,
-		user => user.votes
+		user => user.votes,
+		{
+			onDelete: 'CASCADE'
+		}
 	)
 	user!: User;
 	@Field(type => ID)

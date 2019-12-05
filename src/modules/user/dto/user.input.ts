@@ -7,5 +7,8 @@ export class UserInput implements Partial<User> {
 	username!: string;
 
 	@Field(type => String)
+	email!: string;
+
+	@Field(type => String)
 	password!: string;
 }

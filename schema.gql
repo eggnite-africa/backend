@@ -22,6 +22,11 @@ input CommentInput {
   parentId: ID
 }
 
+input MakerInput {
+  productId: ID!
+  makerId: ID!
+}
+
 type Media {
   logo: String!
   pictures: [String!]!
@@ -37,6 +42,8 @@ input MediaInput {
 type Mutation {
   addProduct(newProduct: newProductInput!): Product!
   updateProduct(updatedProduct: updatedProductInput!): Product!
+  addMaker(makerInput: MakerInput!): Product!
+  deleteMaker(makerInput: MakerInput!): Product!
   deleteProduct(id: ID!): Boolean!
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
@@ -44,7 +51,15 @@ type Mutation {
   deleteComment(commentId: ID!): Boolean!
   updateComment(commentInput: CommentInput!): Comment!
   signUp(UserInput: UserInput!): User!
+  deleteUser(username: String!): Boolean!
   logout: Boolean!
+  forgotPassword(email: String!): String!
+  resetPassword(newPassword: newPasswordInput!): User
+}
+
+input newPasswordInput {
+  resetToken: String!
+  password: String!
 }
 
 input newProductInput {
@@ -65,7 +80,7 @@ type Product {
   media: Media!
   votes: [Vote!]
   comments: [Comment]
-  makersIds: [ID!]
+  makers: [User!]
 }
 
 type Query {
@@ -79,12 +94,12 @@ input updatedProductInput {
   description: String
   links: [String]
   Media: MediaInput
-  makersIds: [ID]
 }
 
 type User {
   id: ID!
   username: String!
+  email: String!
   comments: [Comment]
   votes: [Vote]
   products: [Product]
@@ -92,6 +107,7 @@ type User {
 
 input UserInput {
   username: String!
+  email: String!
   password: String!
 }
 

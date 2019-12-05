@@ -9,7 +9,7 @@ export class VoteService {
 		@InjectRepository(Vote) private readonly voteRepository: Repository<Vote>
 	) {}
 
-	async findAll(options: any) {
+	async fetchAllVotes(options: any) {
 		return await this.voteRepository.find(options);
 	}
 
@@ -31,7 +31,7 @@ export class VoteService {
 		return await this.voteRepository.save(newVote);
 	}
 
-	async removeVote(productId: number, userId: number): Promise<Boolean> {
+	async deleteVote(productId: number, userId: number): Promise<Boolean> {
 		const voteToRemove = await this.voteRepository.findOneOrFail({
 			where: {
 				productId,

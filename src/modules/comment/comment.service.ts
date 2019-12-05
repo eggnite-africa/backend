@@ -10,7 +10,7 @@ export class CommentService {
 		private readonly commentRepository: Repository<Comment>
 	) {}
 
-	async findAllReplies(id: number): Promise<Comment[]> {
+	async fetchAllReplies(id: number): Promise<Comment[]> {
 		return await this.commentRepository.find({
 			where: {
 				parentId: id
@@ -18,7 +18,7 @@ export class CommentService {
 		});
 	}
 
-	async findAllComments(id: number): Promise<Comment[]> {
+	async fetchAllComments(id: number): Promise<Comment[]> {
 		return await this.commentRepository.find({
 			where: {
 				productId: id,
@@ -28,7 +28,7 @@ export class CommentService {
 		});
 	}
 
-	async getCommentById(id: number): Promise<Comment | undefined> {
+	async fetchCommentById(id: number): Promise<Comment | undefined> {
 		return await this.commentRepository.findOne(id);
 	}
 
@@ -66,7 +66,7 @@ export class CommentService {
 	async deleteComment(id: number, userId: number): Promise<Boolean> {
 		try {
 			await this.commentRepository.delete({ id, userId });
-			const deleted = await this.getCommentById(id);
+			const deleted = await this.fetchCommentById(id);
 			return deleted === undefined ? true : false;
 		} catch (err) {
 			throw err;
@@ -79,7 +79,7 @@ export class CommentService {
 	): Promise<Comment | undefined> {
 		try {
 			await this.commentRepository.update({ id, userId }, { content });
-			return await this.getCommentById(id);
+			return await this.fetchCommentById(id);
 		} catch (e) {}
 	}
 }

@@ -13,12 +13,12 @@ export class updatedProductInput implements Partial<Product> {
 	@Field(type => String, { nullable: true })
 	description?: string;
 
-	@Field(type => [String], { nullable: 'itemsAndList' })
+	@Field(type => [String], {
+		nullable: 'itemsAndList',
+		defaultValue: undefined
+	})
 	links?: string[];
 
 	@Field(type => MediaInput, { nullable: true })
 	Media?: MediaInput;
-
-	@Field(type => [ID], { nullable: 'itemsAndList' })
-	makersIds?: number[];
 }

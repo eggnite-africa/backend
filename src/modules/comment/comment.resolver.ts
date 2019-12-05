@@ -53,6 +53,6 @@ export class CommentResolver {
 	@ResolveProperty('replies')
 	async replies(@Parent() Comment: Comment): Promise<Comment[]> {
 		const { id } = Comment;
-		return await this.commentService.findAllReplies(id);
+		return await this.commentService.fetchAllReplies(id);
 	}
 }

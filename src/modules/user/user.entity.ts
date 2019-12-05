@@ -21,11 +21,21 @@ export class User extends BaseEntity {
 	readonly id!: number;
 
 	@Field(type => String)
-	@Column()
+	@Column({ unique: true })
 	username!: string;
+
+	@Field(type => String)
+	@Column()
+	email!: string;
 
 	@Column()
 	password!: string;
+
+	@Column({ nullable: true, default: null, type: 'varchar' })
+	passwordResetToken?: string | null;
+
+	@Column({ nullable: true, default: null, type: 'bigint' })
+	passwordTokenExpiration?: number | null;
 
 	@Field(type => [Comment], { nullable: 'itemsAndList' })
 	@OneToMany(

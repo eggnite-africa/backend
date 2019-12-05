@@ -67,8 +67,6 @@ export class Product extends BaseEntity {
 		type => User,
 		user => user.products
 	)
+	@Field(type => [User], { nullable: true })
 	makers!: User[];
-	@Field(type => [ID], { nullable: true })
-	@Column({ type: 'int', array: true })
-	makersIds!: number[];
 }

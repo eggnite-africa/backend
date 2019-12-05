@@ -25,6 +25,6 @@ export class VoteResolver {
 		@Args('voteInput') { productId }: VoteInput,
 		@CurrentUser() { id: UserId }: User
 	) {
-		return await this.voteService.removeVote(productId, UserId);
+		return await this.voteService.deleteVote(productId, UserId);
 	}
 }

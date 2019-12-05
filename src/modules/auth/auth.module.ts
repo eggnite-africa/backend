@@ -18,7 +18,7 @@ import { AuthResolver } from './auth.resolver';
 				expiresIn: '1h'
 			}
 		}),
-		forwardRef(() => UserModule)
+		UserModule
 	],
 	providers: [
 		AuthService,
