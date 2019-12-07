@@ -13,6 +13,7 @@ import { Comment } from '../comment/comment.entitiy';
 import { Vote } from '../vote/vote.entity';
 import { Product } from '../product/product.entity';
 import { IsEmail, IsNotEmpty } from 'class-validator';
+import { Notification } from '../notification/notification.entity';
 
 @ObjectType()
 @Entity()
@@ -27,7 +28,7 @@ export class User extends BaseEntity {
 	username!: string;
 
 	@Field(type => String)
-	@Column()
+	@Column({ unique: true })
 	@IsEmail()
 	@IsNotEmpty()
 	email!: string;
@@ -63,4 +64,12 @@ export class User extends BaseEntity {
 	)
 	@JoinTable()
 	products?: Product[];
+
+	@Field(type => [Notification], { nullable: 'itemsAndList' })
+	@ManyToMany(
+		type => Notification,
+		notification => notification.subscribers
+	)
+	@JoinTable()
+	notifications?: Notification[];
 }

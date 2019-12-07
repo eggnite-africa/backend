@@ -2,11 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vote } from './vote.entity';
 import { Repository } from 'typeorm';
+import { NotificationService } from '../notification/notification.service';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class VoteService {
 	constructor(
-		@InjectRepository(Vote) private readonly voteRepository: Repository<Vote>
+		@InjectRepository(Vote) private readonly voteRepository: Repository<Vote>,
+		private readonly notificationService: NotificationService
 	) {}
 
 	async fetchAllVotes(options: any) {
@@ -28,7 +31,15 @@ export class VoteService {
 		const newVote = new Vote();
 		newVote.productId = productId;
 		newVote.userId = userId;
-		return await this.voteRepository.save(newVote);
+		const addedVote = await this.voteRepository.save(newVote);
+		const { product } = await this.voteRepository.findOneOrFail(
+			{ id: addedVote.id },
+			{
+				relations: ['product', 'product.makers']
+			}
+		);
+		await this.notificationService.addNotification(product.makers, newVote);
+		return addedVote;
 	}
 
 	async deleteVote(productId: number, userId: number): Promise<Boolean> {

@@ -8,6 +8,7 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/user.entity';
 import * as nodemailer from 'nodemailer';
+import { SharedService } from '../shared/shared.service';
 const upash = require('upash');
 upash.install('argon2', require('@phc/argon2'));
 
@@ -15,16 +16,20 @@ upash.install('argon2', require('@phc/argon2'));
 export class AuthService {
 	constructor(
 		private readonly userService: UserService,
-		private readonly jwtService: JwtService
+		private readonly jwtService: JwtService,
+		private readonly sharedService: SharedService
 	) {}
 
-	private async validatePassword(userPassword: string, inputPassword: string) {
-		return await upash.verify(userPassword, inputPassword);
+	verifyToken(token: string) {
+		return this.jwtService.verify(token);
 	}
 
 	async validateUser(username: string, pass: string) {
 		const user = await this.userService.fetchUserByUsername(username);
-		const passwordMatches = await this.validatePassword(user.password, pass);
+		const passwordMatches = await this.sharedService.verifyPassword(
+			user.password,
+			pass
+		);
 		if (user && passwordMatches) {
 			const { password, ...result } = user;
 			return result;
@@ -109,10 +114,6 @@ export class AuthService {
 		}
 	}
 
-	private async hashPassword(password: string) {
-		return await upash.hash(password);
-	}
-
 	async resetPassword(
 		token: string,
 		newPassword: string,
@@ -120,7 +121,7 @@ export class AuthService {
 	): Promise<User> {
 		const user: User | undefined = await this.checkResetToken(token);
 		if (user !== undefined) {
-			const hashedPassword = await this.hashPassword(newPassword);
+			const hashedPassword = await this.sharedService.hashPassword(newPassword);
 			user.password = hashedPassword;
 			user.passwordResetToken = null;
 			user.passwordTokenExpiration = null;

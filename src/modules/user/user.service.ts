@@ -10,13 +10,15 @@ import { Repository } from 'typeorm';
 import { Product } from '../product/product.entity';
 import { ProductService } from '../product/product.service';
 import { UserInput } from './dto/user.input';
+import { SharedService } from '../shared/shared.service';
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectRepository(User) private readonly userRepository: Repository<User>,
 		@Inject(forwardRef(() => ProductService))
-		private readonly productService: ProductService
+		private readonly productService: ProductService,
+		private readonly sharedService: SharedService
 	) {}
 
 	async saveUser(user: User) {
@@ -36,9 +38,7 @@ export class UserService {
 	}
 
 	async addUser(newUser: UserInput): Promise<User> {
-		const upash = require('upash');
-		upash.install('argon2', require('@phc/argon2'));
-		newUser.password = await upash.hash(newUser.password);
+		newUser.password = await this.sharedService.hashPassword(newUser.password);
 		return await this.userRepository.save(newUser);
 	}
 
@@ -83,5 +83,15 @@ export class UserService {
 		}
 		await this.userRepository.remove(user);
 		return true;
+	}
+
+	async fetchAllNotificationsByUserId(id: number) {
+		const { notifications }: User = await this.userRepository.findOneOrFail(
+			{ id },
+			{
+				relations: ['notifications']
+			}
+		);
+		return notifications;
 	}
 }

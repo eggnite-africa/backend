@@ -10,5 +10,5 @@ A platform for devs and entrepreneurs alike to share their works and discover th
 - [x] Upvote a product,
 - [x] Comment on a product,
 - [x] Reply to a comment
-- [ ] User authentication/authorization
-- [ ] Post/Comment subscription
+- [x] User AUTH
+- [x] Post/Comment subscription

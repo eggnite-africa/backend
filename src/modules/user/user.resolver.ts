@@ -1,4 +1,11 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import {
+	Resolver,
+	Mutation,
+	Args,
+	ResolveProperty,
+	Query,
+	Parent
+} from '@nestjs/graphql';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 import { UserInput } from './dto/user.input';
@@ -9,6 +16,11 @@ import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 @Resolver((of: any) => User)
 export class UserResolver {
 	constructor(private readonly userService: UserService) {}
+
+	@Query(returns => User)
+	async user(@Args({ name: 'username', type: () => String }) username: string) {
+		return await this.userService.fetchUserByUsername(username);
+	}
 
 	@Mutation(returns => User)
 	async signUp(@Args('UserInput') newUser: UserInput) {
@@ -25,5 +37,11 @@ export class UserResolver {
 			throw new UnauthorizedException('You can only delete your own account');
 		}
 		return await this.userService.deleteUser(username);
+	}
+
+	@ResolveProperty('notifications')
+	@UseGuards(GraphQLAuth)
+	async notifications(@Parent() { id }: User) {
+		return await this.userService.fetchAllNotificationsByUserId(id);
 	}
 }

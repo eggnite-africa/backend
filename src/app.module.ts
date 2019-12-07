@@ -10,14 +10,24 @@ import { Comment } from './modules/comment/comment.entitiy';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { User } from './modules/user/user.entity';
+import { NotificationModule } from './modules/notification/notification.module';
+import { Notification } from './modules/notification/notification.entity';
+import { SharedModule } from './modules/shared/shared.module';
 
 @Module({
 	imports: [
 		ProductModule,
 		GraphQLModule.forRoot({
 			autoSchemaFile: 'schema.gql',
-			context: ({ req }) => {
-				return { req };
+			installSubscriptionHandlers: true,
+			context: ({ req, connection }) => {
+				if (connection) {
+					const context = connection.context;
+					const authorization = context?.Authorization;
+					return { req: { headers: { authorization } } };
+				} else {
+					return { req };
+				}
 			}
 		}),
 		TypeOrmModule.forRoot({
@@ -26,14 +36,18 @@ import { User } from './modules/user/user.entity';
 			username: 'postgres',
 			password: 'root',
 			database: 'platform',
-			entities: [Product, Vote, Comment, User],
+			entities: [Product, Vote, Comment, User, Notification],
 			synchronize: true
 		}),
 		ProductModule,
 		VoteModule,
 		CommentModule,
 		AuthModule,
-		UserModule
+		UserModule,
+		NotificationModule,
+		SharedModule
 	]
 })
-export class AppModule {}
+export class AppModule {
+	constructor() {}
+}

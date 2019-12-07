@@ -66,9 +66,23 @@ input newProductInput {
   name: String!
   tagline: String!
   description: String
-  links: [String!]!
+  links: [String!]
   media: MediaInput!
   makersIds: [ID!]
+}
+
+type Notification {
+  id: ID!
+  seen: Boolean!
+  voteId: ID
+  commentId: ID
+  type: NotificationType!
+}
+
+"""This is needed to inform FE."""
+enum NotificationType {
+  VOTE
+  COMMENT
 }
 
 type Product {
@@ -76,7 +90,7 @@ type Product {
   name: String!
   tagline: String!
   description: String
-  links: [String!]!
+  links: [String!]
   media: Media!
   votes: [Vote!]
   comments: [Comment]
@@ -86,6 +100,12 @@ type Product {
 type Query {
   products: [Product!]!
   product(id: ID!): Product!
+  user(username: String!): User!
+}
+
+type Subscription {
+  voteAdded: Vote
+  commentAdded: Comment
 }
 
 input updatedProductInput {
@@ -103,6 +123,7 @@ type User {
   comments: [Comment]
   votes: [Vote]
   products: [Product]
+  notifications: [Notification]
 }
 
 input UserInput {
