@@ -8,12 +8,13 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { GraphQLAuth } from './guard/GqlAuth.guard';
 import { AuthResolver } from './auth.resolver';
+import { constants } from 'src/config/constants';
 
 @Module({
 	imports: [
 		PassportModule,
 		JwtModule.register({
-			secret: 'SecretKeywLe',
+			secret: constants.jwtSecretKey,
 			signOptions: {
 				expiresIn: '1h'
 			}
