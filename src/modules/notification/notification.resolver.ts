@@ -6,6 +6,7 @@ import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 import { User } from '../user/user.entity';
 import { Notification } from './notification.entity';
 import { Comment } from '../comment/comment.entitiy';
+import { constants } from '../../config/constants';
 
 @Resolver('Notification')
 export class NotificationResolver {
@@ -22,7 +23,7 @@ export class NotificationResolver {
 		}
 	})
 	voteAdded() {
-		return this.pubSub.asyncIterator('voteAdded');
+		return this.pubSub.asyncIterator(constants.voteAdded);
 	}
 	@UseGuards(GraphQLAuth)
 	@Subscription(returns => Comment, {
@@ -35,6 +36,6 @@ export class NotificationResolver {
 		}
 	})
 	commentAdded() {
-		return this.pubSub.asyncIterator('commentAdded');
+		return this.pubSub.asyncIterator(constants.commentAdded);
 	}
 }

@@ -6,6 +6,7 @@ import { PubSubEngine } from 'type-graphql';
 import { Vote } from '../vote/vote.entity';
 import { Comment } from '../comment/comment.entitiy';
 import { User } from '../user/user.entity';
+import { constants } from 'src/config/constants';
 
 @Injectable()
 export class NotificationService {
@@ -21,7 +22,9 @@ export class NotificationService {
 				vote,
 				subscribers
 			);
-			await this.pubSub.publish('voteAdded', { voteAdded: voteNotification });
+			await this.pubSub.publish(constants.voteAdded, {
+				[constants.voteAdded]: voteNotification
+			});
 			return voteNotification;
 		} else if (comment !== undefined && vote === undefined) {
 			const subscriber: User = subscribers[0];
@@ -29,8 +32,8 @@ export class NotificationService {
 				comment,
 				subscriber
 			);
-			await this.pubSub.publish('commentAdded', {
-				commentAdded: commentNotification
+			await this.pubSub.publish(constants.commentAdded, {
+				[constants.commentAdded]: commentNotification
 			});
 			return commentNotification;
 		}
