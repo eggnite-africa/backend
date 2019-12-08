@@ -62,25 +62,4 @@ export class NotificationService {
 		newNotification.subscribers = [subscriber];
 		return await this.notificationRepository.save(newNotification);
 	}
-
-	// async fetchAllNotifications(userId: number) {
-	// 	const allNotifications = await this.notificationRepository.find({ userId });
-	// 	if (allNotifications === undefined) {
-	// 		throw new NotFoundException('There are no notifications.');
-	// 	}
-	// 	return allNotifications;
-	// }
-
-	// async fetchAllUnreadNotifications(userId: number) {
-	// 	const [
-	// 		allUnreadNotifications,
-	// 		unreadCount
-	// 	] = await this.notificationRepository.findAndCount({ userId, seen: false });
-	// 	return {
-	// 		notifications: allUnreadNotifications,
-	// 		count: unreadCount
-	// 	};
-	// }
-
-	async deleteNotification(notificationId: number) {}
 }
