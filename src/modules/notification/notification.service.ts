@@ -62,4 +62,10 @@ export class NotificationService {
 		newNotification.subscribers = [subscriber];
 		return await this.notificationRepository.save(newNotification);
 	}
+
+	async markNotificationAsSeen(id: number) {
+		const notification = await this.notificationRepository.findOneOrFail(id);
+		notification.seen = true;
+		return await this.notificationRepository.save(notification);
+	}
 }

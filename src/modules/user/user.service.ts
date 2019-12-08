@@ -102,6 +102,19 @@ export class UserService {
 		return notifications;
 	}
 
+	async fetchAllUnreadNotificationsByUserId(id: number) {
+		const { notifications }: User = await this.userRepository.findOneOrFail({
+			where: {
+				id,
+				notifications: {
+					seen: false
+				}
+			},
+			relations: ['notifications']
+		});
+		return notifications;
+	}
+
 	async fetchProfileByUserId(id: number) {
 		const { profile }: User = await this.userRepository.findOneOrFail(
 			{ id },
