@@ -6,7 +6,7 @@ import { PubSubEngine } from 'type-graphql';
 import { Vote } from '../vote/vote.entity';
 import { Comment } from '../comment/comment.entitiy';
 import { User } from '../user/user.entity';
-import { constants } from 'src/config/constants';
+import { constants } from '../../config/constants';
 
 @Injectable()
 export class NotificationService {

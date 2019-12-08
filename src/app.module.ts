@@ -15,6 +15,7 @@ import { Notification } from './modules/notification/notification.entity';
 import { SharedModule } from './modules/shared/shared.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { Profile } from './modules/profile/profile.entity';
+import { constants } from './config/constants';
 
 @Module({
 	imports: [
@@ -34,10 +35,10 @@ import { Profile } from './modules/profile/profile.entity';
 		}),
 		TypeOrmModule.forRoot({
 			type: 'postgres',
-			host: 'localhost',
-			username: 'postgres',
-			password: 'root',
-			database: 'platform',
+			host: constants.db.host,
+			database: constants.db.name,
+			username: constants.db.username,
+			password: constants.db.password,
 			entities: [Product, Vote, Comment, User, Profile, Notification],
 			synchronize: true
 		}),
