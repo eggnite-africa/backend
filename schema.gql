@@ -22,6 +22,11 @@ input CommentInput {
   parentId: ID
 }
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
 input MakerInput {
   productId: ID!
   makerId: ID!
@@ -52,6 +57,7 @@ type Mutation {
   updateComment(commentInput: CommentInput!): Comment!
   signUp(UserInput: UserInput!): User!
   deleteUser(username: String!): Boolean!
+  updateProfile(updatedProfile: updateProfileInput!): Profile!
   logout: Boolean!
   forgotPassword(email: String!): String!
   resetPassword(newPassword: newPasswordInput!): User
@@ -85,6 +91,12 @@ enum NotificationType {
   COMMENT
 }
 
+enum OccupationType {
+  STUDENT
+  DEV
+  ENTREPRENEUR
+}
+
 type Product {
   id: ID!
   name: String!
@@ -97,10 +109,35 @@ type Product {
   makers: [User!]
 }
 
+type Profile {
+  firstName: String!
+  lastName: String!
+  sex: SexType!
+  birthDate: DateTime
+  occupation: OccupationType!
+  university: String
+  bio: String
+}
+
+input ProfileInput {
+  firstName: String!
+  lastName: String!
+  sex: SexType!
+  birthDate: DateTime
+  occupation: OccupationType!
+  bio: String
+  university: String!
+}
+
 type Query {
   products: [Product!]!
   product(id: ID!): Product!
   user(username: String!): User!
+}
+
+enum SexType {
+  MALE
+  FEMALE
 }
 
 type Subscription {
@@ -116,10 +153,21 @@ input updatedProductInput {
   Media: MediaInput
 }
 
+input updateProfileInput {
+  firstName: String
+  lastName: String
+  sex: SexType
+  birthDate: DateTime
+  occupation: OccupationType
+  bio: String
+  university: String
+}
+
 type User {
   id: ID!
   username: String!
   email: String!
+  profile: Profile!
   comments: [Comment]
   votes: [Vote]
   products: [Product]
@@ -130,6 +178,7 @@ input UserInput {
   username: String!
   email: String!
   password: String!
+  profile: ProfileInput!
 }
 
 type Vote {

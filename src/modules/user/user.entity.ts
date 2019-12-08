@@ -7,13 +7,16 @@ import {
 	Column,
 	OneToMany,
 	ManyToMany,
-	JoinTable
+	JoinTable,
+	OneToOne,
+	JoinColumn
 } from 'typeorm';
 import { Comment } from '../comment/comment.entitiy';
 import { Vote } from '../vote/vote.entity';
 import { Product } from '../product/product.entity';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import { Notification } from '../notification/notification.entity';
+import { Profile } from '../profile/profile.entity';
 
 @ObjectType()
 @Entity()
@@ -42,6 +45,15 @@ export class User extends BaseEntity {
 
 	@Column({ nullable: true, default: null, type: 'bigint' })
 	passwordTokenExpiration?: number | null;
+
+	@Field(type => Profile)
+	@OneToOne(type => Profile, {
+		onDelete: 'CASCADE'
+	})
+	@JoinColumn()
+	profile!: Profile;
+	@Column()
+	profileId!: number;
 
 	@Field(type => [Comment], { nullable: 'itemsAndList' })
 	@OneToMany(

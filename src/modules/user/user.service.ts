@@ -11,6 +11,7 @@ import { Product } from '../product/product.entity';
 import { ProductService } from '../product/product.service';
 import { UserInput } from './dto/user.input';
 import { SharedService } from '../shared/shared.service';
+import { ProfileService } from '../profile/profile.service';
 
 @Injectable()
 export class UserService {
@@ -18,7 +19,8 @@ export class UserService {
 		@InjectRepository(User) private readonly userRepository: Repository<User>,
 		@Inject(forwardRef(() => ProductService))
 		private readonly productService: ProductService,
-		private readonly sharedService: SharedService
+		private readonly sharedService: SharedService,
+		private readonly profileService: ProfileService
 	) {}
 
 	async saveUser(user: User) {
@@ -39,7 +41,12 @@ export class UserService {
 
 	async addUser(newUser: UserInput): Promise<User> {
 		newUser.password = await this.sharedService.hashPassword(newUser.password);
-		return await this.userRepository.save(newUser);
+		newUser.profile = await this.profileService.addUserProfile(newUser.profile);
+		const addedUser = await this.userRepository.save(newUser);
+		return await this.userRepository.findOneOrFail(
+			{ id: addedUser.id },
+			{ relations: ['profile'] }
+		);
 	}
 
 	/**
@@ -93,5 +100,15 @@ export class UserService {
 			}
 		);
 		return notifications;
+	}
+
+	async fetchProfileByUserId(id: number) {
+		const { profile }: User = await this.userRepository.findOneOrFail(
+			{ id },
+			{
+				relations: ['profile']
+			}
+		);
+		return profile;
 	}
 }

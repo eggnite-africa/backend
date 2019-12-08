@@ -39,6 +39,11 @@ export class UserResolver {
 		return await this.userService.deleteUser(username);
 	}
 
+	@ResolveProperty('profile')
+	async profile(@Parent() { id }: User) {
+		return await this.userService.fetchProfileByUserId(id);
+	}
+
 	@ResolveProperty('notifications')
 	@UseGuards(GraphQLAuth)
 	async notifications(@Parent() { id }: User) {

@@ -13,6 +13,8 @@ import { User } from './modules/user/user.entity';
 import { NotificationModule } from './modules/notification/notification.module';
 import { Notification } from './modules/notification/notification.entity';
 import { SharedModule } from './modules/shared/shared.module';
+import { ProfileModule } from './modules/profile/profile.module';
+import { Profile } from './modules/profile/profile.entity';
 
 @Module({
 	imports: [
@@ -36,7 +38,7 @@ import { SharedModule } from './modules/shared/shared.module';
 			username: 'postgres',
 			password: 'root',
 			database: 'platform',
-			entities: [Product, Vote, Comment, User, Notification],
+			entities: [Product, Vote, Comment, User, Profile, Notification],
 			synchronize: true
 		}),
 		ProductModule,
@@ -45,7 +47,8 @@ import { SharedModule } from './modules/shared/shared.module';
 		AuthModule,
 		UserModule,
 		NotificationModule,
-		SharedModule
+		SharedModule,
+		ProfileModule
 	]
 })
 export class AppModule {
