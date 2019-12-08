@@ -11,6 +11,7 @@ import {
 import { ObjectType, Field, ID } from 'type-graphql';
 import { Product } from '../product/product.entity';
 import { User } from '../user/user.entity';
+import { IsNotEmpty } from 'class-validator';
 
 @Entity()
 @ObjectType()
@@ -27,6 +28,7 @@ export class Comment extends BaseEntity {
 
 	@Field(type => String)
 	@Column({ type: 'text' })
+	@IsNotEmpty()
 	content!: string;
 
 	@ManyToOne(

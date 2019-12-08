@@ -7,6 +7,7 @@ import {
 	Column
 } from 'typeorm';
 import { ObjectType, Field, registerEnumType } from 'type-graphql';
+import { IsNotEmpty, IsDate } from 'class-validator';
 
 export enum OccupationType {
 	STUDENT = 'STUDENT',
@@ -39,10 +40,12 @@ export class Profile extends BaseEntity {
 
 	@Field(type => String)
 	@Column()
+	@IsNotEmpty()
 	firstName!: string;
 
 	@Field(type => String)
 	@Column()
+	@IsNotEmpty()
 	lastName!: string;
 
 	@Field(type => SexType)
@@ -51,6 +54,7 @@ export class Profile extends BaseEntity {
 
 	@Field(type => Date, { nullable: true })
 	@Column({ nullable: true })
+	@IsDate()
 	birthDate?: Date;
 
 	@Field(type => OccupationType)

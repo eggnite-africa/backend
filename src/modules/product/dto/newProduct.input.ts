@@ -1,15 +1,17 @@
 import { InputType, Field, ID } from 'type-graphql';
-import { Length } from 'class-validator';
+import { MaxLength, IsNotEmpty } from 'class-validator';
 import { MediaInput } from './media.input';
 import { Product } from '../product.entity';
 
 @InputType()
 export class newProductInput implements Partial<Product> {
 	@Field(type => String)
+	@IsNotEmpty()
 	name!: string;
 
 	@Field(type => String)
-	@Length(50, 140)
+	@MaxLength(140)
+	@IsNotEmpty()
 	tagline!: string;
 
 	@Field(type => String, { nullable: true })

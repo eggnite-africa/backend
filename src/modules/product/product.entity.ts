@@ -9,7 +9,7 @@ import {
 	ManyToMany
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
-import { Length } from 'class-validator';
+import { IsNotEmpty, MaxLength } from 'class-validator';
 import { Media } from './dto/media.type';
 import { Vote } from '../vote/vote.entity';
 import { Comment } from '../comment/comment.entitiy';
@@ -30,10 +30,12 @@ export class Product extends BaseEntity {
 
 	@Field(type => String)
 	@Column({ type: 'text', unique: true, nullable: false })
+	@IsNotEmpty()
 	name!: string;
 
 	@Field(type => String)
-	@Length(50, 140)
+	@MaxLength(140)
+	@IsNotEmpty()
 	@Column()
 	tagline!: string;
 
