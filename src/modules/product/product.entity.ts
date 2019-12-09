@@ -16,7 +16,11 @@ import { Comment } from '../comment/comment.entitiy';
 import { User } from '../user/user.entity';
 
 @ObjectType()
-@Entity()
+@Entity({
+	orderBy: {
+		createdAt: 'DESC'
+	}
+})
 export class Product extends BaseEntity {
 	@Field(type => ID)
 	@PrimaryGeneratedColumn()
