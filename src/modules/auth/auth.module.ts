@@ -1,4 +1,4 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserModule } from '../user/user.module';
 import { PassportModule } from '@nestjs/passport';
@@ -7,7 +7,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { GraphQLAuth } from './guard/GqlAuth.guard';
-import { AuthResolver } from './auth.resolver';
 import { constants } from 'src/config/constants';
 
 @Module({
@@ -21,13 +20,7 @@ import { constants } from 'src/config/constants';
 		}),
 		UserModule
 	],
-	providers: [
-		AuthService,
-		LocalStrategy,
-		JwtStrategy,
-		GraphQLAuth,
-		AuthResolver
-	],
+	providers: [AuthService, LocalStrategy, JwtStrategy, GraphQLAuth],
 	exports: [AuthService],
 	controllers: [AuthController]
 })

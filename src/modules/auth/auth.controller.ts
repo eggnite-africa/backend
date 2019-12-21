@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	Controller,
 	UseGuards,
@@ -5,10 +6,12 @@ import {
 	Request,
 	Param,
 	Get,
-	Body
+	Body,
+	Delete
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from '../user/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -16,7 +19,33 @@ export class AuthController {
 
 	@UseGuards(AuthGuard('local'))
 	@Post('login')
-	async login(@Request() req: any) {
+	login(@Request() req: any): string {
 		return this.authService.login(req.user);
+	}
+
+	@UseGuards(AuthGuard('local'))
+	@Get('user')
+	getCurrentlyLoggedInUser(@Request() req: any): any {
+		return {
+			user: req.user
+		};
+	}
+
+	@Delete('logout')
+	logout(@Request() req: any): void {
+		return this.authService.logout(req);
+	}
+
+	@Post('forgot-password')
+	async forgotPassword(@Body() email: string): Promise<string> {
+		return await this.authService.forgotPassword(email);
+	}
+
+	@Post('reset-password')
+	async resetPassword(
+		@Body() newPassword: string,
+		@Param('resetToken') resetToken: string
+	): Promise<User> {
+		return await this.authService.resetPassword(resetToken, newPassword);
 	}
 }

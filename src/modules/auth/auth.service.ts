@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import {
 	Injectable,
 	NotAcceptableException,
@@ -9,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/user.entity';
 import * as nodemailer from 'nodemailer';
 import { SharedService } from '../shared/shared.service';
+import { Request } from 'express';
 const upash = require('upash');
 upash.install('argon2', require('@phc/argon2'));
 
@@ -20,11 +22,11 @@ export class AuthService {
 		private readonly sharedService: SharedService
 	) {}
 
-	verifyToken(token: string) {
+	verifyToken(token: string): any {
 		return this.jwtService.verify(token);
 	}
 
-	async validateUser(username: string, pass: string) {
+	async validateUser(username: string, pass: string): Promise<any> {
 		const user = await this.userService.fetchUserByUsername(username);
 		const passwordMatches = await this.sharedService.verifyPassword(
 			user.password,
@@ -37,26 +39,27 @@ export class AuthService {
 		return null;
 	}
 
-	async login(user: User) {
+	login(user: User): string {
 		const payload = { username: user.username, sub: user.id };
-		return {
-			access_token: this.jwtService.sign(payload)
-		};
+		const token = this.jwtService.sign(payload);
+		return token;
 	}
 
-	async logout(req: any) {
+	logout(req: Request): void {
 		req.logout();
-		return true;
 	}
 
-	private async sendForgottenPasswordEmail(receiver: User, token: string) {
+	private async sendForgottenPasswordEmail(
+		receiver: User,
+		token: string
+	): Promise<string> {
 		// Generate test SMTP service account from ethereal.email
 		// Only needed if you don't have a real mail account for testing
 		try {
-			let testAccount = await nodemailer.createTestAccount();
+			const testAccount = await nodemailer.createTestAccount();
 
 			// create reusable transporter object using the default SMTP transport
-			let transporter = nodemailer.createTransport({
+			const transporter = nodemailer.createTransport({
 				host: 'smtp.ethereal.email',
 				port: 587,
 				secure: false, // true for 465, false for other ports
@@ -67,7 +70,7 @@ export class AuthService {
 			});
 
 			// send mail with defined transport object
-			let info = await transporter.sendMail({
+			const info = await transporter.sendMail({
 				from: '"Fred Foo 👻" <foo@example.com>', // sender address
 				to: receiver.email, // list of receivers
 				subject: 'Password Reset', // Subject line
@@ -84,12 +87,12 @@ export class AuthService {
 		}
 	}
 
-	async forgotPassword(email: string) {
+	async forgotPassword(email: string): Promise<string> {
 		const user = await this.userService.findUserByOptions({ email });
 		if (user === undefined) {
 			throw new NotFoundException('This email does not belong to any account');
 		}
-		const generatePasswordResetToken = () => require('nanoid')();
+		const generatePasswordResetToken = (): string => require('nanoid')();
 		const passwordResetToken = generatePasswordResetToken();
 		user.passwordResetToken = passwordResetToken;
 		user.passwordTokenExpiration = Date.now() + 3600000 * 24;
@@ -114,11 +117,7 @@ export class AuthService {
 		}
 	}
 
-	async resetPassword(
-		token: string,
-		newPassword: string,
-		req: any
-	): Promise<User> {
+	async resetPassword(token: string, newPassword: string): Promise<User> {
 		const user: User | undefined = await this.checkResetToken(token);
 		if (user !== undefined) {
 			const hashedPassword = await this.sharedService.hashPassword(newPassword);
