@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/kdaghari/eggnite-backend/compare/v1.0.0...v2.0.0) (2019-12-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* **auth:** All auth related operations use a rest api instead of a mix between gql and rest.
+
+### Bug Fixes
+
+* cors needs to be enabled for auth to work properly on FE ([e362161](https://github.com/kdaghari/eggnite-backend/commit/e362161abbcf46fd164c10bb25b4f1c8b97f4a4a))
+
+
+* **auth:** update auth module ([48faf2e](https://github.com/kdaghari/eggnite-backend/commit/48faf2edf43acd9caa5c343fda3e0279ea426f7e))
+
 ## 1.0.0 (2019-12-09)
 
 
