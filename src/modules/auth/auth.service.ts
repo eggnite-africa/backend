@@ -22,10 +22,12 @@ export class AuthService {
 		private readonly sharedService: SharedService
 	) {}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	verifyToken(token: string): any {
 		return this.jwtService.verify(token);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async validateUser(username: string, pass: string): Promise<any> {
 		const user = await this.userService.fetchUserByUsername(username);
 		const passwordMatches = await this.sharedService.verifyPassword(
@@ -33,6 +35,7 @@ export class AuthService {
 			pass
 		);
 		if (user && passwordMatches) {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const { password, ...result } = user;
 			return result;
 		}
@@ -42,11 +45,19 @@ export class AuthService {
 	login(user: User): string {
 		const payload = { username: user.username, sub: user.id };
 		const token = this.jwtService.sign(payload);
+		this.loggedInUser = user;
 		return token;
 	}
 
 	logout(req: Request): void {
 		req.logout();
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	private loggedInUser!: User;
+	getCurrentLoggedInUser(): User {
+		console.log(this.loggedInUser);
+		return this.loggedInUser;
 	}
 
 	private async sendForgottenPasswordEmail(

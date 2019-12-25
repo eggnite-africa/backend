@@ -23,12 +23,9 @@ export class AuthController {
 		return this.authService.login(req.user);
 	}
 
-	@UseGuards(AuthGuard('local'))
 	@Get('user')
-	getCurrentlyLoggedInUser(@Request() req: any): any {
-		return {
-			user: req.user
-		};
+	getCurrentlyLoggedInUser(): User {
+		return this.authService.getCurrentLoggedInUser();
 	}
 
 	@Delete('logout')
