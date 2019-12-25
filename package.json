@@ -4,7 +4,7 @@
 	"author": "Karim Daghari",
 	"scripts": {
 		"prebuild": "rimraf dist",
-		"build": "nest build",
+		"build": "yarn release && nest build",
 		"format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
 		"start": "nest start",
 		"start:dev": "nest start --watch",
@@ -12,11 +12,6 @@
 		"start:prod": "node dist/main",
 		"lint": "eslint -c .eslintrc.json \"src/**\" --fix",
 		"release": "standard-version"
-	},
-	"husky": {
-		"hooks": {
-			"post-commit": "yarn release"
-		}
 	},
 	"dependencies": {
 		"@nestjs/common": "^6.7.2",
