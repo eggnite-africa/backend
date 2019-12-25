@@ -1,6 +1,6 @@
 {
 	"name": "@eggnite/backend",
-	"version": "2.0.4",
+	"version": "2.0.5",
 	"author": "Karim Daghari",
 	"scripts": {
 		"prebuild": "rimraf dist",
