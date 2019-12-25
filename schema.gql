@@ -58,14 +58,6 @@ type Mutation {
   signUp(UserInput: UserInput!): User!
   deleteUser(username: String!): Boolean!
   updateProfile(updatedProfile: updateProfileInput!): Profile!
-  logout: Boolean!
-  forgotPassword(email: String!): String!
-  resetPassword(newPassword: newPasswordInput!): User
-}
-
-input newPasswordInput {
-  resetToken: String!
-  password: String!
 }
 
 input newProductInput {
