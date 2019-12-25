@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/kdaghari/eggnite-backend/compare/v2.0.0...v2.0.1) (2019-12-25)
+
+
+### Bug Fixes
+
+* **auth:** return logged in user ([9214308](https://github.com/kdaghari/eggnite-backend/commit/9214308a88ac473065b37084a32cecfc2d66e4ae))
+
 ## [2.0.0](https://github.com/kdaghari/eggnite-backend/compare/v1.0.0...v2.0.0) (2019-12-21)
 
 
