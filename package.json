@@ -11,11 +11,11 @@
 		"start:debug": "nest start --debug --watch",
 		"start:prod": "node dist/main",
 		"lint": "eslint -c .eslintrc.json \"src/**\" --fix",
-		"version": "standard-version"
+		"release": "standard-version"
 	},
 	"husky": {
 		"hooks": {
-			"post-commit": "yarn version"
+			"post-commit": "yarn release"
 		}
 	},
 	"dependencies": {
