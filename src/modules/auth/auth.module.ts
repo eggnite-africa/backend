@@ -7,7 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { GraphQLAuth } from './guard/GqlAuth.guard';
-import { constants } from 'src/config/constants';
+import { constants } from '../../config/constants';
 
 @Module({
 	imports: [
