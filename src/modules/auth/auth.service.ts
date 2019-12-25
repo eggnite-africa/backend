@@ -56,7 +56,6 @@ export class AuthService {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private loggedInUser!: User;
 	getCurrentLoggedInUser(): User {
-		console.log(this.loggedInUser);
 		return this.loggedInUser;
 	}
 
