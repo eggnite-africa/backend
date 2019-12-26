@@ -23,7 +23,7 @@ export class AuthController {
 		return this.authService.login(req.user);
 	}
 
-	@Get('user')
+	@Get('me')
 	getCurrentlyLoggedInUser(): User {
 		return this.authService.getCurrentLoggedInUser();
 	}
