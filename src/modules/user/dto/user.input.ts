@@ -4,19 +4,20 @@ import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { ProfileInput } from '../../profile/dto/newProfile.input';
 @InputType()
 export class UserInput implements Partial<User> {
-	@Field(type => String)
+	@Field(() => String)
 	@MinLength(3)
 	username!: string;
 
-	@Field(type => String)
+	@Field(() => String)
 	@IsEmail()
 	email!: string;
 
-	@Field(type => String)
+	@Field(() => String)
 	@IsNotEmpty()
 	password!: string;
 
-	@Field(type => ProfileInput)
+	@Field(() => ProfileInput)
+	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
 	profile!: ProfileInput;
 }

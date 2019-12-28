@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	BaseEntity,
 	PrimaryGeneratedColumn,
@@ -14,14 +15,14 @@ import { User } from '../user/user.entity';
 @ObjectType()
 @Entity()
 export class Vote extends BaseEntity {
-	@Field(type => ID)
+	@Field(() => ID)
 	@PrimaryGeneratedColumn()
 	id!: number;
 
 	@CreateDateColumn()
 	createdAt!: Date;
 
-	@Field(type => ID)
+	@Field(() => ID)
 	@Column()
 	productId!: number;
 
@@ -42,7 +43,7 @@ export class Vote extends BaseEntity {
 		}
 	)
 	user!: User;
-	@Field(type => ID)
+	@Field(() => ID)
 	@Column()
 	userId!: number;
 }

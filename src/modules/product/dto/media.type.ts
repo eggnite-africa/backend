@@ -2,13 +2,13 @@ import { ObjectType, Field } from 'type-graphql';
 import { IsFQDN } from 'class-validator';
 @ObjectType()
 export class Media {
-	@Field(type => String)
+	@Field(() => String)
 	@IsFQDN()
 	logo!: string;
 
-	@Field(type => [String])
+	@Field(() => [String])
 	pictures!: string[];
 
-	@Field(type => [String], { nullable: 'itemsAndList' })
+	@Field(() => [String], { nullable: 'itemsAndList' })
 	videos?: string[];
 }

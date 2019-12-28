@@ -4,13 +4,13 @@ import { IsFQDN } from 'class-validator';
 
 @InputType()
 export class MediaInput implements Partial<Media> {
-	@Field(type => String)
+	@Field(() => String)
 	@IsFQDN()
 	logo!: string;
 
-	@Field(type => [String])
+	@Field(() => [String])
 	pictures!: string[];
 
-	@Field(type => [String], { nullable: 'itemsAndList' })
+	@Field(() => [String], { nullable: 'itemsAndList' })
 	videos?: string[];
 }

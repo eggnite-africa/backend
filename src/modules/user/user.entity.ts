@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ObjectType, ID, Field } from 'type-graphql';
 
 import {
@@ -21,16 +22,16 @@ import { Profile } from '../profile/profile.entity';
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
-	@Field(type => ID)
+	@Field(() => ID)
 	@PrimaryGeneratedColumn()
 	readonly id!: number;
 
-	@Field(type => String)
+	@Field(() => String)
 	@Column({ unique: true })
 	@IsNotEmpty()
 	username!: string;
 
-	@Field(type => String)
+	@Field(() => String)
 	@Column({ unique: true })
 	@IsEmail()
 	@IsNotEmpty()
@@ -46,8 +47,8 @@ export class User extends BaseEntity {
 	@Column({ nullable: true, default: null, type: 'bigint' })
 	passwordTokenExpiration?: number | null;
 
-	@Field(type => Profile)
-	@OneToOne(type => Profile, {
+	@Field(() => Profile)
+	@OneToOne(() => Profile, {
 		onDelete: 'CASCADE'
 	})
 	@JoinColumn()
@@ -55,21 +56,21 @@ export class User extends BaseEntity {
 	@Column()
 	profileId!: number;
 
-	@Field(type => [Comment], { nullable: 'itemsAndList' })
+	@Field(() => [Comment], { nullable: 'itemsAndList' })
 	@OneToMany(
 		type => Comment,
 		comment => comment.user
 	)
 	comments?: Comment[];
 
-	@Field(type => [Vote], { nullable: 'itemsAndList' })
+	@Field(() => [Vote], { nullable: 'itemsAndList' })
 	@OneToMany(
 		type => Vote,
 		vote => vote.userId
 	)
 	votes?: Vote[];
 
-	@Field(type => [Product], { nullable: 'itemsAndList' })
+	@Field(() => [Product], { nullable: 'itemsAndList' })
 	@ManyToMany(
 		type => Product,
 		product => product.makers
@@ -77,7 +78,7 @@ export class User extends BaseEntity {
 	@JoinTable()
 	products?: Product[];
 
-	@Field(type => [Notification], { nullable: 'itemsAndList' })
+	@Field(() => [Notification], { nullable: 'itemsAndList' })
 	@ManyToMany(
 		type => Notification,
 		notification => notification.subscribers

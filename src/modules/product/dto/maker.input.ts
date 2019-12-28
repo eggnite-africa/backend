@@ -2,9 +2,9 @@ import { Field, ID, InputType } from 'type-graphql';
 
 @InputType()
 export class MakerInput {
-	@Field(type => ID)
+	@Field(() => ID)
 	productId!: number;
 
-	@Field(type => ID)
+	@Field(() => ID)
 	makerId!: number;
 }

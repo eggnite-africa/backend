@@ -5,13 +5,13 @@ import { Comment } from '../comment.entitiy';
 export class CommentInput implements Partial<Comment> {
 	// Because we're not always using all the fields,
 	// We need to set some of them as nullable.
-	@Field(type => ID, { nullable: true })
+	@Field(() => ID, { nullable: true })
 	productId!: number;
 
-	@Field(type => String, { nullable: true })
+	@Field(() => String, { nullable: true })
 	content!: string;
 
-	@Field(type => ID, {
+	@Field(() => ID, {
 		nullable: true,
 		description:
 			"This refers to the comment id whether it's the parent or a standalone comment"

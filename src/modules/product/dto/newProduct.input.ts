@@ -4,25 +4,25 @@ import { MediaInput } from './media.input';
 import { Product } from '../product.entity';
 
 @InputType()
-export class newProductInput implements Partial<Product> {
-	@Field(type => String)
+export class NewProductInput implements Partial<Product> {
+	@Field(() => String)
 	@IsNotEmpty()
 	name!: string;
 
-	@Field(type => String)
+	@Field(() => String)
 	@MaxLength(140)
 	@IsNotEmpty()
 	tagline!: string;
 
-	@Field(type => String, { nullable: true })
+	@Field(() => String, { nullable: true })
 	description?: string;
 
-	@Field(type => [String], { nullable: true })
+	@Field(() => [String], { nullable: true })
 	links!: string[];
 
-	@Field(type => MediaInput)
+	@Field(() => MediaInput)
 	media!: MediaInput;
 
-	@Field(type => [ID], { nullable: true })
+	@Field(() => [ID], { nullable: true })
 	makersIds!: number[];
 }

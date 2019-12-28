@@ -38,26 +38,26 @@ export class Profile extends BaseEntity {
 	@UpdateDateColumn()
 	updatedAt!: Date;
 
-	@Field(type => String)
+	@Field(() => String)
 	@Column()
 	@IsNotEmpty()
 	firstName!: string;
 
-	@Field(type => String)
+	@Field(() => String)
 	@Column()
 	@IsNotEmpty()
 	lastName!: string;
 
-	@Field(type => SexType)
+	@Field(() => SexType)
 	@Column({ type: 'enum', enum: SexType })
 	sex!: SexType;
 
-	@Field(type => Date, { nullable: true })
+	@Field(() => Date, { nullable: true })
 	@Column({ nullable: true })
 	@IsDate()
 	birthDate?: Date;
 
-	@Field(type => OccupationType)
+	@Field(() => OccupationType)
 	@Column({
 		type: 'enum',
 		enum: OccupationType,
@@ -65,11 +65,11 @@ export class Profile extends BaseEntity {
 	})
 	occupation!: OccupationType;
 
-	@Field(type => String, { nullable: true })
+	@Field(() => String, { nullable: true })
 	@Column({ nullable: true })
 	university?: string;
 
-	@Field(type => String, { nullable: true })
+	@Field(() => String, { nullable: true })
 	@Column({ nullable: true })
 	bio?: string;
 }

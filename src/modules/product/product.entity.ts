@@ -22,7 +22,7 @@ import { User } from '../user/user.entity';
 	}
 })
 export class Product extends BaseEntity {
-	@Field(type => ID)
+	@Field(() => ID)
 	@PrimaryGeneratedColumn()
 	readonly id!: number;
 
@@ -32,37 +32,37 @@ export class Product extends BaseEntity {
 	@UpdateDateColumn()
 	updatedAt!: Date;
 
-	@Field(type => String)
+	@Field(() => String)
 	@Column({ type: 'text', unique: true, nullable: false })
 	@IsNotEmpty()
 	name!: string;
 
-	@Field(type => String)
+	@Field(() => String)
 	@MaxLength(140)
 	@IsNotEmpty()
 	@Column()
 	tagline!: string;
 
-	@Field(type => String, { nullable: true })
+	@Field(() => String, { nullable: true })
 	@Column('text', { nullable: true })
 	description?: string;
 
-	@Field(type => [String], { nullable: true })
+	@Field(() => [String], { nullable: true })
 	@Column('simple-array')
 	links!: string[];
 
-	@Field(type => Media)
+	@Field(() => Media)
 	@Column('json')
 	media!: Media;
 
-	@Field(type => [Vote], { nullable: true })
+	@Field(() => [Vote], { nullable: true })
 	@OneToMany(
 		type => Vote,
 		vote => vote.product
 	)
 	votes!: Vote[];
 
-	@Field(type => [Comment], { nullable: 'itemsAndList' })
+	@Field(() => [Comment], { nullable: 'itemsAndList' })
 	@OneToMany(
 		type => Comment,
 		comment => comment.product
@@ -73,6 +73,6 @@ export class Product extends BaseEntity {
 		type => User,
 		user => user.products
 	)
-	@Field(type => [User], { nullable: true })
+	@Field(() => [User], { nullable: true })
 	makers!: User[];
 }

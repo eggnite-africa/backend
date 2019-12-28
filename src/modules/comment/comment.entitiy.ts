@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	Entity,
 	BaseEntity,
@@ -16,7 +17,7 @@ import { IsNotEmpty } from 'class-validator';
 @Entity()
 @ObjectType()
 export class Comment extends BaseEntity {
-	@Field(type => ID)
+	@Field(() => ID)
 	@PrimaryGeneratedColumn()
 	readonly id!: number;
 
@@ -26,20 +27,20 @@ export class Comment extends BaseEntity {
 	@UpdateDateColumn()
 	updatedAt!: Date;
 
-	@Field(type => String)
+	@Field(() => String)
 	@Column({ type: 'text' })
 	@IsNotEmpty()
 	content!: string;
 
 	@ManyToOne(
-		type => Product,
+		tpe => Product,
 		product => product.comments,
 		{
 			onDelete: 'CASCADE'
 		}
 	)
 	product!: Product;
-	@Field(type => ID)
+	@Field(() => ID)
 	@Column({ nullable: true })
 	productId?: number;
 
@@ -48,7 +49,7 @@ export class Comment extends BaseEntity {
 		comment => comment.replies
 	)
 	parent!: Comment;
-	@Field(type => ID, { nullable: true })
+	@Field(() => ID, { nullable: true })
 	@Column({ nullable: true })
 	parentId?: number;
 
@@ -56,7 +57,7 @@ export class Comment extends BaseEntity {
 		type => Comment,
 		comment => comment.parent
 	)
-	@Field(type => [Comment], { nullable: 'itemsAndList' })
+	@Field(() => [Comment], { nullable: 'itemsAndList' })
 	replies?: Comment[];
 
 	@ManyToOne(
@@ -67,7 +68,7 @@ export class Comment extends BaseEntity {
 		}
 	)
 	user!: User;
-	@Field(type => ID)
+	@Field(() => ID)
 	@Column()
 	userId!: number;
 }

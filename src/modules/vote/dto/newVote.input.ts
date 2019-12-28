@@ -3,6 +3,6 @@ import { Vote } from '../vote.entity';
 
 @InputType()
 export class VoteInput implements Partial<Vote> {
-	@Field(type => ID)
+	@Field(() => ID)
 	productId!: number;
 }

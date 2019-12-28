@@ -3,26 +3,26 @@ import { InputType, Field } from 'type-graphql';
 import { IsNotEmpty } from 'class-validator';
 @InputType()
 export class ProfileInput implements Partial<Profile> {
-	@Field(type => String)
+	@Field(() => String)
 	@IsNotEmpty()
 	firstName!: string;
 
-	@Field(type => String)
+	@Field(() => String)
 	@IsNotEmpty()
 	lastName!: string;
 
-	@Field(type => SexType)
+	@Field(() => SexType)
 	sex!: SexType;
 
-	@Field(type => Date, { nullable: true })
+	@Field(() => Date, { nullable: true })
 	birthDate?: Date;
 
-	@Field(type => OccupationType)
+	@Field(() => OccupationType)
 	occupation!: OccupationType;
 
-	@Field(type => String, { nullable: true })
+	@Field(() => String, { nullable: true })
 	bio?: string;
 
-	@Field(type => String)
+	@Field(() => String)
 	university?: string;
 }

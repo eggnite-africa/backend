@@ -4,7 +4,6 @@ import {
 	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	UpdateDateColumn,
-	ManyToOne,
 	Column,
 	OneToOne,
 	JoinColumn,
@@ -27,7 +26,7 @@ registerEnumType(NotificationType, {
 @ObjectType()
 @Entity()
 export class Notification extends BaseEntity {
-	@Field(type => ID)
+	@Field(() => ID)
 	@PrimaryGeneratedColumn()
 	readonly id!: number;
 
@@ -37,11 +36,12 @@ export class Notification extends BaseEntity {
 	@UpdateDateColumn()
 	updateAt!: Date;
 
-	@Field(type => Boolean)
+	@Field(() => Boolean)
 	@Column({ default: false })
 	seen!: boolean;
 
 	@ManyToMany(
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		type => User,
 		user => user.notifications
 	)
@@ -49,25 +49,25 @@ export class Notification extends BaseEntity {
 	@Column()
 	userId!: number;
 
-	@OneToOne(type => Vote, {
+	@OneToOne(() => Vote, {
 		onDelete: 'CASCADE'
 	})
 	@JoinColumn()
 	vote?: Vote;
 	@Column({ nullable: true })
-	@Field(type => ID, { nullable: true })
+	@Field(() => ID, { nullable: true })
 	voteId?: number;
 
-	@OneToOne(type => Comment, {
+	@OneToOne(() => Comment, {
 		onDelete: 'CASCADE'
 	})
 	@JoinColumn()
 	comment?: Comment;
 	@Column({ nullable: true })
-	@Field(type => ID, { nullable: true })
+	@Field(() => ID, { nullable: true })
 	commentId?: number;
 
-	@Field(type => NotificationType)
+	@Field(() => NotificationType)
 	@Column({
 		type: 'enum',
 		enum: NotificationType
