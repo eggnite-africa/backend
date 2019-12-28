@@ -53,5 +53,6 @@ import { constants } from './config/constants';
 	]
 })
 export class AppModule {
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	constructor() {}
 }
