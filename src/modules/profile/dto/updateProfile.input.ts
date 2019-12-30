@@ -2,7 +2,7 @@ import { Profile, SexType, OccupationType } from '../profile.entity';
 import { InputType, Field } from 'type-graphql';
 
 @InputType()
-export class updateProfileInput implements Partial<Profile> {
+export class UpdateProfileInput implements Partial<Profile> {
 	@Field(() => String, { nullable: true })
 	firstName?: string;
 
@@ -20,6 +20,9 @@ export class updateProfileInput implements Partial<Profile> {
 
 	@Field(() => String, { nullable: true })
 	bio?: string;
+
+	@Field(() => String, { nullable: true })
+	socialLinks?: string;
 
 	@Field(() => String, { nullable: true })
 	university?: string;

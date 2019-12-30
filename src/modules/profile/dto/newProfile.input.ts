@@ -23,6 +23,9 @@ export class ProfileInput implements Partial<Profile> {
 	@Field(() => String, { nullable: true })
 	bio?: string;
 
+	@Field(() => String, { nullable: true })
+	socialLinks?: string;
+
 	@Field(() => String)
 	university?: string;
 }

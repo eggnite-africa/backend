@@ -72,4 +72,8 @@ export class Profile extends BaseEntity {
 	@Field(() => String, { nullable: true })
 	@Column({ nullable: true })
 	bio?: string;
+
+	@Field(() => String, { nullable: true })
+	@Column({ nullable: true })
+	socialLinks?: string;
 }
