@@ -11,7 +11,7 @@ import {
 	JoinColumn
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
-import { IsNotEmpty, MaxLength } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 import { Media } from './dto/media.type';
 import { Vote } from '../vote/vote.entity';
 import { Comment } from '../comment/comment.entitiy';
@@ -40,7 +40,6 @@ export class Product extends BaseEntity {
 	name!: string;
 
 	@Field(() => String)
-	@MaxLength(140)
 	@IsNotEmpty()
 	@Column()
 	tagline!: string;
