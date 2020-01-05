@@ -37,7 +37,7 @@ export class CommentResolver {
 	async deleteComment(
 		@Args({ name: 'commentId', type: () => ID }) commentId: number,
 		@CurrentUser() { id: userId }: User
-	): Promise<Boolean> {
+	): Promise<boolean> {
 		return await this.commentService.deleteComment(commentId, userId);
 	}
 

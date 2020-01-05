@@ -42,7 +42,7 @@ export class VoteService {
 		return addedVote;
 	}
 
-	async deleteVote(productId: number, userId: number): Promise<Boolean> {
+	async deleteVote(productId: number, userId: number): Promise<boolean> {
 		const voteToRemove = await this.voteRepository.findOneOrFail({
 			where: {
 				productId,

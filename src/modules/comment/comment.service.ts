@@ -93,7 +93,7 @@ export class CommentService {
 		return newReply;
 	}
 
-	async deleteComment(id: number, userId: number): Promise<Boolean> {
+	async deleteComment(id: number, userId: number): Promise<boolean> {
 		try {
 			await this.commentRepository.delete({ id, userId });
 			const deleted = await this.fetchCommentById(id);

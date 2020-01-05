@@ -75,7 +75,7 @@ export class UserService {
 		return filteredProducts;
 	}
 
-	async deleteUser(username: string): Promise<Boolean> {
+	async deleteUser(username: string): Promise<boolean> {
 		const user = await this.fetchUserByUsername(username);
 		const userProducts = await this.fetchMakerProductsById(user.id);
 		if (userProducts?.length) {
