@@ -6,7 +6,9 @@ import {
 	CreateDateColumn,
 	UpdateDateColumn,
 	OneToMany,
-	ManyToMany
+	ManyToMany,
+	OneToOne,
+	JoinColumn
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { IsNotEmpty, MaxLength } from 'class-validator';
@@ -75,4 +77,12 @@ export class Product extends BaseEntity {
 	)
 	@Field(() => [User], { nullable: true })
 	makers!: User[];
+
+	@Column()
+	posterId!: number;
+
+	@OneToOne(() => User)
+	@JoinColumn()
+	@Field(() => User)
+	poster!: User;
 }

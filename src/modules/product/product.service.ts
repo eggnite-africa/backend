@@ -53,7 +53,10 @@ export class ProductService {
 		return makers;
 	}
 
-	async addProduct(product: newProductInput): Promise<Product> {
+	async addProduct(
+		product: newProductInput,
+		posterId: number
+	): Promise<Product> {
 		const makersIds = product.makersIds;
 		const makers = await this.fetchMakersByIds(makersIds);
 
@@ -64,6 +67,7 @@ export class ProductService {
 		newProduct.links = product.links;
 		newProduct.media = product.media;
 		newProduct.makers = makers;
+		newProduct.posterId = posterId;
 		return await this.productRepository.save(newProduct);
 	}
 
@@ -105,7 +109,7 @@ export class ProductService {
 		return await this.productRepository.save(product);
 	}
 
-	async deleteProduct(id: number): Promise<Boolean> {
+	async deleteProduct(id: number): Promise<boolean> {
 		const product = await this.fetchProductById(id);
 		if (product) {
 			await this.productRepository.remove(product);

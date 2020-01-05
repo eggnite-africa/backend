@@ -48,9 +48,10 @@ export class ProductResolver {
 	@Mutation(returns => Product)
 	@UseGuards(GraphQLAuth)
 	async addProduct(
-		@Args('newProduct') newProduct: newProductInput
+		@Args('newProduct') newProduct: newProductInput,
+		@CurrentUser() { id: userId }: User
 	): Promise<Product> {
-		return await this.productService.addProduct(newProduct);
+		return await this.productService.addProduct(newProduct, userId);
 	}
 
 	private async checkOwnership(
@@ -108,7 +109,7 @@ export class ProductResolver {
 	async deleteProduct(
 		@Args({ name: 'id', type: () => ID }) id: number,
 		@CurrentUser() { id: userId }: User
-	): Promise<Boolean> {
+	): Promise<boolean> {
 		const product:
 			| Product
 			| undefined = await this.productService.fetchProductById(id);
