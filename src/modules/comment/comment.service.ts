@@ -94,22 +94,16 @@ export class CommentService {
 	}
 
 	async deleteComment(id: number, userId: number): Promise<boolean> {
-		try {
-			await this.commentRepository.delete({ id, userId });
-			const deleted = await this.fetchCommentById(id);
-			return deleted === undefined ? true : false;
-		} catch (err) {
-			throw err;
-		}
+		await this.commentRepository.delete({ id, userId });
+		const deleted = await this.fetchCommentById(id);
+		return deleted === undefined ? true : false;
 	}
 	async updateComment(
 		id: number,
 		content: string,
 		userId: number
 	): Promise<Comment | undefined> {
-		try {
-			await this.commentRepository.update({ id, userId }, { content });
-			return await this.fetchCommentById(id);
-		} catch (e) {}
+		await this.commentRepository.update({ id, userId }, { content });
+		return await this.fetchCommentById(id);
 	}
 }
