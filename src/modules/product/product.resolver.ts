@@ -118,6 +118,14 @@ export class ProductResolver {
 		return await this.productService.deleteProduct(id);
 	}
 
+	@Mutation(() => Boolean)
+	@UseGuards(GraphQLAuth)
+	async checkProductExistance(
+		@Args({ name: 'productName', type: () => String }) productName: string
+	): Promise<boolean> {
+		return await this.productService.checkProductExistance(productName);
+	}
+
 	@ResolveProperty('votes')
 	async votes(@Parent() product: Product): Promise<Vote[]> {
 		const { id } = product;

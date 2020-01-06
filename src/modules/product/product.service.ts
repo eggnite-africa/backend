@@ -125,4 +125,13 @@ export class ProductService {
 		}
 		return true;
 	}
+
+	async checkProductExistance(name: string): Promise<boolean> {
+		try {
+			await this.productRepository.findOneOrFail({ name });
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
 }
