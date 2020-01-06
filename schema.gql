@@ -45,11 +45,12 @@ input MediaInput {
 }
 
 type Mutation {
-  addProduct(newProduct: newProductInput!): Product!
-  updateProduct(updatedProduct: updatedProductInput!): Product!
+  addProduct(newProduct: NewProductInput!): Product!
+  updateProduct(updatedProduct: UpdatedProductInput!): Product!
   addMaker(makerInput: MakerInput!): Product!
   deleteMaker(makerInput: MakerInput!): Product!
   deleteProduct(id: ID!): Boolean!
+  checkProductExistance(productName: String!): Boolean!
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
   addComment(commentInput: CommentInput!): Comment!
@@ -57,10 +58,10 @@ type Mutation {
   updateComment(commentInput: CommentInput!): Comment!
   signUp(UserInput: UserInput!): User!
   deleteUser(username: String!): Boolean!
-  updateProfile(updatedProfile: updateProfileInput!): Profile!
+  updateProfile(updatedProfile: UpdateProfileInput!): Profile!
 }
 
-input newProductInput {
+input NewProductInput {
   name: String!
   tagline: String!
   description: String
@@ -99,6 +100,7 @@ type Product {
   votes: [Vote!]
   comments: [Comment]
   makers: [User!]
+  poster: User!
 }
 
 type Profile {
@@ -109,6 +111,7 @@ type Profile {
   occupation: OccupationType!
   university: String
   bio: String
+  socialLinks: [String]
 }
 
 input ProfileInput {
@@ -118,6 +121,7 @@ input ProfileInput {
   birthDate: DateTime
   occupation: OccupationType!
   bio: String
+  socialLinks: [String]
   university: String!
 }
 
@@ -137,7 +141,7 @@ type Subscription {
   commentAdded: Comment
 }
 
-input updatedProductInput {
+input UpdatedProductInput {
   id: ID!
   tagline: String
   description: String
@@ -145,13 +149,14 @@ input updatedProductInput {
   Media: MediaInput
 }
 
-input updateProfileInput {
+input UpdateProfileInput {
   firstName: String
   lastName: String
   sex: SexType
   birthDate: DateTime
   occupation: OccupationType
   bio: String
+  socialLinks: [String]
   university: String
 }
 

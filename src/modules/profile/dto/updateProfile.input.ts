@@ -21,7 +21,7 @@ export class UpdateProfileInput implements Partial<Profile> {
 	@Field(() => String, { nullable: true })
 	bio?: string;
 
-	@Field(() => [String], { nullable: true })
+	@Field(() => [String], { nullable: 'itemsAndList' })
 	socialLinks?: string[];
 
 	@Field(() => String, { nullable: true })
