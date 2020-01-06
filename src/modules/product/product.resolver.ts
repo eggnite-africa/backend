@@ -8,8 +8,8 @@ import {
 } from '@nestjs/graphql';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
-import { newProductInput } from './dto/newProduct.input';
-import { updatedProductInput } from './dto/updatedProduct.input';
+import { NewProductInput } from './dto/newProduct.input';
+import { UpdatedProductInput } from './dto/updatedProduct.input';
 import { ID } from 'type-graphql';
 import { VoteService } from '../vote/vote.service';
 import { CommentService } from '../comment/comment.service';
@@ -48,7 +48,7 @@ export class ProductResolver {
 	@Mutation(returns => Product)
 	@UseGuards(GraphQLAuth)
 	async addProduct(
-		@Args('newProduct') newProduct: newProductInput,
+		@Args('newProduct') newProduct: NewProductInput,
 		@CurrentUser() { id: userId }: User
 	): Promise<Product> {
 		return await this.productService.addProduct(newProduct, userId);
@@ -75,7 +75,7 @@ export class ProductResolver {
 	@Mutation(returns => Product)
 	@UseGuards(GraphQLAuth)
 	async updateProduct(
-		@Args('updatedProduct') updatedProuduct: updatedProductInput,
+		@Args('updatedProduct') updatedProuduct: UpdatedProductInput,
 		@CurrentUser() { id: userId }: User
 	): Promise<Product | undefined> {
 		const { id: productId } = updatedProuduct;

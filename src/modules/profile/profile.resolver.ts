@@ -5,7 +5,7 @@ import { UseGuards } from '@nestjs/common';
 import { User } from '../user/user.entity';
 import { CurrentUser } from '../user/decorator/user.decorator';
 import { ProfileService } from './profile.service';
-import { updateProfileInput } from './dto/updateProfile.input';
+import { UpdateProfileInput } from './dto/updateProfile.input';
 
 @Resolver((of: any) => Profile)
 export class ProfileResolver {
@@ -15,7 +15,7 @@ export class ProfileResolver {
 	@Mutation(returns => Profile)
 	async updateProfile(
 		@CurrentUser() { profileId }: User,
-		@Args('updatedProfile') updatedProfile: updateProfileInput
+		@Args('updatedProfile') updatedProfile: UpdateProfileInput
 	) {
 		return await this.profileService.updateUserProfile(
 			profileId,

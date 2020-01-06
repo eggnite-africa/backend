@@ -9,8 +9,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { Repository } from 'typeorm';
-import { updatedProductInput } from './dto/updatedProduct.input';
-import { newProductInput } from './dto/newProduct.input';
+import { UpdatedProductInput } from './dto/updatedProduct.input';
+import { NewProductInput } from './dto/newProduct.input';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 
@@ -54,7 +54,7 @@ export class ProductService {
 	}
 
 	async addProduct(
-		product: newProductInput,
+		product: NewProductInput,
 		posterId: number
 	): Promise<Product> {
 		const makersIds = product.makersIds;
@@ -73,7 +73,7 @@ export class ProductService {
 
 	async updateProduct(
 		id: number,
-		updatedProduct: updatedProductInput
+		updatedProduct: UpdatedProductInput
 	): Promise<Product | undefined> {
 		await this.productRepository.update({ id }, { ...updatedProduct });
 		return await this.fetchProductById(id);
