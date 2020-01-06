@@ -21,6 +21,7 @@ export class ProfileService {
 		newProfile.occupation = userProfile.occupation;
 		newProfile.university = userProfile.university;
 		newProfile.bio = userProfile.bio;
+		newProfile.socialLinks = userProfile.socialLinks;
 		return await this.profileRepository.save(newProfile);
 	}
 
