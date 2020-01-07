@@ -1,10 +1,10 @@
 import { InputType, Field, ID } from 'type-graphql';
 import { IsNotEmpty } from 'class-validator';
 import { MediaInput } from './media.input';
-import { Product } from '../product.entity';
+import { NewLinksInput } from '../../product-links/dto/newLinks.input';
 
 @InputType()
-export class NewProductInput implements Partial<Product> {
+export class NewProductInput {
 	@Field(() => String)
 	@IsNotEmpty()
 	name!: string;
@@ -16,11 +16,11 @@ export class NewProductInput implements Partial<Product> {
 	@Field(() => String, { nullable: true })
 	description?: string;
 
-	@Field(() => [String], { nullable: true })
-	links!: string[];
-
 	@Field(() => MediaInput)
 	media!: MediaInput;
+
+	@Field(() => NewLinksInput)
+	links!: NewLinksInput;
 
 	@Field(() => [ID], { nullable: true })
 	makersIds!: number[];

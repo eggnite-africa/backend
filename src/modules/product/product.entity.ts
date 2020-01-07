@@ -16,6 +16,7 @@ import { Media } from './dto/media.type';
 import { Vote } from '../vote/vote.entity';
 import { Comment } from '../comment/comment.entitiy';
 import { User } from '../user/user.entity';
+import { ProductLinks } from '../product-links/product-links.entity';
 
 @ObjectType()
 @Entity({
@@ -48,9 +49,12 @@ export class Product extends BaseEntity {
 	@Column('text', { nullable: true })
 	description?: string;
 
-	@Field(() => [String], { nullable: true })
-	@Column('simple-array')
-	links!: string[];
+	@Field(() => ProductLinks)
+	@OneToOne(() => ProductLinks)
+	@JoinColumn()
+	links!: ProductLinks;
+	@Column()
+	linksId!: number;
 
 	@Field(() => Media)
 	@Column('json')

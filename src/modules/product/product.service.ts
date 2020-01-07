@@ -13,6 +13,7 @@ import { UpdatedProductInput } from './dto/updatedProduct.input';
 import { NewProductInput } from './dto/newProduct.input';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
+import { ProductLinksService } from '../product-links/product-links.service';
 
 @Injectable()
 export class ProductService {
@@ -20,7 +21,8 @@ export class ProductService {
 		@InjectRepository(Product)
 		private readonly productRepository: Repository<Product>,
 		@Inject(forwardRef(() => UserService))
-		private readonly userService: UserService
+		private readonly userService: UserService,
+		private readonly productLinksService: ProductLinksService
 	) {}
 
 	async fetchAllProducts(options: any = {}): Promise<Product[]> {
@@ -59,13 +61,14 @@ export class ProductService {
 	): Promise<Product> {
 		const makersIds = product.makersIds;
 		const makers = await this.fetchMakersByIds(makersIds);
+		const links = await this.productLinksService.addProductLinks(product.links);
 
 		const newProduct = new Product();
 		newProduct.name = product.name;
 		newProduct.tagline = product.tagline;
 		newProduct.description = product?.description;
-		newProduct.links = product.links;
 		newProduct.media = product.media;
+		newProduct.links = links;
 		newProduct.makers = makers;
 		newProduct.posterId = posterId;
 		return await this.productRepository.save(newProduct);

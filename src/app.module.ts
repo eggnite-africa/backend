@@ -16,6 +16,8 @@ import { SharedModule } from './modules/shared/shared.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { Profile } from './modules/profile/profile.entity';
 import { constants } from './config/constants';
+import { ProductLinksModule } from './modules/product-links/product-links.module';
+import { ProductLinks } from './modules/product-links/product-links.entity';
 
 @Module({
 	imports: [
@@ -39,7 +41,15 @@ import { constants } from './config/constants';
 			database: constants.db.name,
 			username: constants.db.username,
 			password: constants.db.password,
-			entities: [Product, Vote, Comment, User, Profile, Notification],
+			entities: [
+				Product,
+				Vote,
+				Comment,
+				User,
+				Profile,
+				Notification,
+				ProductLinks
+			],
 			synchronize: true
 		}),
 		ProductModule,
@@ -49,7 +59,8 @@ import { constants } from './config/constants';
 		UserModule,
 		NotificationModule,
 		SharedModule,
-		ProfileModule
+		ProfileModule,
+		ProductLinksModule
 	]
 })
 export class AppModule {

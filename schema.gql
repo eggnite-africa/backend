@@ -61,12 +61,19 @@ type Mutation {
   updateProfile(updatedProfile: UpdateProfileInput!): Profile!
 }
 
+input NewLinksInput {
+  website: String!
+  github: String
+  appStore: String
+  playStore: String
+}
+
 input NewProductInput {
   name: String!
   tagline: String!
   description: String
-  links: [String!]
   media: MediaInput!
+  links: NewLinksInput!
   makersIds: [ID!]
 }
 
@@ -95,12 +102,20 @@ type Product {
   name: String!
   tagline: String!
   description: String
-  links: [String!]
+  links: ProductLinks!
   media: Media!
   votes: [Vote!]
   comments: [Comment]
   makers: [User!]
   poster: User!
+}
+
+type ProductLinks {
+  id: ID!
+  website: String!
+  github: String
+  appStore: String
+  playStore: String
 }
 
 type Profile {
@@ -141,12 +156,19 @@ type Subscription {
   commentAdded: Comment
 }
 
+input UpdatedLinksInput {
+  website: String
+  github: String
+  appStore: String
+  playStore: String
+}
+
 input UpdatedProductInput {
   id: ID!
   tagline: String
   description: String
-  links: [String]
-  Media: MediaInput
+  media: MediaInput
+  links: UpdatedLinksInput
 }
 
 input UpdateProfileInput {
