@@ -119,6 +119,7 @@ type ProductLinks {
 }
 
 type Profile {
+  profilePicture: String!
   firstName: String!
   lastName: String!
   sex: SexType!

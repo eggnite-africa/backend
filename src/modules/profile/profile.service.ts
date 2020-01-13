@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Profile } from './profile.entity';
 import { Repository } from 'typeorm';
-import { ProfileInput } from './dto/newProfile.input';
+import { ProfileInput as newProfileInput } from './dto/newProfile.input';
 import { UpdateProfileInput } from './dto/updateProfile.input';
 
 @Injectable()
@@ -12,8 +12,9 @@ export class ProfileService {
 		private readonly profileRepository: Repository<Profile>
 	) {}
 
-	async addUserProfile(userProfile: ProfileInput): Promise<Profile> {
+	async addUserProfile(userProfile: newProfileInput): Promise<Profile> {
 		const newProfile = new Profile();
+		newProfile.profilePicture = userProfile.profilePicture;
 		newProfile.firstName = userProfile.firstName;
 		newProfile.lastName = userProfile.lastName;
 		newProfile.sex = userProfile.sex;
