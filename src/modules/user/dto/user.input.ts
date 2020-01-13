@@ -5,7 +5,7 @@ import { ProfileInput } from '../../profile/dto/newProfile.input';
 @InputType()
 export class UserInput implements Partial<User> {
 	@Field(() => String)
-	@MinLength(3)
+	@MinLength(2)
 	username!: string;
 
 	@Field(() => String)
