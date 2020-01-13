@@ -28,8 +28,8 @@ import { ProductLinks } from './modules/product-links/product-links.entity';
 			context: ({ req, connection }) => {
 				if (connection) {
 					const context = connection.context;
-					const authorization = context?.Authorization;
-					return { req: { headers: { authorization } } };
+					const Authorization = context?.Authorization;
+					return { req: { headers: { Authorization } } };
 				} else {
 					return { req };
 				}

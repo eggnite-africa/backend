@@ -43,7 +43,11 @@ export class AuthService {
 	}
 
 	login(user: User): string {
-		const payload = { username: user.username, sub: user.id };
+		const payload = {
+			sub: user.id,
+			username: user.username,
+			profileId: user.profileId
+		};
 		const token = this.jwtService.sign(payload);
 		this.loggedInUser = user;
 		return token;
@@ -53,7 +57,6 @@ export class AuthService {
 		req.logout();
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private loggedInUser!: User;
 	getCurrentLoggedInUser(): User {
 		return this.loggedInUser;
