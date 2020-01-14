@@ -43,6 +43,10 @@ export class UserService {
 		return await this.findUserByOptions({ username });
 	}
 
+	async fetchUserById(id: number): Promise<User> {
+		return await this.findUserByOptions({ id });
+	}
+
 	async addUser(newUser: UserInput): Promise<User> {
 		// eslint-disable-next-line require-atomic-updates
 		newUser.password = await this.sharedService.hashPassword(newUser.password);

@@ -146,7 +146,7 @@ type Query {
   products: [Product!]!
   product(name: String, id: ID): Product!
   users: [User!]!
-  user(username: String!): User!
+  user(id: ID, username: String): User!
 }
 
 enum SexType {

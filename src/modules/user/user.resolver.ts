@@ -12,6 +12,7 @@ import { UserInput } from './dto/user.input';
 import { CurrentUser } from './decorator/user.decorator';
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
+import { ID } from 'type-graphql';
 
 @Resolver((of: any) => User)
 export class UserResolver {
@@ -23,8 +24,16 @@ export class UserResolver {
 	}
 
 	@Query(returns => User)
-	async user(@Args({ name: 'username', type: () => String }) username: string) {
-		return await this.userService.fetchUserByUsername(username);
+	async user(
+		@Args({ name: 'username', type: () => String, nullable: true })
+		username: string,
+		@Args({ name: 'id', type: () => ID, nullable: true }) id: number
+	): Promise<User | undefined> {
+		if (id) {
+			return await this.userService.fetchUserById(id);
+		} else {
+			return await this.userService.fetchUserByUsername(username);
+		}
 	}
 
 	@Mutation(returns => User)
