@@ -58,6 +58,11 @@ export class UserResolver {
 		return await this.userService.fetchProfileByUserId(id);
 	}
 
+	@ResolveProperty('votes')
+	async votes(@Parent() { id }: User) {
+		return await this.userService.fetchVotesByUserId(id);
+	}
+
 	@ResolveProperty('notifications')
 	@UseGuards(GraphQLAuth)
 	async notifications(@Parent() { id }: User) {

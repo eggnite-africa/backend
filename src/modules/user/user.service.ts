@@ -12,6 +12,7 @@ import { ProductService } from '../product/product.service';
 import { UserInput } from './dto/user.input';
 import { SharedService } from '../shared/shared.service';
 import { ProfileService } from '../profile/profile.service';
+import { VoteService } from '../vote/vote.service';
 
 @Injectable()
 export class UserService {
@@ -20,7 +21,8 @@ export class UserService {
 		@Inject(forwardRef(() => ProductService))
 		private readonly productService: ProductService,
 		private readonly sharedService: SharedService,
-		private readonly profileService: ProfileService
+		private readonly profileService: ProfileService,
+		private readonly voteService: VoteService
 	) {}
 
 	async saveUser(user: User) {
@@ -32,7 +34,10 @@ export class UserService {
 	}
 
 	async findUserByOptions(options: any = {}): Promise<User> {
-		return await this.userRepository.findOneOrFail(options);
+		return await this.userRepository.findOneOrFail({
+			where: { options },
+			relations: ['products', 'comments']
+		});
 	}
 
 	async fetchMakersByIds(makersIds: number[]): Promise<User[]> {
@@ -133,5 +138,9 @@ export class UserService {
 			}
 		);
 		return profile;
+	}
+
+	async fetchVotesByUserId(id: number) {
+		return await this.voteService.fetchAllVotes({ where: { userId: id } });
 	}
 }

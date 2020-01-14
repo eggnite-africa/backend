@@ -5,12 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { ProductModule } from '../product/product.module';
 import { ProfileModule } from '../profile/profile.module';
+import { VoteModule } from '../vote/vote.module';
 
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([User]),
 		forwardRef(() => ProductModule),
-		ProfileModule
+		ProfileModule,
+		VoteModule
 	],
 	providers: [UserService, UserResolver],
 	exports: [UserService]
