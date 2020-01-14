@@ -40,9 +40,14 @@ export class ProductResolver {
 
 	@Query(returns => Product)
 	async product(
-		@Args({ name: 'id', type: () => ID }) id: number
+		@Args({ name: 'id', type: () => ID, nullable: true }) id: number,
+		@Args({ name: 'name', type: () => String, nullable: true }) name: string
 	): Promise<Product | undefined> {
-		return await this.productService.fetchProductById(id);
+		if (id) {
+			return await this.productService.fetchProductById(id);
+		} else {
+			return await this.productService.fetchProductByName(name);
+		}
 	}
 
 	@Mutation(returns => Product)

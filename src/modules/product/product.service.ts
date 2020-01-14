@@ -33,6 +33,10 @@ export class ProductService {
 		return await this.productRepository.findOneOrFail({ id });
 	}
 
+	async fetchProductByName(name: string): Promise<Product> {
+		return await this.productRepository.findOneOrFail({ name });
+	}
+
 	async fetchMakersByProductId(productId: number): Promise<User[]> {
 		const product: Product = await this.productRepository.findOneOrFail({
 			where: {
