@@ -1,10 +1,9 @@
 import { Profile, SexType, OccupationType } from '../profile.entity';
 import { InputType, Field } from 'type-graphql';
-import { IsNotEmpty, IsFQDN } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 @InputType()
 export class ProfileInput implements Partial<Profile> {
 	@Field(() => String)
-	@IsFQDN()
 	profilePicture!: string;
 
 	@Field(() => String)

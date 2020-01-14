@@ -7,7 +7,7 @@ import {
 	Column
 } from 'typeorm';
 import { ObjectType, Field, registerEnumType } from 'type-graphql';
-import { IsNotEmpty, IsDate, IsFQDN } from 'class-validator';
+import { IsNotEmpty, IsDate } from 'class-validator';
 
 export enum OccupationType {
 	STUDENT = 'STUDENT',
@@ -40,7 +40,6 @@ export class Profile extends BaseEntity {
 
 	@Field(() => String)
 	@Column()
-	@IsFQDN()
 	profilePicture!: string;
 
 	@Field(() => String)
