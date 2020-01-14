@@ -17,6 +17,11 @@ import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 export class UserResolver {
 	constructor(private readonly userService: UserService) {}
 
+	@Query(() => [User])
+	async users(): Promise<User[]> {
+		return await this.userService.fetchAllUsers();
+	}
+
 	@Query(returns => User)
 	async user(@Args({ name: 'username', type: () => String }) username: string) {
 		return await this.userService.fetchUserByUsername(username);

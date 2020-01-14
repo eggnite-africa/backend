@@ -145,6 +145,7 @@ input ProfileInput {
 type Query {
   products: [Product!]!
   product(name: String, id: ID): Product!
+  users: [User!]!
   user(username: String!): User!
 }
 
