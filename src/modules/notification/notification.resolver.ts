@@ -1,5 +1,6 @@
-import { Resolver, Subscription } from '@nestjs/graphql';
-import { PubSubEngine } from 'type-graphql';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { Resolver, Subscription, Mutation, Args } from '@nestjs/graphql';
+import { PubSubEngine, ID } from 'type-graphql';
 import { Vote } from '../vote/vote.entity';
 import { Inject, UseGuards } from '@nestjs/common';
 import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
@@ -7,13 +8,16 @@ import { User } from '../user/user.entity';
 import { Notification } from './notification.entity';
 import { Comment } from '../comment/comment.entitiy';
 import { constants } from '../../config/constants';
+import { NotificationService } from './notification.service';
 
 @Resolver('Notification')
 export class NotificationResolver {
-	constructor(@Inject('PUB_SUB') private pubSub: PubSubEngine) {}
+	constructor(
+		@Inject('PUB_SUB') private pubSub: PubSubEngine,
+		private readonly notificationService: NotificationService
+	) {}
 
-	@UseGuards(GraphQLAuth)
-	@Subscription(returns => Vote, {
+	@Subscription(() => Vote, {
 		nullable: true,
 		filter: ({ voteAdded }, args, ctx) => {
 			const { subscribers }: Notification = voteAdded;
@@ -25,8 +29,8 @@ export class NotificationResolver {
 	voteAdded() {
 		return this.pubSub.asyncIterator(constants.voteAdded);
 	}
-	@UseGuards(GraphQLAuth)
-	@Subscription(returns => Comment, {
+
+	@Subscription(() => Comment, {
 		nullable: true,
 		filter: ({ commentAdded }, args, ctx) => {
 			const { subscribers }: Notification = commentAdded;
@@ -35,7 +39,16 @@ export class NotificationResolver {
 			return subscriberId === currentUser.id;
 		}
 	})
+	@UseGuards(GraphQLAuth)
 	commentAdded() {
 		return this.pubSub.asyncIterator(constants.commentAdded);
+	}
+
+	@UseGuards(GraphQLAuth)
+	@Mutation(() => Notification)
+	async markNotificationAsSeen(
+		@Args({ name: 'id', type: () => ID }) id: number
+	): Promise<Notification> {
+		return await this.notificationService.markNotificationAsSeen(id);
 	}
 }

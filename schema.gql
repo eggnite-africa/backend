@@ -53,6 +53,7 @@ type Mutation {
   checkProductExistance(productName: String!): Boolean!
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
+  markNotificationAsSeen(id: ID!): Notification!
   addComment(commentInput: CommentInput!): Comment!
   deleteComment(commentId: ID!): Boolean!
   updateComment(commentInput: CommentInput!): Comment!
