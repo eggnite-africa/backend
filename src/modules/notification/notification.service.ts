@@ -3,23 +3,23 @@ import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Notification, NotificationType } from './notification.entity';
 import { Repository } from 'typeorm';
-import { PubSubEngine } from 'type-graphql';
 import { Vote } from '../vote/vote.entity';
 import { Comment } from '../comment/comment.entitiy';
 import { User } from '../user/user.entity';
 import { constants } from '../../config/constants';
+import { PubSub } from 'graphql-subscriptions';
 
 @Injectable()
 export class NotificationService {
 	constructor(
 		@InjectRepository(Notification)
 		private readonly notificationRepository: Repository<Notification>,
-		@Inject('PUB_SUB') private pubSub: PubSubEngine
+		@Inject('PUB_SUB') private pubSub: PubSub
 	) {}
 
 	async addNotification(subscribers: User[], vote?: Vote, comment?: Comment) {
 		if (vote !== undefined && comment === undefined) {
-			const voteNotification = await this.addVoteNotification(
+			const { vote: voteNotification } = await this.addVoteNotification(
 				vote,
 				subscribers
 			);
@@ -29,10 +29,9 @@ export class NotificationService {
 			return voteNotification;
 		} else if (comment !== undefined && vote === undefined) {
 			const subscriber: User = subscribers[0];
-			const commentNotification = await this.addCommentNotification(
-				comment,
-				subscriber
-			);
+			const {
+				comment: commentNotification
+			} = await this.addCommentNotification(comment, subscriber);
 			await this.pubSub.publish(constants.commentAdded, {
 				[constants.commentAdded]: commentNotification
 			});
@@ -49,7 +48,13 @@ export class NotificationService {
 		newNotification.userId = userId;
 		newNotification.voteId = voteId;
 		newNotification.subscribers = subscribers;
-		return await this.notificationRepository.save(newNotification);
+		await this.notificationRepository.save(newNotification);
+		return await this.notificationRepository.findOneOrFail(
+			{
+				id: newNotification.id
+			},
+			{ relations: ['vote'] }
+		);
 	}
 
 	private async addCommentNotification(
@@ -61,7 +66,13 @@ export class NotificationService {
 		newNotification.userId = userId;
 		newNotification.commentId = commentId;
 		newNotification.subscribers = [subscriber];
-		return await this.notificationRepository.save(newNotification);
+		await this.notificationRepository.save(newNotification);
+		return await this.notificationRepository.findOneOrFail(
+			{
+				id: newNotification.id
+			},
+			{ relations: ['comment'] }
+		);
 	}
 
 	async markNotificationAsSeen(id: number) {

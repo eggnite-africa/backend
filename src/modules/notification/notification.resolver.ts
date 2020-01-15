@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Resolver, Subscription, Mutation, Args } from '@nestjs/graphql';
-import { PubSubEngine, ID } from 'type-graphql';
+import { ID } from 'type-graphql';
 import { Vote } from '../vote/vote.entity';
 import { Inject, UseGuards } from '@nestjs/common';
 import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
@@ -9,25 +9,20 @@ import { Notification } from './notification.entity';
 import { Comment } from '../comment/comment.entitiy';
 import { constants } from '../../config/constants';
 import { NotificationService } from './notification.service';
+import { PubSub } from 'graphql-subscriptions';
 
 @Resolver('Notification')
 export class NotificationResolver {
 	constructor(
-		@Inject('PUB_SUB') private pubSub: PubSubEngine,
+		@Inject('PUB_SUB') private pubSub: PubSub,
 		private readonly notificationService: NotificationService
 	) {}
 
 	@Subscription(() => Vote, {
-		nullable: true,
-		filter: ({ voteAdded }, args, ctx) => {
-			const { subscribers }: Notification = voteAdded;
-			const subscribersIds: number[] = subscribers.map(({ id }: User) => id);
-			const currentUser: User = ctx.req.user;
-			return subscribersIds.includes(currentUser.id);
-		}
+		nullable: true
 	})
-	voteAdded() {
-		return this.pubSub.asyncIterator(constants.voteAdded);
+	[constants.voteAdded]() {
+		return this.pubSub.asyncIterator([constants.voteAdded]);
 	}
 
 	@Subscription(() => Comment, {
@@ -40,8 +35,8 @@ export class NotificationResolver {
 		}
 	})
 	@UseGuards(GraphQLAuth)
-	commentAdded() {
-		return this.pubSub.asyncIterator(constants.commentAdded);
+	[constants.commentAdded]() {
+		return this.pubSub.asyncIterator([constants.commentAdded]);
 	}
 
 	@UseGuards(GraphQLAuth)

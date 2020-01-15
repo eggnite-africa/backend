@@ -156,8 +156,8 @@ enum SexType {
 }
 
 type Subscription {
-  voteAdded: Vote
-  commentAdded: Comment
+  VOTE_ADDED: Vote
+  COMMENT_ADDED: Comment
 }
 
 input UpdatedLinksInput {
