@@ -26,15 +26,8 @@ export class NotificationResolver {
 	}
 
 	@Subscription(() => Comment, {
-		nullable: true,
-		filter: ({ commentAdded }, args, ctx) => {
-			const { subscribers }: Notification = commentAdded;
-			const subscriberId: number = subscribers[0].id;
-			const currentUser: User = ctx.req.user;
-			return subscriberId === currentUser.id;
-		}
+		nullable: true
 	})
-	@UseGuards(GraphQLAuth)
 	[constants.commentAdded]() {
 		return this.pubSub.asyncIterator([constants.commentAdded]);
 	}
