@@ -4,8 +4,7 @@ import { ProductLinks } from '../product-links.entity';
 
 @InputType()
 export class NewLinksInput implements Partial<ProductLinks> {
-	@Field(() => String)
-	@IsNotEmpty()
+	@Field(() => String, { nullable: true })
 	@IsFQDN()
 	website!: string;
 

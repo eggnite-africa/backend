@@ -62,7 +62,7 @@ type Mutation {
 }
 
 input NewLinksInput {
-  website: String!
+  website: String
   github: String
   appStore: String
   playStore: String
@@ -112,7 +112,7 @@ type Product {
 
 type ProductLinks {
   id: ID!
-  website: String!
+  website: String
   github: String
   appStore: String
   playStore: String
