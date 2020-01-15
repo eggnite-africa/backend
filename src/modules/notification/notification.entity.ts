@@ -53,6 +53,7 @@ export class Notification extends BaseEntity {
 	@Column()
 	userId!: number;
 
+	@Field(() => Vote, { nullable: true })
 	@OneToOne(() => Vote, {
 		onDelete: 'CASCADE'
 	})
@@ -62,6 +63,7 @@ export class Notification extends BaseEntity {
 	@Field(() => ID, { nullable: true })
 	voteId?: number;
 
+	@Field(() => Comment, { nullable: true })
 	@OneToOne(() => Comment, {
 		onDelete: 'CASCADE'
 	})

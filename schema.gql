@@ -81,7 +81,9 @@ input NewProductInput {
 type Notification {
   id: ID!
   seen: Boolean!
+  vote: Vote
   voteId: ID
+  comment: Comment
   commentId: ID
   type: NotificationType!
 }

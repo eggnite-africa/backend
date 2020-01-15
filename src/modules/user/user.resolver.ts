@@ -13,8 +13,11 @@ import { CurrentUser } from './decorator/user.decorator';
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 import { ID } from 'type-graphql';
+import { Notification } from '../notification/notification.entity';
+import { Profile } from '../profile/profile.entity';
+import { Vote } from '../vote/vote.entity';
 
-@Resolver((of: any) => User)
+@Resolver(() => User)
 export class UserResolver {
 	constructor(private readonly userService: UserService) {}
 
@@ -23,7 +26,7 @@ export class UserResolver {
 		return await this.userService.fetchAllUsers();
 	}
 
-	@Query(returns => User)
+	@Query(() => User)
 	async user(
 		@Args({ name: 'username', type: () => String, nullable: true })
 		username: string,
@@ -36,17 +39,17 @@ export class UserResolver {
 		}
 	}
 
-	@Mutation(returns => User)
-	async signUp(@Args('UserInput') newUser: UserInput) {
+	@Mutation(() => User)
+	async signUp(@Args('UserInput') newUser: UserInput): Promise<User> {
 		return await this.userService.addUser(newUser);
 	}
 
-	@Mutation(returns => Boolean)
+	@Mutation(() => Boolean)
 	@UseGuards(GraphQLAuth)
 	async deleteUser(
 		@Args({ name: 'username', type: () => String }) username: string,
 		@CurrentUser() { username: owner }: User
-	) {
+	): Promise<boolean> {
 		if (!(username === owner)) {
 			throw new UnauthorizedException('You can only delete your own account');
 		}
@@ -54,18 +57,20 @@ export class UserResolver {
 	}
 
 	@ResolveProperty('profile')
-	async profile(@Parent() { id }: User) {
+	async profile(@Parent() { id }: User): Promise<Profile> {
 		return await this.userService.fetchProfileByUserId(id);
 	}
 
 	@ResolveProperty('votes')
-	async votes(@Parent() { id }: User) {
+	async votes(@Parent() { id }: User): Promise<Vote[]> {
 		return await this.userService.fetchVotesByUserId(id);
 	}
 
 	@ResolveProperty('notifications')
 	@UseGuards(GraphQLAuth)
-	async notifications(@Parent() { id }: User) {
+	async notifications(
+		@Parent() { id }: User
+	): Promise<Notification[] | undefined> {
 		return await this.userService.fetchAllNotificationsByUserId(id);
 	}
 }

@@ -13,6 +13,7 @@ import { UserInput } from './dto/user.input';
 import { SharedService } from '../shared/shared.service';
 import { ProfileService } from '../profile/profile.service';
 import { VoteService } from '../vote/vote.service';
+import { Notification } from '../notification/notification.entity';
 
 @Injectable()
 export class UserService {
@@ -107,11 +108,17 @@ export class UserService {
 		return true;
 	}
 
-	async fetchAllNotificationsByUserId(id: number) {
+	async fetchAllNotificationsByUserId(
+		id: number
+	): Promise<Notification[] | undefined> {
 		const { notifications }: User = await this.userRepository.findOneOrFail(
 			{ id },
 			{
-				relations: ['notifications']
+				relations: [
+					'notifications',
+					'notifications.vote',
+					'notifications.comment'
+				]
 			}
 		);
 		return notifications;
