@@ -23,7 +23,7 @@ export class ProductLinks extends BaseEntity {
 
 	@Field(() => String, { nullable: true })
 	@Column({ nullable: false })
-	website!: string;
+	website?: string;
 
 	@Field(() => String, { nullable: true })
 	@Column()

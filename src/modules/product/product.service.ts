@@ -90,10 +90,23 @@ export class ProductService {
 
 	async updateProduct(
 		id: number,
-		updatedProduct: UpdatedProductInput
-	): Promise<Product | undefined> {
-		await this.productRepository.update({ id }, { ...updatedProduct });
-		return await this.fetchProductById(id);
+		{ tagline, description, media, links }: UpdatedProductInput
+	): Promise<Product> {
+		const productToUpdate = await this.fetchProductById(id);
+		if (tagline) {
+			productToUpdate.tagline = tagline;
+		}
+		productToUpdate.description = description;
+		if (media) {
+			productToUpdate.media = media;
+		}
+		if (links) {
+			const updatedLinks = await this.productLinksService.addProductLinks(
+				links
+			);
+			productToUpdate.links = updatedLinks;
+		}
+		return await this.productRepository.save(productToUpdate);
 	}
 
 	async addMaker(productId: number, makerId: number) {

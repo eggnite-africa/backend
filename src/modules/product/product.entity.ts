@@ -53,8 +53,8 @@ export class Product extends BaseEntity {
 	@OneToOne(() => ProductLinks)
 	@JoinColumn()
 	links!: ProductLinks;
-	@Column()
-	linksId!: number;
+	@Column({ nullable: true })
+	linksId?: number;
 
 	@Field(() => Media)
 	@Column('json')

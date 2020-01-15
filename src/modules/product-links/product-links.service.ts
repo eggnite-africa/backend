@@ -3,6 +3,7 @@ import { ProductLinks } from './product-links.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NewLinksInput } from './dto/newLinks.input';
+import { UpdatedLinksInput } from './dto/updatedLinks.input';
 
 @Injectable()
 export class ProductLinksService {
@@ -12,10 +13,10 @@ export class ProductLinksService {
 	) {}
 
 	private async modifyProductLinks(
-		links: NewLinksInput
+		links: NewLinksInput | UpdatedLinksInput
 	): Promise<ProductLinks> {
 		const newLinks = new ProductLinks();
-		newLinks.website = links.website;
+		newLinks.website = links?.website;
 		newLinks.github = links?.github;
 		newLinks.appStore = links?.appStore;
 		newLinks.playStore = links?.playStore;
@@ -24,6 +25,12 @@ export class ProductLinksService {
 	}
 
 	async addProductLinks(productLinks: NewLinksInput): Promise<ProductLinks> {
+		return await this.modifyProductLinks(productLinks);
+	}
+
+	async updateProductLinks(
+		productLinks: UpdatedLinksInput
+	): Promise<ProductLinks> {
 		return await this.modifyProductLinks(productLinks);
 	}
 }
