@@ -24,7 +24,11 @@ registerEnumType(NotificationType, {
 	description: 'This is needed to inform FE.'
 });
 @ObjectType()
-@Entity()
+@Entity({
+	orderBy: {
+		createdAt: 'DESC'
+	}
+})
 export class Notification extends BaseEntity {
 	@Field(() => ID)
 	@PrimaryGeneratedColumn()
