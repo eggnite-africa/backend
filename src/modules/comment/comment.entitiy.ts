@@ -14,7 +14,11 @@ import { Product } from '../product/product.entity';
 import { User } from '../user/user.entity';
 import { IsNotEmpty } from 'class-validator';
 
-@Entity()
+@Entity({
+	orderBy: {
+		createdAt: 'DESC'
+	}
+})
 @ObjectType()
 export class Comment extends BaseEntity {
 	@Field(() => ID)
