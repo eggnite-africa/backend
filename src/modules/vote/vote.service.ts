@@ -12,7 +12,8 @@ export class VoteService {
 		private readonly notificationService: NotificationService
 	) {}
 
-	async fetchAllVotes(options: any) {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	async fetchAllVotes(options: any): Promise<Vote[]> {
 		return await this.voteRepository.find(options);
 	}
 
@@ -32,13 +33,16 @@ export class VoteService {
 		newVote.productId = productId;
 		newVote.userId = userId;
 		const addedVote = await this.voteRepository.save(newVote);
-		const { product } = await this.voteRepository.findOneOrFail(
+		const { product }: Vote = await this.voteRepository.findOneOrFail(
 			{ id: addedVote.id },
 			{
 				relations: ['product', 'product.makers']
 			}
 		);
-		await this.notificationService.addNotification(product.makers, newVote);
+		const subscribers = product.makers.filter(
+			(maker: User) => maker.id != userId
+		);
+		await this.notificationService.addNotification(subscribers, newVote);
 		return addedVote;
 	}
 

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Comment } from './comment.entitiy';
 import { NotificationService } from '../notification/notification.service';
 import { User } from '../user/user.entity';
+import { Vote } from '../vote/vote.entity';
 
 @Injectable()
 export class CommentService {
@@ -50,7 +51,7 @@ export class CommentService {
 		newComment.content = content;
 		newComment.userId = userId;
 		const addedComment = await this.commentRepository.save(newComment);
-		const { product } = await this.commentRepository.findOneOrFail(
+		const { product }: Comment = await this.commentRepository.findOneOrFail(
 			{
 				id: newComment.id
 			},
@@ -58,14 +59,18 @@ export class CommentService {
 				relations: ['product', 'product.makers']
 			}
 		);
-		await this.addCommentNotification(product.makers, newComment);
+		const subscribers = product.makers.filter(
+			(maker: User) => maker.id != userId
+		);
+
+		await this.addCommentNotification(subscribers, newComment);
 		return addedComment;
 	}
 
 	private async addCommentNotification(
 		subscribers: User[],
 		newComment: Comment
-	) {
+	): Promise<Vote | Comment | undefined> {
 		return await this.notificationService.addNotification(
 			subscribers,
 			undefined,
