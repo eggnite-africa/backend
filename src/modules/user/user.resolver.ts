@@ -69,8 +69,14 @@ export class UserResolver {
 	@ResolveProperty('notifications')
 	@UseGuards(GraphQLAuth)
 	async notifications(
-		@Parent() { id }: User
+		@Parent() { id }: User,
+		@Args({ name: 'seen', type: () => Boolean, nullable: true })
+		seen: boolean | undefined
 	): Promise<Notification[] | undefined> {
-		return await this.userService.fetchAllNotificationsByUserId(id);
+		if (seen == false) {
+			return await this.userService.fetchAllUnreadNotificationsByUserId(id);
+		} else {
+			return await this.userService.fetchAllNotificationsByUserId(id);
+		}
 	}
 }

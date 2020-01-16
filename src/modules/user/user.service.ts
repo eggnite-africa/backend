@@ -14,6 +14,8 @@ import { SharedService } from '../shared/shared.service';
 import { ProfileService } from '../profile/profile.service';
 import { VoteService } from '../vote/vote.service';
 import { Notification } from '../notification/notification.entity';
+import { Profile } from '../profile/profile.entity';
+import { Vote } from '../vote/vote.entity';
 
 @Injectable()
 export class UserService {
@@ -26,7 +28,7 @@ export class UserService {
 		private readonly voteService: VoteService
 	) {}
 
-	async saveUser(user: User) {
+	async saveUser(user: User): Promise<User> {
 		return await this.userRepository.save(user);
 	}
 
@@ -34,6 +36,7 @@ export class UserService {
 		return await this.userRepository.find();
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async findUserByOptions(options: any = {}): Promise<User> {
 		return await this.userRepository.findOneOrFail({
 			where: { ...options },
@@ -76,8 +79,10 @@ export class UserService {
 		if (!products?.length) {
 			return [];
 		}
+		// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 		const filterProducts = (products: Product[] | undefined) => {
 			const filteredProducts: Product[] = [];
+			// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 			products?.forEach(product => {
 				const makersIds: number[] = [];
 				product.makers.forEach(maker => makersIds.push(maker.id));
@@ -118,26 +123,26 @@ export class UserService {
 					'notifications',
 					'notifications.vote',
 					'notifications.comment'
-				]
+				],
+				cache: true
 			}
 		);
 		return notifications;
 	}
 
-	async fetchAllUnreadNotificationsByUserId(id: number) {
-		const { notifications }: User = await this.userRepository.findOneOrFail({
-			where: {
-				id,
-				notifications: {
-					seen: false
-				}
-			},
-			relations: ['notifications']
-		});
-		return notifications;
+	async fetchAllUnreadNotificationsByUserId(
+		id: number
+	): Promise<Notification[] | undefined> {
+		const notifications:
+			| Notification[]
+			| undefined = await this.fetchAllNotificationsByUserId(id);
+		return notifications?.filter(
+			// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+			(notification: Notification) => notification.seen === false
+		);
 	}
 
-	async fetchProfileByUserId(id: number) {
+	async fetchProfileByUserId(id: number): Promise<Profile> {
 		const { profile }: User = await this.userRepository.findOneOrFail(
 			{ id },
 			{
@@ -147,7 +152,7 @@ export class UserService {
 		return profile;
 	}
 
-	async fetchVotesByUserId(id: number) {
+	async fetchVotesByUserId(id: number): Promise<Vote[]> {
 		return await this.voteService.fetchAllVotes({ where: { userId: id } });
 	}
 }

@@ -197,7 +197,7 @@ type User {
   comments: [Comment]
   votes: [Vote]
   products: [Product]
-  notifications: [Notification]
+  notifications(seen: Boolean): [Notification]
 }
 
 input UserInput {
