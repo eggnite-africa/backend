@@ -50,7 +50,7 @@ export class UserResolver {
 		@Args({ name: 'userId', type: () => ID }) userId: number,
 		@CurrentUser() { id: ownerId }: User
 	): Promise<boolean> {
-		if (!(userId === ownerId)) {
+		if (!(userId == ownerId)) {
 			throw new UnauthorizedException('You can only delete your own account');
 		}
 		return await this.userService.deleteUser(userId);
