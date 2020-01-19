@@ -58,7 +58,6 @@ export class AuthController {
 
 	@Post('change-password')
 	async changePassword(@Body() password: any): Promise<User | undefined> {
-		console.log('RECEIVED:', password);
 		return await this.authService.changeUserPassword(password.password);
 	}
 }
