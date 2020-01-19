@@ -10,7 +10,6 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/user.entity';
 import * as nodemailer from 'nodemailer';
 import { SharedService } from '../shared/shared.service';
-import { Request } from 'express';
 const upash = require('upash');
 upash.install('argon2', require('@phc/argon2'));
 
@@ -53,7 +52,7 @@ export class AuthService {
 		return token;
 	}
 
-	logout(req: Request): void {
+	logout(req: any): void {
 		req.logout();
 	}
 
@@ -141,5 +140,16 @@ export class AuthService {
 		} else {
 			throw new InternalServerErrorException('The reset link is invalid.');
 		}
+	}
+
+	async checkUserPassword(inputPassword: string): Promise<boolean> {
+		const { id } = this.getCurrentLoggedInUser();
+		const {
+			password: currentPassword
+		} = await this.userService.findUserByOptions({ id });
+		return await this.sharedService.verifyPassword(
+			currentPassword,
+			inputPassword
+		);
 	}
 }

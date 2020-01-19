@@ -10,11 +10,14 @@ export class SharedService {
 		}
 	}
 
-	async hashPassword(password: string) {
+	async hashPassword(password: string): Promise<string> {
 		return await upash.hash(password);
 	}
 
-	async verifyPassword(userPassword: string, inputPassword: string) {
+	async verifyPassword(
+		userPassword: string,
+		inputPassword: string
+	): Promise<boolean> {
 		return await upash.verify(userPassword, inputPassword);
 	}
 }

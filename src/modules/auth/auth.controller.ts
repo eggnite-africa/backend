@@ -45,4 +45,9 @@ export class AuthController {
 	): Promise<User> {
 		return await this.authService.resetPassword(resetToken, newPassword);
 	}
+
+	@Post('check-password')
+	async checkPassword(@Body() password: any): Promise<boolean> {
+		return await this.authService.checkUserPassword(password.password);
+	}
 }
