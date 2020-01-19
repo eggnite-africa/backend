@@ -58,7 +58,7 @@ type Mutation {
   deleteComment(commentId: ID!): Boolean!
   updateComment(commentInput: CommentInput!): Comment!
   signUp(UserInput: UserInput!): User!
-  deleteUser(username: String!): Boolean!
+  deleteUser(userId: ID!): Boolean!
   updateProfile(updatedProfile: UpdateProfileInput!): Profile!
 }
 
