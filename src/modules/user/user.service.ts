@@ -69,9 +69,9 @@ export class UserService {
 	}
 
 	/**
-	 * Fetchs products made by this user only
+	 * Fetchs products that have only this (one) user as a maker
 	 */
-	async fetchMakerProductsById(userId: number): Promise<Product[] | []> {
+	async fetchProductsByMakerId(userId: number): Promise<Product[] | []> {
 		const { products } = await this.findUserByOptions({
 			where: { id: userId },
 			relations: ['products', 'products.makers']
@@ -96,17 +96,15 @@ export class UserService {
 		return filteredProducts;
 	}
 
-	async deleteUser(username: string): Promise<boolean> {
-		const user = await this.fetchUserByUsername(username);
-		const userProducts = await this.fetchMakerProductsById(user.id);
+	async deleteUser(id: number): Promise<boolean> {
+		const user = await this.fetchUserById(id);
+		const userProducts = await this.fetchProductsByMakerId(id);
 		if (userProducts?.length) {
 			const deletedProducts = await this.productService.deleteUserProducts(
 				userProducts
 			);
 			if (!deletedProducts) {
-				throw new InternalServerErrorException(
-					`${username}'s products could not be removed`
-				);
+				throw new InternalServerErrorException();
 			}
 		}
 		await this.userRepository.remove(user);
