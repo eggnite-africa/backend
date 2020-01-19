@@ -47,13 +47,13 @@ export class UserResolver {
 	@Mutation(() => Boolean)
 	@UseGuards(GraphQLAuth)
 	async deleteUser(
-		@Args({ name: 'username', type: () => String }) username: string,
-		@CurrentUser() { username: owner }: User
+		@Args({ name: 'userId', type: () => ID }) userId: number,
+		@CurrentUser() { id: ownerId }: User
 	): Promise<boolean> {
-		if (!(username === owner)) {
+		if (!(userId === ownerId)) {
 			throw new UnauthorizedException('You can only delete your own account');
 		}
-		return await this.userService.deleteUser(username);
+		return await this.userService.deleteUser(userId);
 	}
 
 	@ResolveProperty('profile')
