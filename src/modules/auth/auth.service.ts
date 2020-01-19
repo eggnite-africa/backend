@@ -159,4 +159,17 @@ export class AuthService {
 		user.email = newEmail;
 		return await this.userService.saveUser(user);
 	}
+
+	async changeUserPassword(newPassword: string): Promise<User | undefined> {
+		const { id } = this.getCurrentLoggedInUser();
+		const user = await this.userService.findUserByOptions({ id });
+		const currentPassword = user.password;
+		const isSame = await this.sharedService.verifyPassword(
+			currentPassword,
+			newPassword
+		);
+		if (isSame) return;
+		user.password = await this.sharedService.hashPassword(newPassword);
+		return await this.userService.saveUser(user);
+	}
 }

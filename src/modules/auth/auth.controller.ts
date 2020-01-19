@@ -55,4 +55,10 @@ export class AuthController {
 	async changeEmail(@Body() email: any): Promise<User | undefined> {
 		return await this.authService.changeUserEmail(email.email);
 	}
+
+	@Post('change-password')
+	async changePassword(@Body() password: any): Promise<User | undefined> {
+		console.log('RECEIVED:', password);
+		return await this.authService.changeUserPassword(password.password);
+	}
 }
