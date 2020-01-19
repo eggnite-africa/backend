@@ -88,6 +88,8 @@ export class UserService {
 				product.makers.forEach(maker => makersIds.push(maker.id));
 				if (makersIds.every(id => id === userId)) {
 					filteredProducts.push(product);
+				} else {
+					this.productService.deleteMaker(product.id, userId);
 				}
 			});
 			return filteredProducts;
