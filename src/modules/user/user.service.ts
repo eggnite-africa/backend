@@ -68,48 +68,18 @@ export class UserService {
 		);
 	}
 
-	/**
-	 * Fetchs products that have only this (one) user as a maker
-	 */
-	async fetchProductsByMakerId(userId: number): Promise<Product[] | []> {
-		const { products } = await this.findUserByOptions({
-			where: { id: userId },
+	async deleteUser(id: number): Promise<boolean> {
+		const user = await this.userRepository.findOneOrFail({
+			where: { id },
 			relations: ['products', 'products.makers']
 		});
-		if (!products?.length) {
-			return [];
-		}
-		// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-		const filterProducts = (products: Product[] | undefined) => {
-			const filteredProducts: Product[] = [];
-			// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-			products?.forEach(product => {
-				const makersIds: number[] = [];
-				product.makers.forEach(maker => makersIds.push(maker.id));
-				if (makersIds.every(id => id === userId)) {
-					filteredProducts.push(product);
-				} else {
-					this.productService.deleteMaker(product.id, userId);
-				}
-			});
-			return filteredProducts;
-		};
-		const filteredProducts: Product[] = filterProducts(products);
-		return filteredProducts;
-	}
 
-	async deleteUser(id: number): Promise<boolean> {
-		const user = await this.fetchUserById(id);
-		const userProducts = await this.fetchProductsByMakerId(id);
-		if (userProducts?.length) {
-			const deletedProducts = await this.productService.deleteUserProducts(
-				userProducts
-			);
-			if (!deletedProducts) {
-				throw new InternalServerErrorException();
-			}
-		}
-		await this.userRepository.remove(user);
+		const userProducts = user.products || [];
+
+		Promise.all([
+			await this.productService.deleteUserProducts(userProducts, user)
+		]);
+
 		return true;
 	}
 

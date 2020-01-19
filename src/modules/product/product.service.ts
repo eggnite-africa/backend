@@ -152,12 +152,16 @@ export class ProductService {
 		}
 	}
 
-	async deleteUserProducts(products: Product[]): Promise<boolean> {
-		const deletedProducts = await this.productRepository.remove(products);
-		if (!deletedProducts.length) {
-			throw new InternalServerErrorException();
-		}
-		return true;
+	async deleteUserProducts(products: Product[], user: User): Promise<User> {
+		if (!products.length) return user;
+		products?.forEach(async (product: Product) => {
+			if (product.makers.length === 1) {
+				await this.deleteProduct(product.id);
+			} else {
+				await this.deleteMaker(product.id, user.id);
+			}
+		});
+		return await this.userService.saveUser(user);
 	}
 
 	async checkProductExistance(name: string): Promise<boolean> {
