@@ -50,4 +50,9 @@ export class AuthController {
 	async checkPassword(@Body() password: any): Promise<boolean> {
 		return await this.authService.checkUserPassword(password.password);
 	}
+
+	@Post('change-email')
+	async changeEmail(@Body() email: any): Promise<User | undefined> {
+		return await this.authService.changeUserEmail(email.email);
+	}
 }

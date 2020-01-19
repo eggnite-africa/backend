@@ -152,4 +152,11 @@ export class AuthService {
 			inputPassword
 		);
 	}
+
+	async changeUserEmail(newEmail: string): Promise<User | undefined> {
+		const user = this.getCurrentLoggedInUser();
+		if (newEmail === user.email) return;
+		user.email = newEmail;
+		return await this.userService.saveUser(user);
+	}
 }
