@@ -144,8 +144,12 @@ export class ProductService {
 		if (product) {
 			await this.productRepository.remove(product);
 		}
-		const isDeleted = !(await this.fetchProductById(id));
-		return isDeleted;
+		try {
+			await this.fetchProductById(id);
+			return true;
+		} catch (e) {
+			return false;
+		}
 	}
 
 	async deleteUserProducts(products: Product[]): Promise<boolean> {
