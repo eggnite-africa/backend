@@ -58,21 +58,21 @@ export class User extends BaseEntity {
 
 	@Field(() => [Comment], { nullable: 'itemsAndList' })
 	@OneToMany(
-		type => Comment,
+		() => Comment,
 		comment => comment.user
 	)
 	comments?: Comment[];
 
 	@Field(() => [Vote], { nullable: 'itemsAndList' })
 	@OneToMany(
-		type => Vote,
+		() => Vote,
 		vote => vote.userId
 	)
 	votes?: Vote[];
 
 	@Field(() => [Product], { nullable: 'itemsAndList' })
 	@ManyToMany(
-		type => Product,
+		() => Product,
 		product => product.makers
 	)
 	@JoinTable()
@@ -80,7 +80,7 @@ export class User extends BaseEntity {
 
 	@Field(() => [Notification], { nullable: 'itemsAndList' })
 	@ManyToMany(
-		type => Notification,
+		() => Notification,
 		notification => notification.subscribers
 	)
 	@JoinTable()

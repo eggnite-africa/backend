@@ -62,20 +62,20 @@ export class Product extends BaseEntity {
 
 	@Field(() => [Vote], { nullable: true })
 	@OneToMany(
-		type => Vote,
+		() => Vote,
 		vote => vote.product
 	)
 	votes!: Vote[];
 
 	@Field(() => [Comment], { nullable: 'itemsAndList' })
 	@OneToMany(
-		type => Comment,
+		() => Comment,
 		comment => comment.product
 	)
 	comments!: Comment[];
 
 	@ManyToMany(
-		type => User,
+		() => User,
 		user => user.products
 	)
 	@Field(() => [User], { nullable: true })
