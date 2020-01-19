@@ -109,7 +109,7 @@ export class ProductService {
 		return await this.productRepository.save(productToUpdate);
 	}
 
-	async addMaker(productId: number, makerId: number) {
+	async addMaker(productId: number, makerId: number): Promise<Product> {
 		const maker: User[] = await this.fetchMakersByIds([makerId]);
 		const product = await this.productRepository.findOneOrFail({
 			where: {
@@ -121,7 +121,7 @@ export class ProductService {
 		return await this.productRepository.save(product);
 	}
 
-	async deleteMaker(productId: number, makerId: number, userId: number) {
+	async deleteMaker(productId: number, makerId: number): Promise<Product> {
 		const maker: User[] = await this.fetchMakersByIds([makerId]);
 		const product = await this.productRepository.findOneOrFail({
 			where: {
@@ -148,7 +148,7 @@ export class ProductService {
 		return isDeleted;
 	}
 
-	async deleteUserProducts(products: Product[]) {
+	async deleteUserProducts(products: Product[]): Promise<boolean> {
 		const deletedProducts = await this.productRepository.remove(products);
 		if (!deletedProducts.length) {
 			throw new InternalServerErrorException();

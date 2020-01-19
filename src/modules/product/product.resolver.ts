@@ -25,7 +25,7 @@ import {
 import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 import { MakerInput } from './dto/maker.input';
 
-@Resolver((of: any) => Product)
+@Resolver(() => Product)
 export class ProductResolver {
 	constructor(
 		private readonly productService: ProductService,
@@ -33,12 +33,12 @@ export class ProductResolver {
 		private readonly commentService: CommentService
 	) {}
 
-	@Query(returns => [Product])
+	@Query(() => [Product])
 	async products(): Promise<Product[]> {
 		return await this.productService.fetchAllProducts();
 	}
 
-	@Query(returns => Product)
+	@Query(() => Product)
 	async product(
 		@Args({ name: 'id', type: () => ID, nullable: true }) id: number,
 		@Args({ name: 'name', type: () => String, nullable: true }) name: string
@@ -50,7 +50,7 @@ export class ProductResolver {
 		}
 	}
 
-	@Mutation(returns => Product)
+	@Mutation(() => Product)
 	@UseGuards(GraphQLAuth)
 	async addProduct(
 		@Args('newProduct') newProduct: NewProductInput,
@@ -62,13 +62,13 @@ export class ProductResolver {
 	private async checkOwnership(
 		ownerId: number | undefined,
 		productId: number | undefined
-	) {
+	): Promise<void> {
 		if (ownerId && productId) {
 			const makers = await this.productService.fetchMakersByProductId(
 				productId
 			);
 			const makersIds: number[] | undefined = makers?.map(user => user.id);
-			const isOwner = makersIds?.some(id => id == ownerId);
+			const isOwner: boolean = makersIds?.some(id => id == ownerId);
 			if (!isOwner) {
 				throw new UnauthorizedException("You can't alter what's not yours");
 			}
@@ -77,7 +77,7 @@ export class ProductResolver {
 		}
 	}
 
-	@Mutation(returns => Product)
+	@Mutation(() => Product)
 	@UseGuards(GraphQLAuth)
 	async updateProduct(
 		@Args('updatedProduct') updatedProuduct: UpdatedProductInput,
@@ -89,7 +89,7 @@ export class ProductResolver {
 		return await this.productService.updateProduct(productId, updatedProuduct);
 	}
 
-	@Mutation(returns => Product)
+	@Mutation(() => Product)
 	@UseGuards(GraphQLAuth)
 	async addMaker(
 		@Args('makerInput') { makerId, productId }: MakerInput,
@@ -99,17 +99,17 @@ export class ProductResolver {
 		return await this.productService.addMaker(productId, makerId);
 	}
 
-	@Mutation(returns => Product)
+	@Mutation(() => Product)
 	@UseGuards(GraphQLAuth)
 	async deleteMaker(
 		@Args('makerInput') { makerId, productId }: MakerInput,
 		@CurrentUser() { id: userId }: User
 	): Promise<Product> {
 		await this.checkOwnership(userId, productId);
-		return await this.productService.deleteMaker(productId, makerId, userId);
+		return await this.productService.deleteMaker(productId, makerId);
 	}
 
-	@Mutation(returns => Boolean)
+	@Mutation(() => Boolean)
 	@UseGuards(GraphQLAuth)
 	async deleteProduct(
 		@Args({ name: 'id', type: () => ID }) id: number,
