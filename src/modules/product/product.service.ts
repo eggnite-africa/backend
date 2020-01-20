@@ -155,7 +155,7 @@ export class ProductService {
 	async deleteUserProducts(products: Product[], user: User): Promise<User> {
 		if (!products.length) return user;
 		products?.forEach(async (product: Product) => {
-			if (product.makers.length === 1) {
+			if (product.makers.length === 1 && product.makers[0].id == user.id) {
 				await this.deleteProduct(product.id);
 			} else {
 				await this.deleteMaker(product.id, user.id);
