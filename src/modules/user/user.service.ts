@@ -83,9 +83,7 @@ export class UserService {
 			await this.notificationService.deleteAllUserNotifications(
 				user.notifications
 			)
-		])
-			.then(async () => await this.userRepository.delete(id))
-			.catch(err => console.log('THERE WAS AN ERROR: ', err));
+		]).then(async () => await this.userRepository.delete(id));
 
 		return true;
 	}
