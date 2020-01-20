@@ -8,7 +8,8 @@ import {
 	OneToMany,
 	ManyToMany,
 	OneToOne,
-	JoinColumn
+	JoinColumn,
+	ManyToOne
 } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
 import { IsNotEmpty } from 'class-validator';
@@ -81,11 +82,11 @@ export class Product extends BaseEntity {
 	@Field(() => [User], { nullable: true })
 	makers!: User[];
 
-	@Column()
-	posterId!: number;
-
-	@OneToOne(() => User)
-	@JoinColumn()
+	@ManyToOne(() => User, {
+		onDelete: 'SET NULL'
+	})
 	@Field(() => User)
 	poster!: User;
+	@Column({ nullable: true })
+	posterId?: number;
 }
