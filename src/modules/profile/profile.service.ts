@@ -7,9 +7,6 @@ import { UpdateProfileInput } from './dto/updateProfile.input';
 
 @Injectable()
 export class ProfileService {
-	async deleteUserProfile(profile: Profile): Promise<Profile> {
-		return await this.profileRepository.remove(profile);
-	}
 	constructor(
 		@InjectRepository(Profile)
 		private readonly profileRepository: Repository<Profile>

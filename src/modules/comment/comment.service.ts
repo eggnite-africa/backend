@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Comment } from './comment.entitiy';
@@ -112,10 +112,16 @@ export class CommentService {
 		return await this.fetchCommentById(id);
 	}
 
-	async deleteAllUserComments(
-		comments: Comment[] | undefined
-	): Promise<Comment[] | void> {
-		if (comments !== undefined)
-			return await this.commentRepository.remove(comments);
+	async deleteAllUserComments(comments: Comment[] | undefined): Promise<void> {
+		if (comments !== undefined) {
+			const ids = comments.map(comment => comment.id);
+			try {
+				await this.commentRepository.delete(ids);
+			} catch (e) {
+				new InternalServerErrorException(
+					'There was a problem removing your comments'
+				);
+			}
+		}
 	}
 }

@@ -69,23 +69,21 @@ export class UserService {
 	async deleteUser(id: number): Promise<boolean> {
 		const user = await this.userRepository.findOneOrFail({
 			where: { id },
-			relations: [
-				'products',
-				'products.makers',
-				'votes',
-				'comments',
-				'notifications',
-				'profile'
-			]
+			relations: ['products', 'products.makers', 'comments', 'notifications']
 		});
 
+		user.votes = await this.voteService.fetchAllVotes({ userId: user.id });
+
 		await Promise.all([
-			this.productService.deleteUserProducts(user.products, user),
-			this.commentService.deleteAllUserComments(user.comments),
-			this.voteService.deleteAllUserVotes(user.votes),
-			this.profileService.deleteUserProfile(user.profile),
-			this.notificationService.deleteAllUserNotifications(user.notifications)
-		]).then(async () => this.userRepository.delete(id));
+			await this.productService.deleteUserProducts(user.products, user),
+			await this.commentService.deleteAllUserComments(user.comments),
+			await this.voteService.deleteAllUserVotes(user.votes),
+			await this.notificationService.deleteAllUserNotifications(
+				user.notifications
+			)
+		])
+			.then(async () => await this.userRepository.delete(id))
+			.catch(err => console.log('THERE WAS AN ERROR: ', err));
 
 		return true;
 	}
