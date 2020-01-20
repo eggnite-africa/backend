@@ -20,7 +20,7 @@ export class NotificationService {
 	async deleteAllUserNotifications(
 		notifications: Notification[] | undefined
 	): Promise<Notification[] | void> {
-		if (notifications !== undefined)
+		if (notifications?.length)
 			return await this.notificationRepository.remove(notifications);
 	}
 

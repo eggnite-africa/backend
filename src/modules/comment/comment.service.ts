@@ -113,7 +113,7 @@ export class CommentService {
 	}
 
 	async deleteAllUserComments(comments: Comment[] | undefined): Promise<void> {
-		if (comments !== undefined) {
+		if (comments?.length) {
 			const ids = comments.map(comment => comment.id);
 			try {
 				await this.commentRepository.delete(ids);

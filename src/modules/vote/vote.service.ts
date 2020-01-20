@@ -13,7 +13,7 @@ export class VoteService {
 	) {}
 
 	async deleteAllUserVotes(userVotes: Vote[] | undefined): Promise<void> {
-		if (userVotes !== undefined) {
+		if (userVotes?.length) {
 			const ids = userVotes.map(vote => vote.id);
 			await this.voteRepository.delete(ids);
 		}
