@@ -111,4 +111,11 @@ export class CommentService {
 		await this.commentRepository.update({ id, userId }, { content });
 		return await this.fetchCommentById(id);
 	}
+
+	async deleteAllUserComments(
+		comments: Comment[] | undefined
+	): Promise<Comment[] | void> {
+		if (comments !== undefined)
+			return await this.commentRepository.remove(comments);
+	}
 }

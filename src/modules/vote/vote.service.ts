@@ -7,6 +7,12 @@ import { User } from '../user/user.entity';
 
 @Injectable()
 export class VoteService {
+	async deleteAllUserVotes(
+		userVotes: Vote[] | undefined
+	): Promise<Vote[] | void> {
+		if (userVotes !== undefined)
+			return await this.voteRepository.remove(userVotes);
+	}
 	constructor(
 		@InjectRepository(Vote) private readonly voteRepository: Repository<Vote>,
 		private readonly notificationService: NotificationService

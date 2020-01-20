@@ -17,6 +17,13 @@ export class NotificationService {
 		@Inject('PUB_SUB') private pubSub: PubSub
 	) {}
 
+	async deleteAllUserNotifications(
+		notifications: Notification[] | undefined
+	): Promise<Notification[] | void> {
+		if (notifications !== undefined)
+			return await this.notificationRepository.remove(notifications);
+	}
+
 	async addNotification(subscribers: User[], vote?: Vote, comment?: Comment) {
 		if (vote !== undefined && comment === undefined) {
 			const { vote: voteNotification } = await this.addVoteNotification(

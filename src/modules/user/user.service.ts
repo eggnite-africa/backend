@@ -1,13 +1,7 @@
-import {
-	Injectable,
-	InternalServerErrorException,
-	forwardRef,
-	Inject
-} from '@nestjs/common';
+import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { Product } from '../product/product.entity';
 import { ProductService } from '../product/product.service';
 import { UserInput } from './dto/user.input';
 import { SharedService } from '../shared/shared.service';
@@ -16,6 +10,8 @@ import { VoteService } from '../vote/vote.service';
 import { Notification } from '../notification/notification.entity';
 import { Profile } from '../profile/profile.entity';
 import { Vote } from '../vote/vote.entity';
+import { CommentService } from '../comment/comment.service';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable()
 export class UserService {
@@ -25,7 +21,9 @@ export class UserService {
 		private readonly productService: ProductService,
 		private readonly sharedService: SharedService,
 		private readonly profileService: ProfileService,
-		private readonly voteService: VoteService
+		private readonly voteService: VoteService,
+		private readonly commentService: CommentService,
+		private readonly notificationService: NotificationService
 	) {}
 
 	async saveUser(user: User): Promise<User> {
@@ -71,14 +69,23 @@ export class UserService {
 	async deleteUser(id: number): Promise<boolean> {
 		const user = await this.userRepository.findOneOrFail({
 			where: { id },
-			relations: ['products', 'products.makers']
+			relations: [
+				'products',
+				'products.makers',
+				'votes',
+				'comments',
+				'notifications',
+				'profile'
+			]
 		});
 
-		const userProducts = user.products || [];
-
-		Promise.all([
-			await this.productService.deleteUserProducts(userProducts, user)
-		]);
+		await Promise.all([
+			this.productService.deleteUserProducts(user.products, user),
+			this.commentService.deleteAllUserComments(user.comments),
+			this.voteService.deleteAllUserVotes(user.votes),
+			this.profileService.deleteUserProfile(user.profile),
+			this.notificationService.deleteAllUserNotifications(user.notifications)
+		]).then(async () => this.userRepository.delete(id));
 
 		return true;
 	}

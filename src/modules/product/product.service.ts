@@ -152,7 +152,11 @@ export class ProductService {
 		}
 	}
 
-	async deleteUserProducts(products: Product[], user: User): Promise<User> {
+	async deleteUserProducts(
+		products: Product[] | undefined,
+		user: User
+	): Promise<User | void> {
+		if (products === undefined) return;
 		if (!products.length) return user;
 		products?.forEach(async (product: Product) => {
 			if (product.makers.length === 1 && product.makers[0].id == user.id) {
