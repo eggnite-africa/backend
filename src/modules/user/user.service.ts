@@ -55,10 +55,12 @@ export class UserService {
 	}
 
 	async addUser(newUser: UserInput): Promise<User> {
-		// eslint-disable-next-line require-atomic-updates
-		newUser.password = await this.sharedService.hashPassword(newUser.password);
-		// eslint-disable-next-line require-atomic-updates
-		newUser.profile = await this.profileService.addUserProfile(newUser.profile);
+		const [password, profile] = await Promise.all([
+			await this.sharedService.hashPassword(newUser.password),
+			await this.profileService.addUserProfile(newUser.profile)
+		]);
+		newUser.password = password;
+		newUser.profile = profile;
 		const addedUser = await this.userRepository.save(newUser);
 		return await this.userRepository.findOneOrFail(
 			{ id: addedUser.id },
