@@ -50,6 +50,13 @@ export class ProductResolver {
 		}
 	}
 
+	@Query(() => [Product], { nullable: 'itemsAndList' })
+	async searchProducts(
+		@Args({ name: 'query', type: () => String }) query: string
+	): Promise<Product[] | []> {
+		return await this.productService.searchProducts(query);
+	}
+
 	@Mutation(() => Product)
 	@UseGuards(GraphQLAuth)
 	async addProduct(

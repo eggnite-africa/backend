@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { UpdatedProductInput } from './dto/updatedProduct.input';
 import { NewProductInput } from './dto/newProduct.input';
 import { UserService } from '../user/user.service';
@@ -24,6 +24,12 @@ export class ProductService {
 		private readonly userService: UserService,
 		private readonly productLinksService: ProductLinksService
 	) {}
+
+	async searchProducts(query: string): Promise<Product[] | []> {
+		return await this.productRepository.find({
+			name: Like(`%${query}%`)
+		});
+	}
 
 	async fetchAllProducts(options: any = {}): Promise<Product[]> {
 		return await this.productRepository.find(options);
