@@ -22,6 +22,6 @@ export class NewProductInput {
 	@Field(() => NewLinksInput)
 	links!: NewLinksInput;
 
-	@Field(() => [ID], { nullable: true })
+	@Field(() => [ID])
 	makersIds!: number[];
 }

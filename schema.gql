@@ -75,7 +75,7 @@ input NewProductInput {
   description: String
   media: MediaInput!
   links: NewLinksInput!
-  makersIds: [ID!]
+  makersIds: [ID!]!
 }
 
 type Notification {
