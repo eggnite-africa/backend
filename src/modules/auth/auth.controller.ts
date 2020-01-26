@@ -47,17 +47,19 @@ export class AuthController {
 	}
 
 	@Post('check-password')
-	async checkPassword(@Body() password: any): Promise<boolean> {
-		return await this.authService.checkUserPassword(password.password);
+	async checkPassword(@Body() { password }: any): Promise<boolean> {
+		return await this.authService.checkUserPassword(password);
 	}
 
 	@Post('change-email')
-	async changeEmail(@Body() email: any): Promise<User | undefined> {
-		return await this.authService.changeUserEmail(email.email);
+	async changeEmail(@Body() { email }: any): Promise<User | undefined> {
+		if (!email) return;
+		return await this.authService.changeUserEmail(email);
 	}
 
 	@Post('change-password')
-	async changePassword(@Body() password: any): Promise<User | undefined> {
-		return await this.authService.changeUserPassword(password.password);
+	async changePassword(@Body() { password }: any): Promise<User | undefined> {
+		if (!password) return;
+		return await this.authService.changeUserPassword(password);
 	}
 }
