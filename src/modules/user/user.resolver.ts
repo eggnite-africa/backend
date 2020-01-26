@@ -33,6 +33,13 @@ export class UserResolver {
 		return await this.userService.checkUsernameExistance(username);
 	}
 
+	@Query(() => Boolean)
+	async checkEmailExistance(
+		@Args({ name: 'email', type: () => String }) email: string
+	): Promise<boolean> {
+		return await this.userService.checkEmailExistance(email);
+	}
+
 	@Query(() => User)
 	async user(
 		@Args({ name: 'username', type: () => String, nullable: true })

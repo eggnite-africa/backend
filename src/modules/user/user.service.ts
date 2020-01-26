@@ -142,4 +142,16 @@ export class UserService {
 			return false;
 		}
 	}
+
+	async checkEmailExistance(email: string): Promise<boolean> {
+		try {
+			await this.userRepository.findOneOrFail({
+				where: { email },
+				select: ['email']
+			});
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
 }

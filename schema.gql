@@ -151,6 +151,7 @@ type Query {
   checkProductExistance(productName: String!): Boolean!
   users: [User!]!
   checkUsernameExistance(username: String!): Boolean!
+  checkEmailExistance(email: String!): Boolean!
   user(id: ID, username: String): User!
 }
 
