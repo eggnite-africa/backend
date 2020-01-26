@@ -176,7 +176,7 @@ export class ProductService {
 	async checkProductExistance(name: string): Promise<boolean> {
 		try {
 			await this.productRepository.findOneOrFail({
-				where: name,
+				where: { name },
 				select: ['name']
 			});
 			return true;

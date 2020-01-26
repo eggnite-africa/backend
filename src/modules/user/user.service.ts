@@ -134,7 +134,7 @@ export class UserService {
 	async checkUsernameExistance(username: string): Promise<boolean> {
 		try {
 			await this.userRepository.findOneOrFail({
-				where: username,
+				where: { username },
 				select: ['username']
 			});
 			return true;
