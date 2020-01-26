@@ -26,6 +26,13 @@ export class UserResolver {
 		return await this.userService.fetchAllUsers();
 	}
 
+	@Query(() => Boolean)
+	async checkUsernameExistance(
+		@Args({ name: 'username', type: () => String }) username: string
+	): Promise<boolean> {
+		return await this.userService.checkUsernameExistance(username);
+	}
+
 	@Query(() => User)
 	async user(
 		@Args({ name: 'username', type: () => String, nullable: true })

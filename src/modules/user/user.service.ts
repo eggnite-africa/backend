@@ -130,4 +130,16 @@ export class UserService {
 	async fetchVotesByUserId(id: number): Promise<Vote[]> {
 		return await this.voteService.fetchAllVotes({ where: { userId: id } });
 	}
+
+	async checkUsernameExistance(username: string): Promise<boolean> {
+		try {
+			await this.userRepository.findOneOrFail({
+				where: username,
+				select: ['username']
+			});
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
 }

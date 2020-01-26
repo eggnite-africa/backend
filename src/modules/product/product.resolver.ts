@@ -57,6 +57,14 @@ export class ProductResolver {
 		return await this.productService.searchProducts(query);
 	}
 
+	@Query(() => Boolean)
+	@UseGuards(GraphQLAuth)
+	async checkProductExistance(
+		@Args({ name: 'productName', type: () => String }) productName: string
+	): Promise<boolean> {
+		return await this.productService.checkProductExistance(productName);
+	}
+
 	@Mutation(() => Product)
 	@UseGuards(GraphQLAuth)
 	async addProduct(
@@ -128,14 +136,6 @@ export class ProductResolver {
 		const productId = product?.id;
 		await this.checkOwnership(userId, productId);
 		return await this.productService.deleteProduct(id);
-	}
-
-	@Mutation(() => Boolean)
-	@UseGuards(GraphQLAuth)
-	async checkProductExistance(
-		@Args({ name: 'productName', type: () => String }) productName: string
-	): Promise<boolean> {
-		return await this.productService.checkProductExistance(productName);
 	}
 
 	@ResolveProperty('votes')
