@@ -50,7 +50,6 @@ type Mutation {
   addMaker(makerInput: MakerInput!): Product!
   deleteMaker(makerInput: MakerInput!): Product!
   deleteProduct(id: ID!): Boolean!
-  checkProductExistance(productName: String!): Boolean!
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
   markNotificationAsSeen(id: ID!): Notification!
@@ -149,7 +148,9 @@ type Query {
   products: [Product!]!
   product(name: String, id: ID): Product!
   searchProducts(query: String!): [Product]
+  checkProductExistance(productName: String!): Boolean!
   users: [User!]!
+  checkUsernameExistance(username: String!): Boolean!
   user(id: ID, username: String): User!
 }
 
