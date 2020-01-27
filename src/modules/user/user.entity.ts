@@ -10,7 +10,9 @@ import {
 	ManyToMany,
 	JoinTable,
 	OneToOne,
-	JoinColumn
+	JoinColumn,
+	CreateDateColumn,
+	UpdateDateColumn
 } from 'typeorm';
 import { Comment } from '../comment/comment.entitiy';
 import { Vote } from '../vote/vote.entity';
@@ -22,6 +24,12 @@ import { Profile } from '../profile/profile.entity';
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
+	@CreateDateColumn()
+	readonly createdAt!: Date;
+
+	@UpdateDateColumn()
+	readonly updatedAt!: Date;
+
 	@Field(() => ID)
 	@PrimaryGeneratedColumn()
 	readonly id!: number;
