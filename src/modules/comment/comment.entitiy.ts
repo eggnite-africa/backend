@@ -25,6 +25,7 @@ export class Comment extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	readonly id!: number;
 
+	@Field(() => Date, { name: 'postedAt' })
 	@CreateDateColumn()
 	createdAt!: Date;
 

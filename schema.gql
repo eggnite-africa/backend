@@ -5,6 +5,7 @@
 
 type Comment {
   id: ID!
+  postedAt: DateTime!
   content: String!
   productId: ID!
   parentId: ID
