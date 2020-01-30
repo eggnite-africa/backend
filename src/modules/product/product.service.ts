@@ -95,15 +95,22 @@ export class ProductService {
 
 	async updateProduct(
 		id: number,
-		{ tagline, description, media, links }: UpdatedProductInput
+		{ tagline, media, links, description }: UpdatedProductInput
 	): Promise<Product> {
 		const productToUpdate = await this.fetchProductById(id);
 		if (tagline) {
 			productToUpdate.tagline = tagline;
 		}
-		productToUpdate.description = description;
+		if (description) {
+			productToUpdate.description = description;
+		}
 		if (media) {
-			productToUpdate.media = media;
+			if (media.logo) {
+				productToUpdate.media.logo = media.logo;
+			}
+			if (media.pictures) {
+				productToUpdate.media.pictures = media.pictures;
+			}
 		}
 		if (links) {
 			const updatedLinks = await this.productLinksService.addProductLinks(
