@@ -173,11 +173,17 @@ input UpdatedLinksInput {
   playStore: String
 }
 
+input UpdatedMediaInput {
+  logo: String
+  pictures: [String]
+  videos: [String]
+}
+
 input UpdatedProductInput {
   id: ID!
   tagline: String
   description: String
-  media: MediaInput
+  media: UpdatedMediaInput
   links: UpdatedLinksInput
 }
 
