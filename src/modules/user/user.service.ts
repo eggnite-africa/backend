@@ -73,19 +73,23 @@ export class UserService {
 			where: { id },
 			relations: ['products', 'products.makers', 'comments', 'notifications']
 		});
+		user.votes = await this.voteService.fetchAllVotes({ userId: id });
 
-		user.votes = await this.voteService.fetchAllVotes({ userId: user.id });
-
-		await Promise.all([
-			await this.productService.deleteUserProducts(user.products, user),
-			await this.commentService.deleteAllUserComments(user.comments),
-			await this.voteService.deleteAllUserVotes(user.votes),
-			await this.notificationService.deleteAllUserNotifications(
-				user.notifications
-			)
-		]).then(async () => await this.userRepository.delete(id));
-
-		return true;
+		try {
+			if (user.products)
+				await this.productService.deleteUserProducts(user.products, user);
+			if (user.comments)
+				await this.commentService.deleteAllUserComments(user.comments);
+			if (user.votes) await this.voteService.deleteAllUserVotes(user.votes);
+			if (user.notifications)
+				await this.notificationService.deleteAllUserNotifications(
+					user.notifications
+				);
+			await this.userRepository.delete(id);
+			return true;
+		} catch (e) {
+			return false;
+		}
 	}
 
 	async fetchAllNotificationsByUserId(
