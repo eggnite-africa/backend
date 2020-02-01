@@ -18,6 +18,7 @@ import { Profile } from './modules/profile/profile.entity';
 import { constants } from './config/constants';
 import { ProductLinksModule } from './modules/product-links/product-links.module';
 import { ProductLinks } from './modules/product-links/product-links.entity';
+import { FeedbackModule } from './modules/feedback/feedback.module';
 
 @Module({
 	imports: [
@@ -60,7 +61,8 @@ import { ProductLinks } from './modules/product-links/product-links.entity';
 		NotificationModule,
 		SharedModule,
 		ProfileModule,
-		ProductLinksModule
+		ProductLinksModule,
+		FeedbackModule
 	]
 })
 export class AppModule {
