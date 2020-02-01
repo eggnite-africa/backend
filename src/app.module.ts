@@ -19,6 +19,7 @@ import { constants } from './config/constants';
 import { ProductLinksModule } from './modules/product-links/product-links.module';
 import { ProductLinks } from './modules/product-links/product-links.entity';
 import { FeedbackModule } from './modules/feedback/feedback.module';
+import { Feedback } from './modules/feedback/feedback.entity';
 
 @Module({
 	imports: [
@@ -49,7 +50,8 @@ import { FeedbackModule } from './modules/feedback/feedback.module';
 				User,
 				Profile,
 				Notification,
-				ProductLinks
+				ProductLinks,
+				Feedback
 			],
 			synchronize: true
 		}),
@@ -65,7 +67,4 @@ import { FeedbackModule } from './modules/feedback/feedback.module';
 		FeedbackModule
 	]
 })
-export class AppModule {
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	constructor() {}
-}
+export class AppModule {}
