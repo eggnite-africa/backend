@@ -28,6 +28,27 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type Feedback {
+  id: ID!
+  userId: ID
+  type: FeedbackType!
+  content: String!
+  status: FeedbackStatus!
+  note: String
+}
+
+enum FeedbackStatus {
+  DONE
+  PENDING
+  REFUSED
+}
+
+enum FeedbackType {
+  BUG
+  FEATURE
+  OTHER
+}
+
 input MakerInput {
   productId: ID!
   makerId: ID!
@@ -60,6 +81,15 @@ type Mutation {
   signUp(UserInput: UserInput!): User!
   deleteUser(userId: ID!): Boolean!
   updateProfile(updatedProfile: UpdateProfileInput!): Profile!
+  addFeedback(feedback: NewFeedbackInput!): Feedback!
+  markFeedbackAsDone(id: ID!): Feedback!
+  markFeedbackAsRefused(reason: ID!, id: ID!): Feedback!
+}
+
+input NewFeedbackInput {
+  type: FeedbackType!
+  content: String!
+  status: FeedbackStatus = PENDING
 }
 
 input NewLinksInput {
@@ -154,6 +184,8 @@ type Query {
   checkUsernameExistance(username: String!): Boolean!
   checkEmailExistance(email: String!): Boolean!
   user(id: ID, username: String): User!
+  fetchAllFeedback: [Feedback]
+  fetchFeedbackByUserId(userId: ID!): [Feedback]
 }
 
 enum SexType {
