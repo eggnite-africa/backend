@@ -240,6 +240,7 @@ type User {
   votes: [Vote]
   products: [Product]
   notifications(seen: Boolean): [Notification]
+  type: userTypeEnum
 }
 
 input UserInput {
@@ -247,6 +248,13 @@ input UserInput {
   email: String!
   password: String!
   profile: ProfileInput!
+  type: userTypeEnum = USER
+}
+
+enum userTypeEnum {
+  ADMIN
+  USER
+  MAKER
 }
 
 type Vote {

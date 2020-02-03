@@ -1,5 +1,5 @@
 import { InputType, Field } from 'type-graphql';
-import { User } from '../user.entity';
+import { User, userTypeEnum } from '../user.entity';
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { ProfileInput } from '../../profile/dto/newProfile.input';
 @InputType()
@@ -20,4 +20,7 @@ export class UserInput implements Partial<User> {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
 	profile!: ProfileInput;
+
+	@Field(() => userTypeEnum)
+	type: userTypeEnum = userTypeEnum.USER;
 }

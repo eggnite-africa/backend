@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ObjectType, ID, Field } from 'type-graphql';
+import { ObjectType, ID, Field, registerEnumType } from 'type-graphql';
 
 import {
 	Entity,
@@ -20,6 +20,16 @@ import { Product } from '../product/product.entity';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import { Notification } from '../notification/notification.entity';
 import { Profile } from '../profile/profile.entity';
+
+export enum userTypeEnum {
+	ADMIN = 'ADMIN',
+	USER = 'USER',
+	MAKER = 'MAKER'
+}
+
+registerEnumType(userTypeEnum, {
+	name: 'userTypeEnum'
+});
 
 @ObjectType()
 @Entity()
@@ -93,4 +103,8 @@ export class User extends BaseEntity {
 	)
 	@JoinTable()
 	notifications?: Notification[];
+
+	@Column({ type: 'enum', enum: userTypeEnum, default: userTypeEnum.USER })
+	@Field(() => userTypeEnum, { defaultValue: userTypeEnum.USER })
+	type!: userTypeEnum;
 }
