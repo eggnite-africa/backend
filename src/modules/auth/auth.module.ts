@@ -15,7 +15,7 @@ import { constants } from '../../config/constants';
 		JwtModule.register({
 			secret: constants.jwtSecretKey,
 			signOptions: {
-				expiresIn: '1h'
+				expiresIn: '2y'
 			}
 		}),
 		UserModule
