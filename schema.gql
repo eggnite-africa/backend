@@ -80,10 +80,10 @@ type Mutation {
   updateComment(commentInput: CommentInput!): Comment!
   signUp(UserInput: UserInput!): User!
   deleteUser(userId: ID!): Boolean!
-  updateProfile(updatedProfile: UpdateProfileInput!): Profile!
+  updateProfile(updatedProfile: UpdateProfileInput!, userId: ID!): Profile!
   addFeedback(feedback: NewFeedbackInput!): Feedback!
   markFeedbackAsDone(id: ID!): Feedback!
-  markFeedbackAsRefused(reason: ID!, id: ID!): Feedback!
+  markFeedbackAsRefused(reason: String, id: ID!): Feedback!
 }
 
 input NewFeedbackInput {

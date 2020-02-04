@@ -26,7 +26,10 @@ export class ProfileService {
 		return await this.profileRepository.save(newProfile);
 	}
 
-	async updateUserProfile(id: number, userProfile: UpdateProfileInput) {
+	async updateUserProfile(
+		id: number,
+		userProfile: UpdateProfileInput
+	): Promise<Profile> {
 		await this.profileRepository.update({ id }, userProfile);
 		return await this.profileRepository.findOneOrFail({ id });
 	}

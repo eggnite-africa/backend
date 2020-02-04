@@ -17,11 +17,7 @@ import { Comment } from '../comment/comment.entitiy';
 import { Vote } from '../vote/vote.entity';
 import { CurrentUser } from '../user/decorator/user.decorator';
 import { User } from '../user/user.entity';
-import {
-	UnauthorizedException,
-	NotFoundException,
-	UseGuards
-} from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 import { MakerInput } from './dto/maker.input';
 
@@ -74,24 +70,6 @@ export class ProductResolver {
 		return await this.productService.addProduct(newProduct, userId);
 	}
 
-	private async checkOwnership(
-		ownerId: number | undefined,
-		productId: number | undefined
-	): Promise<void> {
-		if (ownerId && productId) {
-			const makers = await this.productService.fetchMakersByProductId(
-				productId
-			);
-			const makersIds: number[] | undefined = makers?.map(user => user.id);
-			const isOwner: boolean = makersIds?.some(id => id == ownerId);
-			if (!isOwner) {
-				throw new UnauthorizedException("You can't alter what's not yours");
-			}
-		} else {
-			throw new NotFoundException('Please check your input');
-		}
-	}
-
 	@Mutation(() => Product)
 	@UseGuards(GraphQLAuth)
 	async updateProduct(
@@ -99,8 +77,7 @@ export class ProductResolver {
 		@CurrentUser() { id: userId }: User
 	): Promise<Product | undefined> {
 		const { id: productId } = updatedProuduct;
-		await this.checkOwnership(userId, productId);
-
+		await this.productService.checkOwnership(userId, productId);
 		return await this.productService.updateProduct(productId, updatedProuduct);
 	}
 
@@ -110,7 +87,7 @@ export class ProductResolver {
 		@Args('makerInput') { makerId, productId }: MakerInput,
 		@CurrentUser() { id: userId }: User
 	): Promise<Product> {
-		await this.checkOwnership(userId, productId);
+		await this.productService.checkOwnership(userId, productId);
 		return await this.productService.addMaker(productId, makerId);
 	}
 
@@ -120,7 +97,7 @@ export class ProductResolver {
 		@Args('makerInput') { makerId, productId }: MakerInput,
 		@CurrentUser() { id: userId }: User
 	): Promise<Product> {
-		await this.checkOwnership(userId, productId);
+		await this.productService.checkOwnership(userId, productId);
 		return await this.productService.deleteMaker(productId, makerId);
 	}
 
@@ -134,7 +111,7 @@ export class ProductResolver {
 			| Product
 			| undefined = await this.productService.fetchProductById(id);
 		const productId = product?.id;
-		await this.checkOwnership(userId, productId);
+		await this.productService.checkOwnership(userId, productId);
 		return await this.productService.deleteProduct(id);
 	}
 

@@ -45,7 +45,7 @@ export class FeedbackResolver {
 	@Mutation(() => Feedback)
 	async markFeedbackAsRefused(
 		@Args({ name: 'id', type: () => ID }) id: number,
-		@Args({ name: 'reason', type: () => ID }) reason: string
+		@Args({ name: 'reason', type: () => String, nullable: true }) reason: string
 	): Promise<Feedback> {
 		return await this.feedbackService.markAsRefused(id, reason);
 	}

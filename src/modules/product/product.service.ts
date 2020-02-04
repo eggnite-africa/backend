@@ -93,6 +93,17 @@ export class ProductService {
 		return await this.productRepository.save(newProduct);
 	}
 
+	async checkOwnership(ownerId: number, productId: number): Promise<void> {
+		const isAdmin =
+			(await this.userService.fetchUserById(ownerId)).type === 'ADMIN';
+		const makers = await this.fetchMakersByProductId(productId);
+		const makersIds: number[] | undefined = makers?.map(user => user.id);
+		const isOwner: boolean = isAdmin || makersIds?.some(id => id == ownerId);
+		if (!isOwner) {
+			throw new UnauthorizedException("You can't alter what's not yours");
+		}
+	}
+
 	async updateProduct(
 		id: number,
 		{ tagline, media, links, description }: UpdatedProductInput
