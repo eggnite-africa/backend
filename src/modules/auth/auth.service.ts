@@ -47,18 +47,16 @@ export class AuthService {
 			username: user.username,
 			profileId: user.profileId
 		};
-		const token = this.jwtService.sign(payload);
-		this.loggedInUser = user;
-		return token;
+		return this.jwtService.sign(payload);
 	}
 
 	logout(req: any): void {
 		req.logout();
 	}
 
-	private loggedInUser!: User;
-	getCurrentLoggedInUser(): User {
-		return this.loggedInUser;
+	async getCurrentLoggedInUser(token: string): Promise<User> {
+		const userId = this.jwtService.decode(token)?.['sub'];
+		return await this.userService.fetchUserById(userId);
 	}
 
 	private async sendForgottenPasswordEmail(
@@ -142,34 +140,34 @@ export class AuthService {
 		}
 	}
 
-	async checkUserPassword(inputPassword: string): Promise<boolean> {
-		const { id } = this.getCurrentLoggedInUser();
-		const {
-			password: currentPassword
-		} = await this.userService.findUserByOptions({ id });
-		return await this.sharedService.verifyPassword(
-			currentPassword,
-			inputPassword
-		);
-	}
+	// async checkUserPassword(inputPassword: string): Promise<boolean> {
+	// 	const { id } = this.getCurrentLoggedInUser();
+	// 	const {
+	// 		password: currentPassword
+	// 	} = await this.userService.findUserByOptions({ id });
+	// 	return await this.sharedService.verifyPassword(
+	// 		currentPassword,
+	// 		inputPassword
+	// 	);
+	// }
 
-	async changeUserEmail(newEmail: string): Promise<User | undefined> {
-		const user = this.getCurrentLoggedInUser();
-		if (newEmail === user.email) return;
-		user.email = newEmail;
-		return await this.userService.saveUser(user);
-	}
+	// async changeUserEmail(newEmail: string): Promise<User | undefined> {
+	// 	const user = this.getCurrentLoggedInUser();
+	// 	if (newEmail === user.email) return;
+	// 	user.email = newEmail;
+	// 	return await this.userService.saveUser(user);
+	// }
 
-	async changeUserPassword(newPassword: string): Promise<User | undefined> {
-		const { id } = this.getCurrentLoggedInUser();
-		const user = await this.userService.findUserByOptions({ id });
-		const currentPassword = user.password;
-		const isSame = await this.sharedService.verifyPassword(
-			currentPassword,
-			newPassword
-		);
-		if (isSame) return;
-		user.password = await this.sharedService.hashPassword(newPassword);
-		return await this.userService.saveUser(user);
-	}
+	// async changeUserPassword(newPassword: string): Promise<User | undefined> {
+	// 	const { id } = this.getCurrentLoggedInUser();
+	// 	const user = await this.userService.findUserByOptions({ id });
+	// 	const currentPassword = user.password;
+	// 	const isSame = await this.sharedService.verifyPassword(
+	// 		currentPassword,
+	// 		newPassword
+	// 	);
+	// 	if (isSame) return;
+	// 	user.password = await this.sharedService.hashPassword(newPassword);
+	// 	return await this.userService.saveUser(user);
+	// }
 }

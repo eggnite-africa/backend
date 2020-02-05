@@ -11,7 +11,7 @@ import { constants } from '../../config/constants';
 
 @Module({
 	imports: [
-		PassportModule,
+		PassportModule.register({ defaultStrategy: 'jwt' }),
 		JwtModule.register({
 			secret: constants.jwtSecretKey,
 			signOptions: {

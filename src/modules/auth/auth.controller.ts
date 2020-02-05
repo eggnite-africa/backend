@@ -24,8 +24,9 @@ export class AuthController {
 	}
 
 	@Get('me')
-	getCurrentlyLoggedInUser(): User {
-		return this.authService.getCurrentLoggedInUser();
+	async getCurrentlyLoggedInUser(@Request() req: any): Promise<User> {
+		const token = req.get('Authorization').replace('Bearer ', '');
+		return await this.authService.getCurrentLoggedInUser(token);
 	}
 
 	@Delete('logout')
@@ -46,20 +47,20 @@ export class AuthController {
 		return await this.authService.resetPassword(resetToken, newPassword);
 	}
 
-	@Post('check-password')
-	async checkPassword(@Body() { password }: any): Promise<boolean> {
-		return await this.authService.checkUserPassword(password);
-	}
+	// @Post('check-password')
+	// async checkPassword(@Body() { password }: any): Promise<boolean> {
+	// 	return await this.authService.checkUserPassword(password);
+	// }
 
-	@Post('change-email')
-	async changeEmail(@Body() { email }: any): Promise<User | undefined> {
-		if (!email) return;
-		return await this.authService.changeUserEmail(email);
-	}
+	// @Post('change-email')
+	// async changeEmail(@Body() { email }: any): Promise<User | undefined> {
+	// 	if (!email) return;
+	// 	return await this.authService.changeUserEmail(email);
+	// }
 
-	@Post('change-password')
-	async changePassword(@Body() { password }: any): Promise<User | undefined> {
-		if (!password) return;
-		return await this.authService.changeUserPassword(password);
-	}
+	// @Post('change-password')
+	// async changePassword(@Body() { password }: any): Promise<User | undefined> {
+	// 	if (!password) return;
+	// 	return await this.authService.changeUserPassword(password);
+	// }
 }
