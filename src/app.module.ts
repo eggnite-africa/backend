@@ -21,6 +21,21 @@ import { ProductLinks } from './modules/product-links/product-links.entity';
 import { FeedbackModule } from './modules/feedback/feedback.module';
 import { Feedback } from './modules/feedback/feedback.entity';
 
+const db = () => {
+	if (constants.env.includes('dev')) {
+		return {
+			host: constants.db.host,
+			database: constants.db.name,
+			username: constants.db.username,
+			password: constants.db.password
+		};
+	} else {
+		return {
+			url: constants.db.url
+		};
+	}
+};
+
 @Module({
 	imports: [
 		ProductModule,
@@ -39,10 +54,7 @@ import { Feedback } from './modules/feedback/feedback.entity';
 		}),
 		TypeOrmModule.forRoot({
 			type: 'postgres',
-			host: constants.db.host,
-			database: constants.db.name,
-			username: constants.db.username,
-			password: constants.db.password,
+			...db(),
 			entities: [
 				Product,
 				Vote,

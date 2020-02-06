@@ -4,6 +4,7 @@ export const constants = {
 	jwtSecretKey: 'secretKey',
 	port: process.env.PORT || 4000,
 	db: {
+		url: process.env.DATABASE_URL,
 		host: process.env.DB_HOST,
 		name: process.env.DB_NAME,
 		username: process.env.DB_USERNAME,
