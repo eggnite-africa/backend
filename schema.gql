@@ -172,7 +172,7 @@ input ProfileInput {
   occupation: OccupationType!
   bio: String
   socialLinks: [String]
-  university: String!
+  university: String
 }
 
 type Query {

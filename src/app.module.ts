@@ -31,7 +31,8 @@ const db = () => {
 		};
 	} else {
 		return {
-			url: constants.db.url
+			url: constants.db.url,
+			ssl: true
 		};
 	}
 };

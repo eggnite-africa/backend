@@ -1,5 +1,10 @@
 import { InputType, Field, ID } from 'type-graphql';
-import { IsNotEmpty } from 'class-validator';
+import {
+	IsNotEmpty,
+	MaxLength,
+	IsOptional,
+	IsNumberString
+} from 'class-validator';
 import { MediaInput } from './media.input';
 import { NewLinksInput } from '../../product-links/dto/newLinks.input';
 
@@ -11,9 +16,12 @@ export class NewProductInput {
 
 	@Field(() => String)
 	@IsNotEmpty()
+	@MaxLength(80)
 	tagline!: string;
 
 	@Field(() => String, { nullable: true })
+	@MaxLength(280)
+	@IsOptional()
 	description?: string;
 
 	@Field(() => MediaInput)
@@ -23,5 +31,7 @@ export class NewProductInput {
 	links!: NewLinksInput;
 
 	@Field(() => [ID])
+	@IsNotEmpty({ each: true })
+	@IsNumberString({ each: true })
 	makersIds!: number[];
 }
