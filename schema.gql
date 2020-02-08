@@ -193,11 +193,6 @@ enum SexType {
   FEMALE
 }
 
-type Subscription {
-  VOTE_ADDED: Vote
-  COMMENT_ADDED: Comment
-}
-
 input UpdatedLinksInput {
   website: String
   github: String

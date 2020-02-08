@@ -70,12 +70,12 @@ export class CommentService {
 	private async addCommentNotification(
 		subscribers: User[],
 		newComment: Comment
-	): Promise<Vote | Comment | undefined> {
-		return await this.notificationService.addNotification(
-			subscribers,
-			undefined,
-			newComment
+	): Promise<Comment | undefined> {
+		const { comment } = await this.notificationService.addCommentNotification(
+			newComment,
+			subscribers[0]
 		);
+		return comment;
 	}
 
 	private async addReply(

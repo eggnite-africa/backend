@@ -42,7 +42,6 @@ const db = () => {
 		ProductModule,
 		GraphQLModule.forRoot({
 			autoSchemaFile: 'schema.gql',
-			installSubscriptionHandlers: true,
 			context: ({ req, connection }) => {
 				if (connection) {
 					const context = connection.context;

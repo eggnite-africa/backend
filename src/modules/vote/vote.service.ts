@@ -48,7 +48,7 @@ export class VoteService {
 		const subscribers = product.makers.filter(
 			(maker: User) => maker.id != userId
 		);
-		await this.notificationService.addNotification(subscribers, newVote);
+		await this.notificationService.addVoteNotification(newVote, subscribers);
 		return addedVote;
 	}
 
