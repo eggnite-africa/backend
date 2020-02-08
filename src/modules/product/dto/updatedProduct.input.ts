@@ -1,5 +1,5 @@
 import { InputType, Field, ID } from 'type-graphql';
-import { MaxLength, IsOptional } from 'class-validator';
+import { MaxLength, IsOptional, ValidateNested } from 'class-validator';
 import { UpdatedLinksInput } from '../../product-links/dto/updatedLinks.input';
 import { UpdatedMediaInput } from './updatedMedia.input';
 
@@ -22,6 +22,7 @@ export class UpdatedProductInput {
 	media?: UpdatedMediaInput;
 
 	@Field(() => UpdatedLinksInput, { nullable: true })
+	@ValidateNested()
 	@IsOptional()
 	links?: UpdatedLinksInput;
 }

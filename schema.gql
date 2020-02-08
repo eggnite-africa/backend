@@ -164,7 +164,7 @@ type Profile {
 }
 
 input ProfileInput {
-  profilePicture: String!
+  profilePicture: String
   firstName: String!
   lastName: String!
   sex: SexType!

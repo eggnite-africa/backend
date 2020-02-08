@@ -1,5 +1,5 @@
 import { ObjectType, Field } from 'type-graphql';
-import { IsFQDN, IsString, IsOptional } from 'class-validator';
+import { IsFQDN, IsString, IsOptional, MinLength } from 'class-validator';
 @ObjectType()
 export class Media {
 	@Field(() => String)
@@ -8,6 +8,7 @@ export class Media {
 
 	@Field(() => [String])
 	@IsString({ each: true })
+	@MinLength(2)
 	@IsOptional()
 	pictures!: string[];
 

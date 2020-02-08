@@ -5,14 +5,13 @@ import {
 	IsDateString,
 	IsEnum,
 	IsString,
-	IsFQDN,
 	IsOptional
 } from 'class-validator';
 @InputType()
 export class ProfileInput implements Partial<Profile> {
-	@Field(() => String)
-	@IsFQDN()
-	profilePicture!: string;
+	@Field(() => String, { nullable: true })
+	@IsString()
+	profilePicture?: string;
 
 	@Field(() => String)
 	@IsString()
