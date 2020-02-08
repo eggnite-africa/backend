@@ -90,7 +90,11 @@ export class ProductService {
 		newProduct.links = links;
 		newProduct.makers = makers;
 		newProduct.posterId = posterId;
-		return await this.productRepository.save(newProduct);
+		const addedProduct = await this.productRepository.save(newProduct);
+		for (let i = 0; i < makersIds.length; i++) {
+			await this.userService.setUserAsMaker(makersIds[i]);
+		}
+		return addedProduct;
 	}
 
 	async checkOwnership(ownerId: number, productId: number): Promise<void> {
