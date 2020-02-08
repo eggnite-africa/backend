@@ -1,6 +1,6 @@
 import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './user.entity';
+import { User, userTypeEnum } from './user.entity';
 import { Repository } from 'typeorm';
 import { ProductService } from '../product/product.service';
 import { UserInput } from './dto/user.input';
@@ -157,5 +157,32 @@ export class UserService {
 		} catch (e) {
 			return false;
 		}
+	}
+
+	private async changeUserType(
+		user: User,
+		type: userTypeEnum
+	): Promise<User | null> {
+		if (user.type === type) return null;
+		user.type = type;
+		return await this.userRepository.save(user);
+	}
+
+	async setUserAsMaker(id: number): Promise<User | null> {
+		const user = await this.userRepository.findOneOrFail({
+			where: { id },
+			relations: ['products']
+		});
+		if (user.products?.length) return null;
+		return await this.changeUserType(user, userTypeEnum.MAKER);
+	}
+
+	async setUserAsNormal(id: number): Promise<User | null> {
+		const user = await this.userRepository.findOneOrFail({
+			where: { id },
+			relations: ['products']
+		});
+		if (!user.products?.length) return null;
+		return await this.changeUserType(user, userTypeEnum.USER);
 	}
 }

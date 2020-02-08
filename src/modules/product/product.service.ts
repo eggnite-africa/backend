@@ -141,7 +141,9 @@ export class ProductService {
 			relations: ['makers']
 		});
 		product.makers.push(maker[0]);
-		return await this.productRepository.save(product);
+		const updatedProduct = await this.productRepository.save(product);
+		await this.userService.setUserAsMaker(makerId);
+		return updatedProduct;
 	}
 
 	async deleteMaker(productId: number, makerId: number): Promise<Product> {
@@ -159,15 +161,19 @@ export class ProductService {
 		product.makers = product.makers.filter(
 			({ id }: User) => id !== maker[0].id
 		);
-		return await this.productRepository.save(product);
+		const updatedProduct = await this.productRepository.save(product);
+		await this.userService.setUserAsNormal(makerId);
+		return updatedProduct;
 	}
 
 	async deleteProduct(id: number): Promise<boolean> {
 		const product = await this.fetchProductById(id);
-		await Promise.all([
-			await this.productRepository.remove(product),
-			await this.productLinksService.deleteLinks(product.linksId)
-		]);
+		const makers = product.makers.map(m => m.id);
+		await this.productRepository.remove(product);
+		for (let i = 0; i < makers.length; i++) {
+			await this.userService.setUserAsNormal(i);
+		}
+		await this.productLinksService.deleteLinks(product.linksId);
 		try {
 			await this.fetchProductById(id);
 			return true;
