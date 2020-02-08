@@ -39,7 +39,6 @@ const db = () => {
 
 @Module({
 	imports: [
-		ProductModule,
 		GraphQLModule.forRoot({
 			autoSchemaFile: 'schema.gql',
 			context: ({ req, connection }) => {
