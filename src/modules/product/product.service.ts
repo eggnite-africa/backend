@@ -164,9 +164,10 @@ export class ProductService {
 
 	async deleteProduct(id: number): Promise<boolean> {
 		const product = await this.fetchProductById(id);
-		if (product) {
-			await this.productRepository.remove(product);
-		}
+		await Promise.all([
+			await this.productRepository.remove(product),
+			await this.productLinksService.deleteLinks(product.linksId)
+		]);
 		try {
 			await this.fetchProductById(id);
 			return true;

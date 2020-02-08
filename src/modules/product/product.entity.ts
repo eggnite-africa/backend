@@ -51,11 +51,13 @@ export class Product extends BaseEntity {
 	description?: string;
 
 	@Field(() => ProductLinks)
-	@OneToOne(() => ProductLinks)
+	@OneToOne(() => ProductLinks, {
+		onDelete: 'CASCADE'
+	})
 	@JoinColumn()
 	links!: ProductLinks;
-	@Column({ nullable: true })
-	linksId?: number;
+	@Column()
+	linksId!: number;
 
 	@Field(() => Media)
 	@Column('json')

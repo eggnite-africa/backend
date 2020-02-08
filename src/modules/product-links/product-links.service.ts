@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ProductLinks } from './product-links.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -32,5 +32,17 @@ export class ProductLinksService {
 		productLinks: UpdatedLinksInput
 	): Promise<ProductLinks> {
 		return await this.modifyProductLinks(productLinks);
+	}
+
+	async deleteLinks(id: number): Promise<boolean> {
+		const linksEntity = await this.productLinksRepository.findOneOrFail(id);
+		try {
+			await this.productLinksRepository.remove(linksEntity);
+			return true;
+		} catch (e) {
+			throw new InternalServerErrorException(
+				'There was a problem deleting product links'
+			);
+		}
 	}
 }
