@@ -188,13 +188,12 @@ export class ProductService {
 	): Promise<User | void> {
 		if (products === undefined) return;
 		if (!products.length) return user;
-		products?.forEach(async (product: Product) => {
-			if (product.makers.length === 1 && product.makers[0].id == user.id) {
+		for (let i = 0; i < products.length; i++) {
+			const product = products[0];
+			if (product.makers.length === 1 && product.makers[0].id == user.id)
 				await this.deleteProduct(product.id);
-			} else {
-				await this.deleteMaker(product.id, user.id);
-			}
-		});
+			else await this.deleteMaker(product.id, user.id);
+		}
 		return await this.userService.saveUser(user);
 	}
 
