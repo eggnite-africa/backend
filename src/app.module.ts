@@ -41,15 +41,7 @@ const db = () => {
 	imports: [
 		GraphQLModule.forRoot({
 			autoSchemaFile: 'schema.gql',
-			context: ({ req, connection }) => {
-				if (connection) {
-					const context = connection.context;
-					const Authorization = context?.Authorization;
-					return { req: { headers: { Authorization } } };
-				} else {
-					return { req };
-				}
-			}
+			context: ({ req }) => ({ req })
 		}),
 		TypeOrmModule.forRoot({
 			type: 'postgres',
