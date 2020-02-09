@@ -11,7 +11,10 @@
 		"start:debug": "nest start --debug --watch",
 		"start:prod": "node dist/main",
 		"lint": "eslint -c .eslintrc.json \"src/**\" --fix",
-		"release": "standard-version"
+		"release": "standard-version",
+		"pretypeorm": "rimraf ormconfig.json && ts-node -r tsconfig-paths/register src/config/ormConfig.ts",
+		"typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+		"db:migrate:g": "yarn typeorm migration:generate -n"
 	},
 	"dependencies": {
 		"@nestjs/common": "^6.7.2",
