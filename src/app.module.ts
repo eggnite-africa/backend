@@ -27,11 +27,23 @@ const db = () => {
 			host: constants.db.host,
 			database: constants.db.name,
 			username: constants.db.username,
-			password: constants.db.password
+			password: constants.db.password,
+			entities: [
+				Product,
+				Vote,
+				Comment,
+				User,
+				Profile,
+				Notification,
+				ProductLinks,
+				Feedback
+			],
+			synchronize: true
 		};
 	} else {
 		return {
 			url: constants.db.url,
+			entities: ['dist/**/*.entity{.ts,.js}'],
 			ssl: true
 		};
 	}
@@ -45,18 +57,7 @@ const db = () => {
 		}),
 		TypeOrmModule.forRoot({
 			type: 'postgres',
-			...db(),
-			entities: [
-				Product,
-				Vote,
-				Comment,
-				User,
-				Profile,
-				Notification,
-				ProductLinks,
-				Feedback
-			],
-			synchronize: true
+			...db()
 		}),
 		ProductModule,
 		VoteModule,
