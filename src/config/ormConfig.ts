@@ -9,7 +9,8 @@ const ormConfig: TypeOrmModuleOptions = {
 	entities: ['dist/**/*.entity{.ts, .js}'],
 	cli: {
 		migrationsDir: 'src/db/migrations'
-	}
+	},
+	migrations: ['src/db/migrations/*{.ts, .js}']
 };
 
 writeFileSync('ormconfig.json', JSON.stringify(ormConfig, null, 2));
