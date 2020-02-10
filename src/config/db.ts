@@ -41,9 +41,10 @@ const db = () => {
 		type: 'postgres',
 		...config,
 		cli: {
-			migrationsDir: '/db/migrations'
+			migrationsDir: 'src/db/migrations'
 		},
-		migrations: ['/db/migrations/*{.ts, .js}']
+		migrations: ['src/db/migrations/*.ts'],
+		migrationsRun: true
 	};
 };
 
