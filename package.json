@@ -12,7 +12,6 @@
 		"start:prod": "node dist/main",
 		"lint": "eslint -c .eslintrc.json \"src/**\" --fix",
 		"release": "standard-version",
-		"pretypeorm": "yarn build && rimraf ormconfig.json && ts-node -r tsconfig-paths/register src/config/ormConfig.ts",
 		"typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
 		"db:migrate:g": "yarn typeorm migration:generate -n"
 	},
