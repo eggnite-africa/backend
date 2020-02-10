@@ -1,17 +1,19 @@
-import { constants } from './constants';
-import { Product } from '../modules/product/product.entity';
-import { Vote } from '../modules/vote/vote.entity';
-import { Comment } from '../modules/comment/comment.entitiy';
-import { User } from '../modules/user/user.entity';
-import { Profile } from '../modules/profile/profile.entity';
-import { Notification } from '../modules/notification/notification.entity';
-import { ProductLinks } from '../modules/product-links/product-links.entity';
-import { Feedback } from '../modules/feedback/feedback.entity';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { config } from 'dotenv';
+config();
+import { constants } from 'src/config/constants';
+import { Product } from 'src/modules/product/product.entity';
+import { Vote } from 'src/modules/vote/vote.entity';
+import { Comment } from 'src/modules/comment/comment.entitiy';
+import { User } from 'src/modules/user/user.entity';
+import { Profile } from 'src/modules/profile/profile.entity';
+import { Notification } from 'src/modules/notification/notification.entity';
+import { ProductLinks } from 'src/modules/product-links/product-links.entity';
+import { Feedback } from 'src/modules/feedback/feedback.entity';
 
 const db = () => {
+	let config = {};
 	if (constants.env.includes('dev')) {
-		return {
+		config = {
 			host: constants.db.host,
 			database: constants.db.name,
 			username: constants.db.username,
@@ -26,18 +28,23 @@ const db = () => {
 				ProductLinks,
 				Feedback
 			],
-			synchronize: true
+			synchronize: false
 		};
 	} else {
-		return {
+		config = {
 			url: constants.db.url,
 			entities: ['dist/**/*.entity{.ts,.js}'],
 			ssl: true
 		};
 	}
+	return {
+		type: 'postgres',
+		...config,
+		cli: {
+			migrationsDir: '/db/migrations'
+		},
+		migrations: ['/db/migrations/*{.ts, .js}']
+	};
 };
 
-export const dbConfig: TypeOrmModuleOptions = {
-	type: 'postgres',
-	...db()
-};
+export const dbConfig = db();

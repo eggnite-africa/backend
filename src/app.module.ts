@@ -19,7 +19,7 @@ import { dbConfig } from './config/db';
 			autoSchemaFile: 'schema.gql',
 			context: ({ req }) => ({ req })
 		}),
-		TypeOrmModule.forRoot({ ...dbConfig }),
+		TypeOrmModule.forRoot({ ...dbConfig, type: 'postgres' }),
 		ProductModule,
 		VoteModule,
 		CommentModule,
