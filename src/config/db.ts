@@ -33,7 +33,7 @@ const db = () => {
 	} else {
 		config = {
 			url: constants.db.url,
-			migrations: ['dist/src/db/migrations/*.js'],
+			migrations: ['dist/db/migrations/*.js'],
 			ssl: true
 		};
 	}
@@ -41,7 +41,7 @@ const db = () => {
 		type: 'postgres',
 		...config,
 		cli: {
-			migrationsDir: 'src/db/migrations'
+			migrationsDir: 'db/migrations'
 		},
 		migrationsRun: true,
 		entities,
