@@ -12,7 +12,9 @@ import { Feedback } from 'src/modules/feedback/feedback.entity';
 
 const db = () => {
 	let config = {};
-	if (constants.env.includes('dev')) {
+	const isDev = constants.env.includes('dev');
+	const migrationExt = isDev ? 'ts' : 'js';
+	if (isDev) {
 		config = {
 			host: constants.db.host,
 			database: constants.db.name,
@@ -43,7 +45,7 @@ const db = () => {
 		cli: {
 			migrationsDir: 'src/db/migrations'
 		},
-		migrations: ['src/db/migrations/*.ts'],
+		migrations: [`src/db/migrations/*.${migrationExt}`],
 		migrationsRun: true
 	};
 };
