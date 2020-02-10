@@ -28,13 +28,13 @@ const db = () => {
 			database: constants.db.name,
 			username: constants.db.username,
 			password: constants.db.password,
-			migrations: ['db/migrations/*.ts']
+			migrations: ['src/db/migrations/*.ts']
 		};
 	} else {
 		config = {
 			url: constants.db.url,
-			migrations: ['db/migrations/*.js'],
-			ssl: true
+			migrations: ['dist/db/migrations/*.js']
+			// ssl: true
 		};
 	}
 	return {
