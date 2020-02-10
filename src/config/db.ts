@@ -1,41 +1,39 @@
 import { config } from 'dotenv';
 config();
-import { constants } from 'src/config/constants';
-import { Product } from 'src/modules/product/product.entity';
-import { Vote } from 'src/modules/vote/vote.entity';
-import { Comment } from 'src/modules/comment/comment.entitiy';
-import { User } from 'src/modules/user/user.entity';
-import { Profile } from 'src/modules/profile/profile.entity';
-import { Notification } from 'src/modules/notification/notification.entity';
-import { ProductLinks } from 'src/modules/product-links/product-links.entity';
-import { Feedback } from 'src/modules/feedback/feedback.entity';
+import { constants } from '../config/constants';
+import { Product } from '../modules/product/product.entity';
+import { Vote } from '../modules/vote/vote.entity';
+import { Comment } from '../modules/comment/comment.entitiy';
+import { User } from '../modules/user/user.entity';
+import { Profile } from '../modules/profile/profile.entity';
+import { Notification } from '../modules/notification/notification.entity';
+import { ProductLinks } from '../modules/product-links/product-links.entity';
+import { Feedback } from '../modules/feedback/feedback.entity';
 
 const db = () => {
+	const entities = [
+		Product,
+		Vote,
+		Comment,
+		User,
+		Profile,
+		Notification,
+		ProductLinks,
+		Feedback
+	];
 	let config = {};
-	const isDev = constants.env.includes('dev');
-	const migrationExt = isDev ? 'ts' : 'js';
-	if (isDev) {
+	if (constants.env.includes('dev')) {
 		config = {
 			host: constants.db.host,
 			database: constants.db.name,
 			username: constants.db.username,
 			password: constants.db.password,
-			entities: [
-				Product,
-				Vote,
-				Comment,
-				User,
-				Profile,
-				Notification,
-				ProductLinks,
-				Feedback
-			],
-			synchronize: false
+			migrations: ['src/db/migrations/*.ts']
 		};
 	} else {
 		config = {
 			url: constants.db.url,
-			entities: ['dist/**/*.entity{.ts,.js}'],
+			migrations: ['dist/src/db/migrations/*.js'],
 			ssl: true
 		};
 	}
@@ -45,8 +43,9 @@ const db = () => {
 		cli: {
 			migrationsDir: 'src/db/migrations'
 		},
-		migrations: [`src/db/migrations/*.${migrationExt}`],
-		migrationsRun: true
+		migrationsRun: true,
+		entities,
+		synchronize: false
 	};
 };
 
