@@ -140,16 +140,15 @@ export class AuthService {
 		}
 	}
 
-	// async checkUserPassword(inputPassword: string): Promise<boolean> {
-	// 	const { id } = this.getCurrentLoggedInUser();
-	// 	const {
-	// 		password: currentPassword
-	// 	} = await this.userService.findUserByOptions({ id });
-	// 	return await this.sharedService.verifyPassword(
-	// 		currentPassword,
-	// 		inputPassword
-	// 	);
-	// }
+	async checkUserPassword(id: number, inputPassword: string): Promise<boolean> {
+		const {
+			password: currentPassword
+		} = await this.userService.findUserByOptions({ id });
+		return await this.sharedService.verifyPassword(
+			currentPassword,
+			inputPassword
+		);
+	}
 
 	// async changeUserEmail(newEmail: string): Promise<User | undefined> {
 	// 	const user = this.getCurrentLoggedInUser();
