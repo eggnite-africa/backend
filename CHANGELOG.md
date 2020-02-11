@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.3](https://github.com/kdaghari/eggnite-backend/compare/v4.0.2...v4.0.3) (2020-02-11)
+
+
+### Bug Fixes
+
+* get user id dynamically (from FE) ([94f65fd](https://github.com/kdaghari/eggnite-backend/commit/94f65fdd49261eedd2d723cd20a9cec3b38da989))
+
 ### [4.0.2](https://github.com/kdaghari/eggnite-backend/compare/v4.0.1...v4.0.2) (2020-02-11)
 
 ### [4.0.1](https://github.com/kdaghari/eggnite-backend/compare/v4.0.0...v4.0.1) (2020-02-11)
