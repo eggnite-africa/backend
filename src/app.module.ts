@@ -1,3 +1,6 @@
+import { config } from 'dotenv';
+config();
+
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -19,6 +22,18 @@ import { ProductLinks } from './modules/product-links/product-links.entity';
 import { Feedback } from './modules/feedback/feedback.entity';
 import { Comment } from './modules/comment/comment.entitiy';
 import { Notification } from './modules/notification/notification.entity';
+import { constants } from './config/constants';
+
+export const entities = [
+	Product,
+	Vote,
+	Comment,
+	User,
+	Profile,
+	Notification,
+	ProductLinks,
+	Feedback
+];
 
 @Module({
 	imports: [
@@ -28,19 +43,12 @@ import { Notification } from './modules/notification/notification.entity';
 		}),
 		TypeOrmModule.forRoot({
 			type: 'postgres',
-			url: process.env.DATABASE_URL,
-			entities: [
-				Product,
-				Vote,
-				Comment,
-				User,
-				Profile,
-				Notification,
-				ProductLinks,
-				Feedback
-			],
-			synchronize: true,
-			ssl: process.env.NODE_ENV === 'production'
+			url: constants.dbUrl,
+			entities,
+			synchronize: false,
+			migrationsRun: true,
+			migrations: ['dist/db/migrations/*.js']
+			// ssl: process.env.NODE_ENV === 'production'
 		}),
 		ProductModule,
 		VoteModule,
