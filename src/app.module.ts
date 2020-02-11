@@ -11,7 +11,14 @@ import { SharedModule } from './modules/shared/shared.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { ProductLinksModule } from './modules/product-links/product-links.module';
 import { FeedbackModule } from './modules/feedback/feedback.module';
-import { dbConfig } from './config/db';
+import { Product } from './modules/product/product.entity';
+import { Vote } from './modules/vote/vote.entity';
+import { User } from './modules/user/user.entity';
+import { Profile } from './modules/profile/profile.entity';
+import { ProductLinks } from './modules/product-links/product-links.entity';
+import { Feedback } from './modules/feedback/feedback.entity';
+import { Comment } from './modules/comment/comment.entitiy';
+import { Notification } from './modules/notification/notification.entity';
 
 @Module({
 	imports: [
@@ -19,7 +26,21 @@ import { dbConfig } from './config/db';
 			autoSchemaFile: 'schema.gql',
 			context: ({ req }) => ({ req })
 		}),
-		TypeOrmModule.forRoot({ ...dbConfig, type: 'postgres' }),
+		TypeOrmModule.forRoot({
+			type: 'postgres',
+			url: process.env.DATABASE_URL,
+			entities: [
+				Product,
+				Vote,
+				Comment,
+				User,
+				Profile,
+				Notification,
+				ProductLinks,
+				Feedback
+			],
+			synchronize: true
+		}),
 		ProductModule,
 		VoteModule,
 		CommentModule,
