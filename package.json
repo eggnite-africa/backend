@@ -9,7 +9,6 @@
 		"start": "nest start",
 		"start:dev": "nest start --watch",
 		"start:debug": "nest start --debug --watch",
-		"prestart:prod": "yarn build",
 		"start:prod": "node dist/main",
 		"lint": "eslint -c .eslintrc.json \"src/**\" --fix",
 		"release": "standard-version",
