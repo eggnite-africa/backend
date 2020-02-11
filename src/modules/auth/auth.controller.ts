@@ -52,15 +52,17 @@ export class AuthController {
 		return await this.authService.checkUserPassword(userId, password);
 	}
 
-	// @Post('change-email')
-	// async changeEmail(@Body() { email }: any): Promise<User | undefined> {
-	// 	if (!email) return;
-	// 	return await this.authService.changeUserEmail(email);
-	// }
+	@Post('change-email')
+	async changeEmail(@Body() { userId, email }: any): Promise<User | undefined> {
+		if (!email) return;
+		return await this.authService.changeUserEmail(userId, email);
+	}
 
-	// @Post('change-password')
-	// async changePassword(@Body() { password }: any): Promise<User | undefined> {
-	// 	if (!password) return;
-	// 	return await this.authService.changeUserPassword(password);
-	// }
+	@Post('change-password')
+	async changePassword(
+		@Body() { userId, password }: any
+	): Promise<User | undefined> {
+		if (!password) return;
+		return await this.authService.changeUserPassword(userId, password);
+	}
 }

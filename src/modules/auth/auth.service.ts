@@ -153,23 +153,28 @@ export class AuthService {
 		);
 	}
 
-	// async changeUserEmail(newEmail: string): Promise<User | undefined> {
-	// 	const user = this.getCurrentLoggedInUser();
-	// 	if (newEmail === user.email) return;
-	// 	user.email = newEmail;
-	// 	return await this.userService.saveUser(user);
-	// }
+	async changeUserEmail(
+		userId: number,
+		newEmail: string
+	): Promise<User | undefined> {
+		const user = await this.userService.findUserByOptions({ id: userId });
+		if (newEmail === user.email) return;
+		user.email = newEmail;
+		return await this.userService.saveUser(user);
+	}
 
-	// async changeUserPassword(newPassword: string): Promise<User | undefined> {
-	// 	const { id } = this.getCurrentLoggedInUser();
-	// 	const user = await this.userService.findUserByOptions({ id });
-	// 	const currentPassword = user.password;
-	// 	const isSame = await this.sharedService.verifyPassword(
-	// 		currentPassword,
-	// 		newPassword
-	// 	);
-	// 	if (isSame) return;
-	// 	user.password = await this.sharedService.hashPassword(newPassword);
-	// 	return await this.userService.saveUser(user);
-	// }
+	async changeUserPassword(
+		userId: number,
+		newPassword: string
+	): Promise<User | undefined> {
+		const user = await this.userService.findUserByOptions({ id: userId });
+		const currentPassword = user.password;
+		const isSame = await this.sharedService.verifyPassword(
+			currentPassword,
+			newPassword
+		);
+		if (isSame) return;
+		user.password = await this.sharedService.hashPassword(newPassword);
+		return await this.userService.saveUser(user);
+	}
 }

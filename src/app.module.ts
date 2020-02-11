@@ -35,6 +35,9 @@ export const entities = [
 	Feedback
 ];
 
+const ssl = (): boolean =>
+	process.env.NODE_ENV === 'production' ? true : false;
+
 @Module({
 	imports: [
 		GraphQLModule.forRoot({
@@ -48,7 +51,7 @@ export const entities = [
 			synchronize: false,
 			migrationsRun: true,
 			migrations: ['dist/db/migrations/*.js'],
-			ssl: process.env.NODE_ENV === 'production'
+			ssl: ssl()
 		}),
 		ProductModule,
 		VoteModule,
