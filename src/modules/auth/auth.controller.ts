@@ -48,8 +48,8 @@ export class AuthController {
 	}
 
 	@Post('check-password')
-	async checkPassword(@Body() { id, password }: any): Promise<boolean> {
-		return await this.authService.checkUserPassword(id, password);
+	async checkPassword(@Body() { userId, password }: any): Promise<boolean> {
+		return await this.authService.checkUserPassword(userId, password);
 	}
 
 	// @Post('change-email')

@@ -140,10 +140,13 @@ export class AuthService {
 		}
 	}
 
-	async checkUserPassword(id: number, inputPassword: string): Promise<boolean> {
+	async checkUserPassword(
+		userId: number,
+		inputPassword: string
+	): Promise<boolean> {
 		const {
 			password: currentPassword
-		} = await this.userService.findUserByOptions({ id });
+		} = await this.userService.findUserByOptions({ id: userId });
 		return await this.sharedService.verifyPassword(
 			currentPassword,
 			inputPassword
