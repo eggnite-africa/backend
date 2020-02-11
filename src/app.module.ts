@@ -39,7 +39,8 @@ import { Notification } from './modules/notification/notification.entity';
 				ProductLinks,
 				Feedback
 			],
-			synchronize: true
+			synchronize: true,
+			ssl: process.env.NODE_ENV === 'production'
 		}),
 		ProductModule,
 		VoteModule,
