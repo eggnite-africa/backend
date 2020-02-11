@@ -13,8 +13,6 @@
 		"start:prod": "node dist/src/main",
 		"lint": "eslint -c .eslintrc.json \"src/**\" --fix",
 		"release": "standard-version",
-		"typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-		"db:migrate:g": "yarn typeorm migration:generate -n",
 		"predeploy": "yarn release",
 		"deploy": "git push heroku master"
 	},
