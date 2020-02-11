@@ -47,8 +47,8 @@ export const entities = [
 			entities,
 			synchronize: false,
 			migrationsRun: true,
-			migrations: ['dist/db/migrations/*.js']
-			// ssl: process.env.NODE_ENV === 'production'
+			migrations: ['dist/db/migrations/*.js'],
+			ssl: process.env.NODE_ENV === 'production'
 		}),
 		ProductModule,
 		VoteModule,
