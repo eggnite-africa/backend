@@ -18,12 +18,12 @@ registerEnumType(OccupationType, {
 	name: 'OccupationType'
 });
 
-export enum SexType {
+export enum genderType {
 	MALE = 'MALE',
 	FEMALE = 'FEMALE'
 }
-registerEnumType(SexType, {
-	name: 'SexType'
+registerEnumType(genderType, {
+	name: 'genderType'
 });
 
 @ObjectType()
@@ -52,9 +52,9 @@ export class Profile extends BaseEntity {
 	@IsNotEmpty()
 	lastName!: string;
 
-	@Field(() => SexType)
-	@Column({ type: 'enum', enum: SexType })
-	sex!: SexType;
+	@Field(() => genderType)
+	@Column({ type: 'enum', enum: genderType })
+	gender!: genderType;
 
 	@Field(() => Date, { nullable: true })
 	@Column({ nullable: true })

@@ -1,4 +1,4 @@
-import { Profile, SexType, OccupationType } from '../profile.entity';
+import { Profile, genderType, OccupationType } from '../profile.entity';
 import { InputType, Field } from 'type-graphql';
 import {
 	IsNotEmpty,
@@ -23,9 +23,9 @@ export class ProfileInput implements Partial<Profile> {
 	@IsNotEmpty()
 	lastName!: string;
 
-	@Field(() => SexType)
-	@IsEnum(SexType)
-	sex!: SexType;
+	@Field(() => genderType)
+	@IsEnum(genderType)
+	gender!: genderType;
 
 	@Field(() => Date, { nullable: true })
 	@IsDateString()

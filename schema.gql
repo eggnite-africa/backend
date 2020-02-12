@@ -49,6 +49,11 @@ enum FeedbackType {
   OTHER
 }
 
+enum genderType {
+  MALE
+  FEMALE
+}
+
 input MakerInput {
   productId: ID!
   makerId: ID!
@@ -155,7 +160,7 @@ type Profile {
   profilePicture: String!
   firstName: String!
   lastName: String!
-  sex: SexType!
+  gender: genderType!
   birthDate: DateTime
   occupation: OccupationType!
   university: String
@@ -167,7 +172,7 @@ input ProfileInput {
   profilePicture: String
   firstName: String!
   lastName: String!
-  sex: SexType!
+  gender: genderType!
   birthDate: DateTime
   occupation: OccupationType!
   bio: String
@@ -186,11 +191,6 @@ type Query {
   user(id: ID, username: String): User!
   fetchAllFeedback: [Feedback]
   fetchFeedbackByUserId(userId: ID!): [Feedback]
-}
-
-enum SexType {
-  MALE
-  FEMALE
 }
 
 input UpdatedLinksInput {
@@ -218,7 +218,7 @@ input UpdateProfileInput {
   profilePicture: String
   firstName: String
   lastName: String
-  sex: SexType
+  gender: genderType
   birthDate: DateTime
   occupation: OccupationType
   bio: String

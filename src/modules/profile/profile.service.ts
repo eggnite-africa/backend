@@ -17,7 +17,7 @@ export class ProfileService {
 		newProfile.profilePicture = userProfile.profilePicture || '';
 		newProfile.firstName = userProfile.firstName;
 		newProfile.lastName = userProfile.lastName;
-		newProfile.sex = userProfile.sex;
+		newProfile.gender = userProfile.gender;
 		newProfile.birthDate = userProfile.birthDate;
 		newProfile.occupation = userProfile.occupation;
 		newProfile.university = userProfile.university;
