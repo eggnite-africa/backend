@@ -164,6 +164,7 @@ type Profile {
   birthDate: DateTime
   occupation: OccupationType!
   university: String
+  company: String
   bio: String
   socialLinks: [String]
 }
@@ -178,6 +179,7 @@ input ProfileInput {
   bio: String
   socialLinks: [String]
   university: String
+  company: String
 }
 
 type Query {
@@ -224,6 +226,7 @@ input UpdateProfileInput {
   bio: String
   socialLinks: [String]
   university: String
+  company: String
 }
 
 type User {

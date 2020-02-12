@@ -20,6 +20,7 @@ export class ProfileService {
 		newProfile.gender = userProfile.gender;
 		newProfile.birthDate = userProfile.birthDate;
 		newProfile.occupation = userProfile.occupation;
+		newProfile.company = userProfile.company;
 		newProfile.university = userProfile.university;
 		newProfile.bio = userProfile.bio;
 		newProfile.socialLinks = userProfile.socialLinks;

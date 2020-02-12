@@ -48,4 +48,9 @@ export class UpdateProfileInput implements Partial<Profile> {
 	@IsString()
 	@IsOptional()
 	university?: string;
+
+	@Field(() => String, { nullable: true })
+	@IsString()
+	@IsOptional()
+	company?: string;
 }
