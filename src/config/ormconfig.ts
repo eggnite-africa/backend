@@ -11,5 +11,6 @@ export = {
 	entities,
 	cli: {
 		migrationsDir: 'src/db/migrations'
-	}
+	},
+	migrations: ['dist/db/migrations/*.js']
 };
