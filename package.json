@@ -16,7 +16,7 @@
 		"predeploy": "yarn release",
 		"deploy": "git push heroku master",
 		"typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -f src/config/ormconfig.ts",
-		"db:migrate": "yarn typeorm migrations:generate -n"
+		"db:migrate": "yarn typeorm migration:generate -n"
 	},
 	"dependencies": {
 		"@nestjs/common": "^6.7.2",
