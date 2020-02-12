@@ -39,7 +39,7 @@ export class ProductService {
 			where: {
 				id
 			},
-			relations: ['links']
+			relations: ['links', 'makers']
 		});
 	}
 
@@ -172,10 +172,10 @@ export class ProductService {
 
 	async deleteProduct(id: number): Promise<boolean> {
 		const product = await this.fetchProductById(id);
-		const makers = product.makers.map(m => m.id);
+		const makers = product.makers.map(m => +m.id);
 		await this.productRepository.remove(product);
 		for (let i = 0; i < makers.length; i++) {
-			await this.userService.setUserAsNormal(i);
+			await this.userService.setUserAsNormal(makers[i]);
 		}
 		await this.productLinksService.deleteLinks(product.linksId);
 		try {
