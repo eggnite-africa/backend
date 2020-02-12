@@ -46,9 +46,10 @@ export class Product extends BaseEntity {
 	@Column()
 	tagline!: string;
 
-	@Field(() => String, { nullable: true })
-	@Column('text', { nullable: true })
-	description?: string;
+	@Field(() => String)
+	@Column()
+	@IsNotEmpty()
+	description!: string;
 
 	@Field(() => ProductLinks)
 	@OneToOne(() => ProductLinks, {

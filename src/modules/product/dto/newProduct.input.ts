@@ -19,10 +19,10 @@ export class NewProductInput {
 	@MaxLength(80)
 	tagline!: string;
 
-	@Field(() => String, { nullable: true })
+	@Field(() => String)
+	@IsNotEmpty()
 	@MaxLength(280)
-	@IsOptional()
-	description?: string;
+	description!: string;
 
 	@Field(() => MediaInput)
 	media!: MediaInput;

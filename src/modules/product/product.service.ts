@@ -85,7 +85,7 @@ export class ProductService {
 		const newProduct = new Product();
 		newProduct.name = product.name;
 		newProduct.tagline = product.tagline;
-		newProduct.description = product?.description;
+		newProduct.description = product.description;
 		newProduct.media = product.media;
 		newProduct.links = links;
 		newProduct.makers = makers;

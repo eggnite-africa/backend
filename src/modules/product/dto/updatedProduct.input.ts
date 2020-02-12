@@ -14,6 +14,7 @@ export class UpdatedProductInput {
 	tagline?: string;
 
 	@Field(() => String, { nullable: true })
+	@MaxLength(280)
 	@IsOptional()
 	description?: string;
 
