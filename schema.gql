@@ -131,7 +131,7 @@ enum NotificationType {
 
 enum OccupationType {
   STUDENT
-  DEV
+  DEVELOPER
   ENTREPRENEUR
 }
 

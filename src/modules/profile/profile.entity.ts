@@ -11,7 +11,7 @@ import { IsNotEmpty, IsDate } from 'class-validator';
 
 export enum OccupationType {
 	STUDENT = 'STUDENT',
-	DEV = 'DEV',
+	DEVELOPER = 'DEVELOPER',
 	ENTREPRENEUR = 'ENTREPRENEUR'
 }
 registerEnumType(OccupationType, {
