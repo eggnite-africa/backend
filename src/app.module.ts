@@ -51,6 +51,7 @@ const ssl = (): boolean =>
 			synchronize: false,
 			migrationsRun: true,
 			dropSchema: false,
+			logging: true,
 			migrations: ['dist/db/migrations/*.js'],
 			ssl: ssl()
 		}),
