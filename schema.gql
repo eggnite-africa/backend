@@ -102,7 +102,7 @@ input NewLinksInput {
 input NewProductInput {
   name: String!
   tagline: String!
-  description: String
+  description: String!
   media: MediaInput!
   links: NewLinksInput!
   makersIds: [ID!]!
@@ -134,7 +134,7 @@ type Product {
   id: ID!
   name: String!
   tagline: String!
-  description: String
+  description: String!
   links: ProductLinks!
   media: Media!
   votes: [Vote!]
