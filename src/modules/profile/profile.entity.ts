@@ -81,6 +81,10 @@ export class Profile extends BaseEntity {
 	@Column({ nullable: true })
 	bio?: string;
 
+	@Field(() => String)
+	@Column()
+	country!: string;
+
 	@Field(() => [String], { nullable: 'itemsAndList' })
 	@Column({ nullable: true, type: 'simple-array' })
 	socialLinks?: string[];
