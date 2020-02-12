@@ -50,6 +50,7 @@ const ssl = (): boolean =>
 			entities,
 			synchronize: false,
 			migrationsRun: true,
+			dropSchema: false,
 			migrations: ['dist/db/migrations/*.js'],
 			ssl: ssl()
 		}),

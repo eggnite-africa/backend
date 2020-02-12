@@ -12,5 +12,7 @@ export = {
 	cli: {
 		migrationsDir: 'src/db/migrations'
 	},
-	migrations: ['dist/db/migrations/*.js']
+	migrations: ['dist/db/migrations/*.js'],
+	dropSchema: false,
+	synchronize: false
 };
