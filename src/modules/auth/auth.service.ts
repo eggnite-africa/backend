@@ -54,9 +54,13 @@ export class AuthService {
 		req.logout();
 	}
 
-	async getCurrentLoggedInUser(token: string): Promise<User> {
+	async getCurrentLoggedInUser(token: string): Promise<User | undefined> {
 		const userId = this.jwtService.decode(token)?.['sub'];
-		return await this.userService.fetchUserById(userId);
+		try {
+			return await this.userService.fetchUserById(userId);
+		} catch (error) {
+			return;
+		}
 	}
 
 	private async sendForgottenPasswordEmail(

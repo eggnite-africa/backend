@@ -24,7 +24,9 @@ export class AuthController {
 	}
 
 	@Get('me')
-	async getCurrentlyLoggedInUser(@Request() req: any): Promise<User> {
+	async getCurrentlyLoggedInUser(
+		@Request() req: any
+	): Promise<User | undefined> {
 		const token = req.get('Authorization').replace('Bearer ', '');
 		return this.authService.getCurrentLoggedInUser(token);
 	}
