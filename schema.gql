@@ -166,6 +166,7 @@ type Profile {
   university: String
   company: String
   bio: String
+  country: String!
   socialLinks: [String]
 }
 
@@ -180,6 +181,7 @@ input ProfileInput {
   socialLinks: [String]
   university: String
   company: String
+  country: String!
 }
 
 type Query {
@@ -227,6 +229,7 @@ input UpdateProfileInput {
   socialLinks: [String]
   university: String
   company: String
+  country: String!
 }
 
 type User {
