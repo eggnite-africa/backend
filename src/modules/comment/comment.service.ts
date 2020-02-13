@@ -36,6 +36,24 @@ export class CommentService {
 		return await this.commentRepository.findOne(id);
 	}
 
+	private async filterSubscribers(
+		userId: number,
+		newComment: Comment
+	): Promise<User[]> {
+		const { product }: Comment = await this.commentRepository.findOneOrFail(
+			{
+				id: newComment.id
+			},
+			{
+				relations: ['product', 'product.makers']
+			}
+		);
+		const subscribers = product.makers.filter(
+			(maker: User) => maker.id != userId
+		);
+		return subscribers;
+	}
+
 	async addComment(
 		productId: number,
 		content: string,
@@ -51,18 +69,7 @@ export class CommentService {
 		newComment.content = content;
 		newComment.userId = userId;
 		const addedComment = await this.commentRepository.save(newComment);
-		const { product }: Comment = await this.commentRepository.findOneOrFail(
-			{
-				id: newComment.id
-			},
-			{
-				relations: ['product', 'product.makers']
-			}
-		);
-		const subscribers = product.makers.filter(
-			(maker: User) => maker.id != userId
-		);
-
+		const subscribers = await this.filterSubscribers(userId, newComment);
 		await this.addCommentNotification(subscribers, newComment);
 		return addedComment;
 	}
