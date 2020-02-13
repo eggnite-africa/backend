@@ -45,9 +45,9 @@ export class Comment extends BaseEntity {
 		}
 	)
 	product!: Product;
-	@Field(() => ID, { nullable: true })
-	@Column({ nullable: true })
-	productId?: number;
+	@Field(() => ID)
+	@Column()
+	productId!: number;
 
 	@ManyToOne(
 		type => Comment,

@@ -7,7 +7,7 @@ type Comment {
   id: ID!
   postedAt: DateTime!
   content: String!
-  productId: ID
+  productId: ID!
   parentId: ID
   replies: [Comment]
   userId: ID!

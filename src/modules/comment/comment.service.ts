@@ -61,7 +61,7 @@ export class CommentService {
 		parentId?: number
 	): Promise<Comment> {
 		if (parentId) {
-			return await this.addReply(parentId, content, userId);
+			return await this.addReply(parentId, content, userId, productId);
 		}
 
 		const newComment = new Comment();
@@ -88,12 +88,14 @@ export class CommentService {
 	private async addReply(
 		parentId: number,
 		content: string,
-		userId: number
+		userId: number,
+		productId: number
 	): Promise<Comment> {
 		const reply = new Comment();
 		reply.parentId = parentId;
 		reply.content = content;
 		reply.userId = userId;
+		reply.productId = productId;
 		const newReply = await this.commentRepository.save(reply);
 		const { parent } = await this.commentRepository.findOneOrFail(
 			{ id: newReply.id },
