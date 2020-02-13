@@ -45,7 +45,7 @@ export class Comment extends BaseEntity {
 		}
 	)
 	product!: Product;
-	@Field(() => ID)
+	@Field(() => ID, { nullable: true })
 	@Column({ nullable: true })
 	productId?: number;
 
