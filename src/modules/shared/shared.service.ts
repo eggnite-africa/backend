@@ -1,6 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import { config } from 'dotenv';
+config();
 import { Injectable } from '@nestjs/common';
 const upash = require('upash');
+import AWS = require('aws-sdk');
+import nanoid = require('nanoid');
+
+export interface SignedRequest {
+	signedUrl: string;
+	url: string;
+}
 
 @Injectable()
 export class SharedService {
@@ -19,5 +28,21 @@ export class SharedService {
 		inputPassword: string
 	): Promise<boolean> {
 		return await upash.verify(userPassword, inputPassword);
+	}
+
+	signS3(fileType: string): SignedRequest {
+		const s3 = new AWS.S3();
+		const Key = nanoid();
+		const s3Params = {
+			Bucket: process.env.S3_BUCKET,
+			Key,
+			ContentType: fileType,
+			Expires: 60,
+			ACL: 'public-read'
+		};
+		AWS.config.region = process.env.AWS_REGION;
+		const signedUrl = s3.getSignedUrl('putObject', s3Params);
+		const url = `https://${s3Params.Bucket}.s3.${AWS.config.region}.amazonaws.com/${Key}`;
+		return { signedUrl, url };
 	}
 }
