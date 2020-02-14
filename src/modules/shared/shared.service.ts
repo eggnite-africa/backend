@@ -45,4 +45,19 @@ export class SharedService {
 		const url = `https://${s3Params.Bucket}.s3.${AWS.config.region}.amazonaws.com/${Key}`;
 		return { signedUrl, url };
 	}
+
+	deleteFile(link: string): void {
+		const Key = link.split('.com/')[1];
+		const s3 = new AWS.S3();
+		const s3Params = {
+			Bucket: process.env.S3_BUCKET || '',
+			Key
+		};
+		AWS.config.region = process.env.AWS_REGION;
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		console.log('Key: ', Key);
+		s3.deleteObject(s3Params, (err, _) => {
+			if (err) throw Error(`There was a problem deleting file: ${Key}`);
+		});
+	}
 }

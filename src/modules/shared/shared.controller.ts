@@ -8,4 +8,9 @@ export class SharedController {
 	signS3(@Body('fileType') fileType: string): SignedRequest {
 		return this.sharedService.signS3(fileType);
 	}
+
+	@Post('delete-image')
+	deleteImage(@Body('link') link: string): void {
+		return this.sharedService.deleteFile(link);
+	}
 }
