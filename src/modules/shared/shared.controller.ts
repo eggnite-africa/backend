@@ -1,6 +1,7 @@
 require('dotenv').config();
 import { Controller, Post, Param } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
+import nanoid = require('nanoid');
 
 @Controller()
 export class SharedController {
@@ -10,9 +11,10 @@ export class SharedController {
 		@Param('fileType') fileType: string
 	): any {
 		const s3 = new S3();
+		const Key = nanoid();
 		const s3Params = {
 			Bucket: process.env.S3_BUCKET,
-			Key: fileName,
+			Key,
 			ContentType: fileType,
 			Expires: 60,
 			ACL: 'public-read',
@@ -24,7 +26,7 @@ export class SharedController {
 			}
 			return {
 				signedRequest,
-				url: `https://${s3Params.Bucket}.s3.amazonaws.com/${fileName}`
+				url: `https://${s3Params.Bucket}.s3.amazonaws.com/${s3Params.Key}`
 			};
 		});
 	}
