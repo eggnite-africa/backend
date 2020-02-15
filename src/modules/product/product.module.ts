@@ -7,6 +7,7 @@ import { VoteModule } from '../vote/vote.module';
 import { CommentModule } from '../comment/comment.module';
 import { UserModule } from '../user/user.module';
 import { ProductLinksModule } from '../product-links/product-links.module';
+import { SharedModule } from '../shared/shared.module';
 
 @Module({
 	imports: [
@@ -14,7 +15,8 @@ import { ProductLinksModule } from '../product-links/product-links.module';
 		VoteModule,
 		CommentModule,
 		ProductLinksModule,
-		forwardRef(() => UserModule)
+		forwardRef(() => UserModule),
+		SharedModule
 	],
 	providers: [ProductResolver, ProductService],
 	exports: [ProductService]

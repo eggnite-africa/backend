@@ -13,6 +13,7 @@ import { NewProductInput } from './dto/newProduct.input';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 import { ProductLinksService } from '../product-links/product-links.service';
+import { SharedService } from '../shared/shared.service';
 
 @Injectable()
 export class ProductService {
@@ -21,7 +22,8 @@ export class ProductService {
 		private readonly productRepository: Repository<Product>,
 		@Inject(forwardRef(() => UserService))
 		private readonly userService: UserService,
-		private readonly productLinksService: ProductLinksService
+		private readonly productLinksService: ProductLinksService,
+		private readonly sharedService: SharedService
 	) {}
 
 	async searchProducts(query: string): Promise<Product[] | []> {
@@ -171,8 +173,14 @@ export class ProductService {
 	}
 
 	async deleteProduct(id: number): Promise<boolean> {
+		const deleteImage = (link: string): void =>
+			this.sharedService.deleteFile(link);
 		const product = await this.fetchProductById(id);
 		const makers = product.makers.map(m => +m.id);
+		const logo = product.media.logo;
+		const pictures = product.media.pictures;
+		deleteImage(logo);
+		pictures.forEach(p => deleteImage(p));
 		await this.productRepository.remove(product);
 		for (let i = 0; i < makers.length; i++) {
 			await this.userService.setUserAsNormal(makers[i]);
