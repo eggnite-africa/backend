@@ -10,7 +10,7 @@ import { ProductService } from './product.service';
 import { Product } from './product.entity';
 import { NewProductInput } from './dto/newProduct.input';
 import { UpdatedProductInput } from './dto/updatedProduct.input';
-import { ID } from 'type-graphql';
+import { ID, Int } from 'type-graphql';
 import { VoteService } from '../vote/vote.service';
 import { CommentService } from '../comment/comment.service';
 import { Comment } from '../comment/comment.entitiy';
@@ -20,6 +20,7 @@ import { User } from '../user/user.entity';
 import { UseGuards } from '@nestjs/common';
 import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 import { MakerInput } from './dto/maker.input';
+import { Products } from './type/products.type';
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -29,9 +30,19 @@ export class ProductResolver {
 		private readonly commentService: CommentService
 	) {}
 
-	@Query(() => [Product])
-	async products(): Promise<Product[]> {
-		return await this.productService.fetchAllProducts();
+	@Query(() => Products)
+	async products(
+		@Args({ name: 'page', type: () => Int }) page: number,
+		@Args({ name: 'pageSize', type: () => Int, defaultValue: 7 })
+		pageSize: number
+	): Promise<Products> {
+		const start = page * pageSize;
+		const end = start + pageSize;
+		const products = await this.productService.fetchAllProducts();
+		return {
+			products: products.slice(start, end),
+			hasMore: end < products.length
+		};
 	}
 
 	@Query(() => Product)

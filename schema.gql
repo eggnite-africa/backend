@@ -156,6 +156,11 @@ type ProductLinks {
   playStore: String
 }
 
+type Products {
+  products: [Product!]!
+  hasMore: Boolean!
+}
+
 type Profile {
   profilePicture: String!
   firstName: String!
@@ -185,7 +190,7 @@ input ProfileInput {
 }
 
 type Query {
-  products: [Product!]!
+  products(pageSize: Int = 7, page: Int!): Products!
   product(name: String, id: ID): Product!
   searchProducts(query: String!): [Product]
   checkProductExistance(productName: String!): Boolean!
