@@ -31,7 +31,7 @@ export class ProductResolver {
 	) {}
 
 	@Query(() => Products)
-	async products(
+	async productsList(
 		@Args({ name: 'page', type: () => Int }) page: number,
 		@Args({ name: 'pageSize', type: () => Int, defaultValue: 7 })
 		pageSize: number

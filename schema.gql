@@ -190,7 +190,7 @@ input ProfileInput {
 }
 
 type Query {
-  products(pageSize: Int = 7, page: Int!): Products!
+  productsList(pageSize: Int = 7, page: Int!): Products!
   product(name: String, id: ID): Product!
   searchProducts(query: String!): [Product]
   checkProductExistance(productName: String!): Boolean!
