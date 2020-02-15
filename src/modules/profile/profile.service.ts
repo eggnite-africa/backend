@@ -35,4 +35,8 @@ export class ProfileService {
 		await this.profileRepository.update({ id }, userProfile);
 		return await this.profileRepository.findOneOrFail({ id });
 	}
+
+	async deleteProfile(profileId: number): Promise<void> {
+		await this.profileRepository.delete({ id: profileId });
+	}
 }

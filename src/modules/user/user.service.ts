@@ -74,23 +74,28 @@ export class UserService {
 			relations: ['products', 'products.makers', 'comments', 'notifications']
 		});
 		user.votes = await this.voteService.fetchAllVotes({ userId: id });
-
 		try {
-			if (user.profile.profilePicture)
-				this.sharedService.deleteFile(user.profile.profilePicture);
-			if (user.products)
+			if (user.products) {
 				await this.productService.deleteUserProducts(user.products, user);
-			if (user.comments)
+			}
+			if (user.comments) {
 				await this.commentService.deleteAllUserComments(user.comments);
-			if (user.votes) await this.voteService.deleteAllUserVotes(user.votes);
-			if (user.notifications)
+			}
+			if (user.votes) {
+				await this.voteService.deleteAllUserVotes(user.votes);
+			}
+			if (user.notifications) {
 				await this.notificationService.deleteAllUserNotifications(
 					user.notifications
 				);
-			await this.userRepository.delete(id);
+			}
+			await Promise.all([
+				await this.userRepository.remove(user),
+				await this.profileService.deleteProfile(user.profileId)
+			]);
 			return true;
 		} catch (e) {
-			return false;
+			throw Error(`There was an issue deleting user: ${id}`);
 		}
 	}
 
