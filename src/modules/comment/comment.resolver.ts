@@ -14,12 +14,12 @@ import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 import { CurrentUser } from '../user/decorator/user.decorator';
 import { User } from '../user/user.entity';
 
-@Resolver((of: any) => Comment)
+@Resolver(() => Comment)
 export class CommentResolver {
 	constructor(private readonly commentService: CommentService) {}
 
 	@UseGuards(GraphQLAuth)
-	@Mutation(returns => Comment)
+	@Mutation(() => Comment)
 	async addComment(
 		@Args('commentInput') { productId, content, parentId }: CommentInput,
 		@CurrentUser() { id: userId }: User
@@ -33,7 +33,7 @@ export class CommentResolver {
 	}
 
 	@UseGuards(GraphQLAuth)
-	@Mutation(returns => Boolean)
+	@Mutation(() => Boolean)
 	async deleteComment(
 		@Args({ name: 'commentId', type: () => ID }) commentId: number,
 		@CurrentUser() { id: userId }: User
@@ -42,7 +42,7 @@ export class CommentResolver {
 	}
 
 	@UseGuards(GraphQLAuth)
-	@Mutation(returns => Comment)
+	@Mutation(() => Comment)
 	async updateComment(
 		@Args('commentInput') { parentId, content }: CommentInput,
 		@CurrentUser() { id: userId }: User
