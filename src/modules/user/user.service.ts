@@ -92,11 +92,11 @@ export class UserService {
 			await this.userRepository.save(user);
 			await this.userRepository.remove(user);
 			await this.profileService.deleteProfile(user.profileId);
-			return true;
 		} catch (e) {
 			await this.userRepository.remove(user);
 			await this.profileService.deleteProfile(user.profileId);
 		}
+		return true;
 	}
 
 	async fetchAllNotificationsByUserId(
