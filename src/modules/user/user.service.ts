@@ -89,10 +89,8 @@ export class UserService {
 					user.notifications
 				);
 			}
-			await Promise.all([
-				await this.userRepository.remove(user),
-				await this.profileService.deleteProfile(user.profileId)
-			]);
+			await this.userRepository.remove(user);
+			await this.profileService.deleteProfile(user.profileId);
 			return true;
 		} catch (e) {
 			throw Error(`There was an issue deleting user: ${id}`);
