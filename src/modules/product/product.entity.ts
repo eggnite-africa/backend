@@ -92,4 +92,7 @@ export class Product extends BaseEntity {
 	poster!: User;
 	@Column({ nullable: true })
 	posterId?: number;
+
+	@Column({ type: 'float', default: 0.0 })
+	score!: number;
 }

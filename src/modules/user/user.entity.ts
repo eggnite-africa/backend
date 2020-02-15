@@ -107,4 +107,7 @@ export class User extends BaseEntity {
 	@Column({ type: 'enum', enum: userTypeEnum, default: userTypeEnum.USER })
 	@Field(() => userTypeEnum, { defaultValue: userTypeEnum.USER })
 	type!: userTypeEnum;
+
+	@Column({ type: 'float', default: 0.0 })
+	score!: number;
 }
