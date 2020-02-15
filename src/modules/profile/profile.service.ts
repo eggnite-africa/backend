@@ -39,8 +39,12 @@ export class ProfileService {
 	}
 
 	async deleteProfile(id: number): Promise<void> {
-		const { profilePicture } = await this.profileRepository.findOneOrFail(id);
-		this.sharedService.deleteFile(profilePicture);
-		await this.profileRepository.delete({ id });
+		const profile = await this.profileRepository.findOneOrFail(id);
+		this.sharedService.deleteFile(profile.profilePicture);
+		try {
+			await this.profileRepository.remove(profile);
+		} catch (e) {
+			throw Error(`There was a problem deleting profile: ${id}`);
+		}
 	}
 }
