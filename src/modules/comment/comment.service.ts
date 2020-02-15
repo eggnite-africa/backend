@@ -108,6 +108,11 @@ export class CommentService {
 	}
 
 	async deleteComment(id: number, userId: number): Promise<boolean> {
+		const comment = await this.commentRepository.findOneOrFail(id);
+		if (comment.replies) {
+			const ids = comment.replies.map(r => r.id);
+			await this.commentRepository.delete(ids);
+		}
 		await this.commentRepository.delete({ id, userId });
 		const deleted = await this.fetchCommentById(id);
 		return deleted === undefined ? true : false;
@@ -121,16 +126,20 @@ export class CommentService {
 		return await this.fetchCommentById(id);
 	}
 
-	async deleteAllUserComments(comments: Comment[] | undefined): Promise<void> {
-		if (comments?.length) {
-			const ids = comments.map(comment => comment.id);
-			try {
-				await this.commentRepository.delete(ids);
-			} catch (e) {
-				new InternalServerErrorException(
-					'There was a problem removing your comments'
-				);
+	async deleteAllUserComments(
+		userId: number,
+		comments: Comment[] | undefined
+	): Promise<void> {
+		if (!comments?.length) return;
+		const ids = comments.map(comment => comment.id);
+		try {
+			for (const id of ids) {
+				await this.deleteComment(id, userId);
 			}
+		} catch (e) {
+			new InternalServerErrorException(
+				'There was a problem removing your comments'
+			);
 		}
 	}
 }

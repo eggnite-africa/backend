@@ -79,7 +79,7 @@ export class UserService {
 				await this.productService.deleteUserProducts(user.products, user);
 			}
 			if (user.comments) {
-				await this.commentService.deleteAllUserComments(user.comments);
+				await this.commentService.deleteAllUserComments(id, user.comments);
 			}
 			if (user.votes) {
 				await this.voteService.deleteAllUserVotes(user.votes);
