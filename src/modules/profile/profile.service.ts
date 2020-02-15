@@ -4,12 +4,14 @@ import { Profile } from './profile.entity';
 import { Repository } from 'typeorm';
 import { ProfileInput as newProfileInput } from './dto/newProfile.input';
 import { UpdateProfileInput } from './dto/updateProfile.input';
+import { SharedService } from '../shared/shared.service';
 
 @Injectable()
 export class ProfileService {
 	constructor(
 		@InjectRepository(Profile)
-		private readonly profileRepository: Repository<Profile>
+		private readonly profileRepository: Repository<Profile>,
+		private readonly sharedService: SharedService
 	) {}
 
 	async addUserProfile(userProfile: newProfileInput): Promise<Profile> {
@@ -36,7 +38,9 @@ export class ProfileService {
 		return await this.profileRepository.findOneOrFail({ id });
 	}
 
-	async deleteProfile(profileId: number): Promise<void> {
-		await this.profileRepository.delete({ id: profileId });
+	async deleteProfile(id: number): Promise<void> {
+		const { profilePicture } = await this.profileRepository.findOneOrFail(id);
+		this.sharedService.deleteFile(profilePicture);
+		await this.profileRepository.delete({ id });
 	}
 }
