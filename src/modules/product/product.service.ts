@@ -220,4 +220,10 @@ export class ProductService {
 			return false;
 		}
 	}
+
+	async modifyScore(productId: number, score: number): Promise<void> {
+		const product = await this.fetchProductById(productId);
+		product.score += score;
+		await this.productRepository.save(product);
+	}
 }

@@ -3,13 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Vote } from './vote.entity';
 import { Repository } from 'typeorm';
 import { NotificationService } from '../notification/notification.service';
-import { User } from '../user/user.entity';
+import { User, userTypeEnum } from '../user/user.entity';
+import { UserService } from '../user/user.service';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class VoteService {
 	constructor(
 		@InjectRepository(Vote) private readonly voteRepository: Repository<Vote>,
-		private readonly notificationService: NotificationService
+		private readonly notificationService: NotificationService,
+		private readonly userService: UserService,
+		private readonly productService: ProductService
 	) {}
 
 	async deleteAllUserVotes(userVotes: Vote[] | undefined): Promise<void> {
@@ -21,6 +25,21 @@ export class VoteService {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async fetchAllVotes(options: any): Promise<Vote[]> {
 		return await this.voteRepository.find(options);
+	}
+
+	private async blackBox(userId: number): Promise<number> {
+		let score = 0;
+		const { type, products } = await this.userService.fetchUserById(userId);
+		if (type === userTypeEnum.MAKER) {
+			score += 1.25;
+			if (products?.length && products.length > 1)
+				score += 0.25 * products.length;
+		} else if (type === userTypeEnum.USER) {
+			score += 0.5;
+		} else if (type === userTypeEnum.ADMIN) {
+			score += 5;
+		}
+		return score;
 	}
 
 	async addVote(productId: number, userId: number): Promise<Vote> {
@@ -48,7 +67,11 @@ export class VoteService {
 		const subscribers = product.makers.filter(
 			(maker: User) => maker.id != userId
 		);
-		await this.notificationService.addVoteNotification(newVote, subscribers);
+		const score = await this.blackBox(userId);
+		Promise.all([
+			await this.notificationService.addVoteNotification(newVote, subscribers),
+			await this.productService.modifyScore(productId, score)
+		]);
 		return addedVote;
 	}
 
@@ -60,6 +83,8 @@ export class VoteService {
 			}
 		});
 		const isDeleted = await this.voteRepository.remove(voteToRemove);
+		const score = (await this.blackBox(userId)) * -1;
+		await this.productService.modifyScore(productId, score);
 		return isDeleted ? true : false;
 	}
 }

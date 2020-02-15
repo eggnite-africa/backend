@@ -14,7 +14,7 @@ import { NotificationModule } from '../notification/notification.module';
 		TypeOrmModule.forFeature([User]),
 		forwardRef(() => ProductModule),
 		ProfileModule,
-		VoteModule,
+		forwardRef(() => VoteModule),
 		CommentModule,
 		NotificationModule
 	],

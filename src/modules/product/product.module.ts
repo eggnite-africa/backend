@@ -12,7 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([Product]),
-		VoteModule,
+		forwardRef(() => VoteModule),
 		CommentModule,
 		ProductLinksModule,
 		forwardRef(() => UserModule),

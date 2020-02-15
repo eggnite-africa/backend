@@ -80,12 +80,12 @@ type Mutation {
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
   markNotificationAsSeen(id: ID!): Notification!
-  addComment(commentInput: CommentInput!): Comment!
-  deleteComment(commentId: ID!): Boolean!
-  updateComment(commentInput: CommentInput!): Comment!
   signUp(UserInput: UserInput!): User!
   deleteUser(userId: ID!): Boolean!
   updateProfile(updatedProfile: UpdateProfileInput!, userId: ID!): Profile!
+  addComment(commentInput: CommentInput!): Comment!
+  deleteComment(commentId: ID!): Boolean!
+  updateComment(commentInput: CommentInput!): Comment!
   addFeedback(feedback: NewFeedbackInput!): Feedback!
   markFeedbackAsDone(id: ID!): Feedback!
   markFeedbackAsRefused(reason: String, id: ID!): Feedback!
