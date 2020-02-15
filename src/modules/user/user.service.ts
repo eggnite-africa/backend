@@ -170,28 +170,28 @@ export class UserService {
 
 	private async changeUserType(
 		user: User,
-		type: userTypeEnum
-	): Promise<User | null> {
-		if (user.type === type) return null;
-		user.type = type;
+		newType: userTypeEnum
+	): Promise<User | undefined> {
+		if (user.type === newType || user.type === userTypeEnum.ADMIN) return;
+		user.type = newType;
 		return await this.userRepository.save(user);
 	}
 
-	async setUserAsMaker(id: number): Promise<User | null> {
+	async setUserAsMaker(id: number): Promise<User | undefined> {
 		const user = await this.userRepository.findOneOrFail({
 			where: { id },
 			relations: ['products']
 		});
-		if (user.products?.length) return null;
+		if (user.products?.length) return;
 		return await this.changeUserType(user, userTypeEnum.MAKER);
 	}
 
-	async setUserAsNormal(id: number): Promise<User | null> {
+	async setUserAsNormal(id: number): Promise<User | undefined> {
 		const user = await this.userRepository.findOneOrFail({
 			where: { id },
 			relations: ['products']
 		});
-		if (!user.products?.length) return null;
+		if (!user.products?.length) return;
 		return await this.changeUserType(user, userTypeEnum.USER);
 	}
 }
