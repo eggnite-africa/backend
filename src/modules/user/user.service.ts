@@ -76,6 +76,8 @@ export class UserService {
 		user.votes = await this.voteService.fetchAllVotes({ userId: id });
 
 		try {
+			if (user.profile.profilePicture)
+				this.sharedService.deleteFile(user.profile.profilePicture);
 			if (user.products)
 				await this.productService.deleteUserProducts(user.products, user);
 			if (user.comments)
