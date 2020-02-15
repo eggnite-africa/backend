@@ -89,11 +89,13 @@ export class UserService {
 					user.notifications
 				);
 			}
+			await this.userRepository.save(user);
 			await this.userRepository.remove(user);
 			await this.profileService.deleteProfile(user.profileId);
 			return true;
 		} catch (e) {
-			throw Error(`There was an issue deleting user: ${id}`);
+			await this.userRepository.remove(user);
+			await this.profileService.deleteProfile(user.profileId);
 		}
 	}
 
