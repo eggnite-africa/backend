@@ -47,6 +47,7 @@ export class SharedService {
 	}
 
 	deleteFile(link: string): void {
+		if (!link) return;
 		const Key = link.split('.com/')[1].split('.')[0];
 		const s3 = new AWS.S3();
 		const s3Params = {
