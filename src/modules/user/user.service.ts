@@ -31,7 +31,9 @@ export class UserService {
 	}
 
 	async fetchAllUsers(): Promise<User[]> {
-		return await this.userRepository.find();
+		return await this.userRepository.find({
+			relations: ['products', 'comments']
+		});
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
