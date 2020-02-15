@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vote } from './vote.entity';
 import { Repository } from 'typeorm';
@@ -12,7 +12,9 @@ export class VoteService {
 	constructor(
 		@InjectRepository(Vote) private readonly voteRepository: Repository<Vote>,
 		private readonly notificationService: NotificationService,
+		@Inject(forwardRef(() => UserService))
 		private readonly userService: UserService,
+		@Inject(forwardRef(() => ProductService))
 		private readonly productService: ProductService
 	) {}
 
