@@ -35,9 +35,8 @@ export class ProductLinksService {
 	}
 
 	async deleteLinks(id: number): Promise<boolean> {
-		const linksEntity = await this.productLinksRepository.findOneOrFail(id);
 		try {
-			await this.productLinksRepository.remove(linksEntity);
+			await this.productLinksRepository.delete(id);
 			return true;
 		} catch (e) {
 			throw new InternalServerErrorException(
