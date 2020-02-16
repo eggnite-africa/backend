@@ -157,6 +157,7 @@ type ProductLinks {
 }
 
 type Products {
+  totalCount: Int!
   products: [Product!]!
   hasMore: Boolean!
 }
