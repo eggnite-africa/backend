@@ -38,8 +38,9 @@ export class ProductResolver {
 	): Promise<Products> {
 		const start = page * pageSize;
 		const end = start + pageSize;
-		const products = await this.productService.fetchAllProducts();
+		const [products, totalCount] = await this.productService.fetchAllProducts();
 		return {
+			totalCount,
 			products: products.slice(start, end),
 			hasMore: end < products.length
 		};

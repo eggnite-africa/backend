@@ -32,8 +32,8 @@ export class ProductService {
 		});
 	}
 
-	async fetchAllProducts(options: any = {}): Promise<Product[]> {
-		return await this.productRepository.find(options);
+	async fetchAllProducts(): Promise<[Product[], number]> {
+		return await this.productRepository.findAndCount();
 	}
 
 	async fetchProductById(id: number): Promise<Product> {
