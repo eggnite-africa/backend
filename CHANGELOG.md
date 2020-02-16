@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/kdaghari/eggnite-backend/compare/v4.0.6...v4.1.0) (2020-02-16)
+
+
+### Features
+
+* add company field ([d3f63ac](https://github.com/kdaghari/eggnite-backend/commit/d3f63acd3c7b8f3384ef71921131799ab31c2046))
+* add country field ([0f53095](https://github.com/kdaghari/eggnite-backend/commit/0f530957fb1882699f0d06a41dce298f4c98b14d))
+* add file deletion ([85e836f](https://github.com/kdaghari/eggnite-backend/commit/85e836f1aa3cfe8b66e307997239faf45aa760f4))
+* add file signing ([fbc761d](https://github.com/kdaghari/eggnite-backend/commit/fbc761d9285de18d1b21370cc98b02c766ef9229))
+* add pagination support ([273dc49](https://github.com/kdaghari/eggnite-backend/commit/273dc491ada03c7a14ea36e95f67ba6a1ca4eaae))
+* add product scoring system ([df7d1de](https://github.com/kdaghari/eggnite-backend/commit/df7d1deb7ca81fe145274db715976e2c3214a95a))
+* add url pre-signing ([26e057e](https://github.com/kdaghari/eggnite-backend/commit/26e057e931e8702b3d356cc50e37cba33255076f))
+* delete user's profile picture when deleting his account ([53066c3](https://github.com/kdaghari/eggnite-backend/commit/53066c3df3f6e5389074858a5262582e6b1e8832))
+* return total count with products list ([ce2adf6](https://github.com/kdaghari/eggnite-backend/commit/ce2adf6edddd8664b3b52479e039ba44cd682484))
+* **wip:** setup score column ([3886f42](https://github.com/kdaghari/eggnite-backend/commit/3886f42ab719e7e5f18be60c5ec638e4a8639b8c))
+* deleting a product deletes its associated media ([cec1d22](https://github.com/kdaghari/eggnite-backend/commit/cec1d2238bed144e5c9403731330dfa7d0a17d56))
+* generate random name for file ([498616a](https://github.com/kdaghari/eggnite-backend/commit/498616ac703c9625a8220a549ce87f174184ee73))
+
+
+### Bug Fixes
+
+* add try catch block and remove entity instead of a delete op ([1713fa1](https://github.com/kdaghari/eggnite-backend/commit/1713fa14a8975ab16127dbff10e43465f53c70b4))
+* delete picture before deleting profile ([bdebd3a](https://github.com/kdaghari/eggnite-backend/commit/bdebd3a20fe2c861d69a4d1bf96eafb1c996f2dc))
+* don't fetch entity, execute a delete op ([d4fb529](https://github.com/kdaghari/eggnite-backend/commit/d4fb529e831424d92596e144e678a332be32a5b4))
+* fetch makers correctly ([2c4e726](https://github.com/kdaghari/eggnite-backend/commit/2c4e72606d07e715677c4bb7ff4fa7cd9f03045b))
+* force delete account if need be ([ae910f4](https://github.com/kdaghari/eggnite-backend/commit/ae910f41a3ff8adc78f4ea9fabcc1aca87dff3d6))
+* if auth token doesn't exist abort ([f28a626](https://github.com/kdaghari/eggnite-backend/commit/f28a6266f99c8658b416c4d02de55a42a90335b7))
+* if there is no link no need to continue ([83860e3](https://github.com/kdaghari/eggnite-backend/commit/83860e36260daebff89951f1438a4fbbbc45a4c8))
+* make sure to clean up the key properly (in case of file extensions lingering) ([994d2cd](https://github.com/kdaghari/eggnite-backend/commit/994d2cd2f09a4cdf4dcdd8fc7cb3345154632b36))
+* product Id should be nullable (for replies) ([b368e8c](https://github.com/kdaghari/eggnite-backend/commit/b368e8c4af809cb0bc631db8cecaf3990af99934))
+* product id should be required for replies too ([22c6ea6](https://github.com/kdaghari/eggnite-backend/commit/22c6ea6fc5c3ae93af468c5d25e44650a37ac6f9))
+* rename field ([a0a69e6](https://github.com/kdaghari/eggnite-backend/commit/a0a69e65fa0e9bdddc1d71066d3961d987c50f86))
+* rename field (products -> productsList) ([84caef7](https://github.com/kdaghari/eggnite-backend/commit/84caef7274e17cba6e827df4c12d30408504b394))
+* rename param to a more descriptive name and change return type ([cf393df](https://github.com/kdaghari/eggnite-backend/commit/cf393dff80ded38a147a9f861387d33dfda65380))
+* return value ([7eac455](https://github.com/kdaghari/eggnite-backend/commit/7eac455f86e89abdb78acb001248dfea16fe1111))
+* user deletion is sequential; have to delete each entity one by one ([03e7c49](https://github.com/kdaghari/eggnite-backend/commit/03e7c493a6072a95e0499a52405196a40ae014b2))
+* users should retrun what's indicated in schema ([147c1aa](https://github.com/kdaghari/eggnite-backend/commit/147c1aa275831da314df013d92a20c0efddd956b))
+* **wip:** deleting the user should remove EVERYTHING related to him ([ebaf9d8](https://github.com/kdaghari/eggnite-backend/commit/ebaf9d83f5fff326de236794255a54fc515f4771))
+
 ### [4.0.6](https://github.com/kdaghari/eggnite-backend/compare/v4.0.5...v4.0.6) (2020-02-11)
 
 
