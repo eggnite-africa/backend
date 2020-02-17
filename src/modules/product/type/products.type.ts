@@ -6,7 +6,7 @@ export class Products {
 	@Field(() => Int)
 	totalCount!: number;
 
-	@Field(() => [Product])
+	@Field(() => [Product], { nullable: 'itemsAndList' })
 	products!: Product[];
 
 	@Field(() => Boolean)
