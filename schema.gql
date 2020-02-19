@@ -15,7 +15,7 @@ type Comment {
 
 input CommentInput {
   productId: ID
-  content: String
+  content: String!
 
   """
   This refers to the comment id whether it's the parent or a standalone comment

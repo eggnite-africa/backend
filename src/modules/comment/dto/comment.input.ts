@@ -1,5 +1,6 @@
 import { InputType, Field, ID } from 'type-graphql';
 import { Comment } from '../comment.entitiy';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 @InputType()
 export class CommentInput implements Partial<Comment> {
@@ -8,7 +9,9 @@ export class CommentInput implements Partial<Comment> {
 	@Field(() => ID, { nullable: true })
 	productId!: number;
 
-	@Field(() => String, { nullable: true })
+	@Field(() => String)
+	@IsString()
+	@IsNotEmpty()
 	content!: string;
 
 	@Field(() => ID, {

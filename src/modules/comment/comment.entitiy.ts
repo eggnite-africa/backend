@@ -35,6 +35,7 @@ export class Comment extends BaseEntity {
 	@Field(() => String)
 	@Column({ type: 'text' })
 	@IsNotEmpty()
+	@IsNotEmpty()
 	content!: string;
 
 	@ManyToOne(
