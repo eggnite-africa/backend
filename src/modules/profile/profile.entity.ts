@@ -7,7 +7,7 @@ import {
 	Column
 } from 'typeorm';
 import { ObjectType, Field, registerEnumType } from 'type-graphql';
-import { IsNotEmpty, IsDate } from 'class-validator';
+import { IsNotEmpty, IsDate, IsOptional, IsString } from 'class-validator';
 
 export enum OccupationType {
 	STUDENT = 'STUDENT',
@@ -38,9 +38,11 @@ export class Profile extends BaseEntity {
 	@UpdateDateColumn()
 	updatedAt!: Date;
 
-	@Field(() => String)
-	@Column()
-	profilePicture!: string;
+	@Field(() => String, { nullable: true })
+	@Column({ nullable: true })
+	@IsString()
+	@IsOptional()
+	profilePicture?: string;
 
 	@Field(() => String)
 	@Column()
@@ -52,33 +54,40 @@ export class Profile extends BaseEntity {
 	@IsNotEmpty()
 	lastName!: string;
 
-	@Field(() => genderType)
-	@Column({ type: 'enum', enum: genderType })
-	gender!: genderType;
+	@Field(() => genderType, { nullable: true })
+	@Column({ type: 'enum', enum: genderType, nullable: true })
+	@IsOptional()
+	gender?: genderType;
 
 	@Field(() => Date, { nullable: true })
 	@Column({ nullable: true })
 	@IsDate()
+	@IsOptional()
 	birthDate?: Date;
 
-	@Field(() => OccupationType)
+	@Field(() => OccupationType, { nullable: true })
 	@Column({
 		type: 'enum',
 		enum: OccupationType,
-		default: OccupationType.STUDENT
+		default: OccupationType.STUDENT,
+		nullable: true
 	})
-	occupation!: OccupationType;
+	@IsOptional()
+	occupation?: OccupationType;
 
 	@Field(() => String, { nullable: true })
 	@Column({ nullable: true })
+	@IsOptional()
 	university?: string;
 
 	@Field(() => String, { nullable: true })
 	@Column({ nullable: true })
+	@IsOptional()
 	company?: string;
 
 	@Field(() => String, { nullable: true })
 	@Column({ nullable: true })
+	@IsOptional()
 	bio?: string;
 
 	@Field(() => String)
@@ -87,5 +96,6 @@ export class Profile extends BaseEntity {
 
 	@Field(() => [String], { nullable: 'itemsAndList' })
 	@Column({ nullable: true, type: 'simple-array' })
+	@IsOptional()
 	socialLinks?: string[];
 }

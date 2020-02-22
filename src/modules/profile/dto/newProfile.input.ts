@@ -11,6 +11,7 @@ import {
 export class ProfileInput implements Partial<Profile> {
 	@Field(() => String, { nullable: true })
 	@IsString()
+	@IsOptional()
 	profilePicture?: string;
 
 	@Field(() => String)
@@ -23,18 +24,19 @@ export class ProfileInput implements Partial<Profile> {
 	@IsNotEmpty()
 	lastName!: string;
 
-	@Field(() => genderType)
+	@Field(() => genderType, { nullable: true })
 	@IsEnum(genderType)
-	gender!: genderType;
+	gender?: genderType;
 
 	@Field(() => Date, { nullable: true })
 	@IsDateString()
 	@IsOptional()
 	birthDate?: Date;
 
-	@Field(() => OccupationType)
+	@Field(() => OccupationType, { nullable: true })
 	@IsEnum(OccupationType)
-	occupation!: OccupationType;
+	@IsOptional()
+	occupation?: OccupationType;
 
 	@Field(() => String, { nullable: true })
 	@IsString()
