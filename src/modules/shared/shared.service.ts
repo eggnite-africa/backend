@@ -14,9 +14,7 @@ export interface SignedRequest {
 @Injectable()
 export class SharedService {
 	constructor() {
-		if (!upash.list()) {
-			upash.install('argon2', require('@phc/argon2'));
-		}
+		upash.install('argon2', require('@phc/argon2'));
 	}
 
 	async hashPassword(password: string): Promise<string> {
