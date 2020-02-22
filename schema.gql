@@ -163,12 +163,12 @@ type Products {
 }
 
 type Profile {
-  profilePicture: String!
+  profilePicture: String
   firstName: String!
   lastName: String!
-  gender: genderType!
+  gender: genderType
   birthDate: DateTime
-  occupation: OccupationType!
+  occupation: OccupationType
   university: String
   company: String
   bio: String
@@ -180,9 +180,9 @@ input ProfileInput {
   profilePicture: String
   firstName: String!
   lastName: String!
-  gender: genderType!
+  gender: genderType
   birthDate: DateTime
-  occupation: OccupationType!
+  occupation: OccupationType
   bio: String
   socialLinks: [String]
   university: String
@@ -241,7 +241,7 @@ input UpdateProfileInput {
 type User {
   id: ID!
   username: String!
-  email: String!
+  email: String
   profile: Profile!
   comments: [Comment]
   votes: [Vote]
@@ -252,7 +252,7 @@ type User {
 
 input UserInput {
   username: String!
-  email: String!
+  email: String
   password: String!
   profile: ProfileInput!
   type: userTypeEnum = USER
