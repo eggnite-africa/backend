@@ -1,17 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import {
-	Injectable,
-	NotAcceptableException,
-	NotFoundException,
-	InternalServerErrorException
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/user.entity';
-import * as nodemailer from 'nodemailer';
 import { SharedService } from '../shared/shared.service';
-const upash = require('upash');
-upash.install('argon2', require('@phc/argon2'));
 
 @Injectable()
 export class AuthService {
@@ -50,6 +42,7 @@ export class AuthService {
 		return this.jwtService.sign(payload);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	logout(req: any): void {
 		req.logout();
 	}
@@ -60,87 +53,6 @@ export class AuthService {
 			return await this.userService.fetchUserById(userId);
 		} catch (error) {
 			return;
-		}
-	}
-
-	private async sendForgottenPasswordEmail(
-		receiver: User,
-		token: string
-	): Promise<string> {
-		// Generate test SMTP service account from ethereal.email
-		// Only needed if you don't have a real mail account for testing
-		try {
-			const testAccount = await nodemailer.createTestAccount();
-
-			// create reusable transporter object using the default SMTP transport
-			const transporter = nodemailer.createTransport({
-				host: 'smtp.ethereal.email',
-				port: 587,
-				secure: false, // true for 465, false for other ports
-				auth: {
-					user: testAccount.user, // generated ethereal user
-					pass: testAccount.pass // generated ethereal password
-				}
-			});
-
-			// send mail with defined transport object
-			const info = await transporter.sendMail({
-				from: '"Fred Foo 👻" <foo@example.com>', // sender address
-				to: receiver.email, // list of receivers
-				subject: 'Password Reset', // Subject line
-				text: `Reciever: ${receiver} | Code: ${token}` // plain text body
-			});
-			// Preview only available when sending through an Ethereal account
-			console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-
-			return 'An email was sent. Please check your inbox';
-		} catch (e) {
-			throw new InternalServerErrorException(
-				'The email was NOT sent. Please try again.'
-			);
-		}
-	}
-
-	async forgotPassword(email: string): Promise<string> {
-		const user = await this.userService.findUserByOptions({ email });
-		if (user === undefined) {
-			throw new NotFoundException('This email does not belong to any account');
-		}
-		const generatePasswordResetToken = (): string => require('nanoid')();
-		const passwordResetToken = generatePasswordResetToken();
-		user.passwordResetToken = passwordResetToken;
-		user.passwordTokenExpiration = Date.now() + 3600000 * 24;
-		this.userService.saveUser(user);
-		return await this.sendForgottenPasswordEmail(user, passwordResetToken);
-	}
-
-	private async checkResetToken(token: string): Promise<User> {
-		const user: User = await this.userService.findUserByOptions({
-			passwordResetToken: token
-		});
-		const tokenExpiration = user.passwordTokenExpiration;
-		if (tokenExpiration) {
-			const now: number = Date.now();
-			const hasExpired: boolean = now > tokenExpiration;
-			if (hasExpired) {
-				throw new NotAcceptableException('The reset link has expired.');
-			}
-			return user;
-		} else {
-			throw new InternalServerErrorException('The reset link is invalid.');
-		}
-	}
-
-	async resetPassword(token: string, newPassword: string): Promise<User> {
-		const user: User | undefined = await this.checkResetToken(token);
-		if (user !== undefined) {
-			const hashedPassword = await this.sharedService.hashPassword(newPassword);
-			user.password = hashedPassword;
-			user.passwordResetToken = null;
-			user.passwordTokenExpiration = null;
-			return await this.userService.saveUser(user);
-		} else {
-			throw new InternalServerErrorException('The reset link is invalid.');
 		}
 	}
 

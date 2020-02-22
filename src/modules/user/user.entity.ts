@@ -59,12 +59,6 @@ export class User extends BaseEntity {
 	@IsNotEmpty()
 	password!: string;
 
-	@Column({ nullable: true, default: null, type: 'varchar' })
-	passwordResetToken?: string | null;
-
-	@Column({ nullable: true, default: null, type: 'bigint' })
-	passwordTokenExpiration?: number | null;
-
 	@Field(() => Profile)
 	@OneToOne(() => Profile, {
 		onDelete: 'CASCADE'

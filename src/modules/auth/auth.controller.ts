@@ -4,7 +4,6 @@ import {
 	UseGuards,
 	Post,
 	Request,
-	Param,
 	Get,
 	Body,
 	Delete
@@ -34,19 +33,6 @@ export class AuthController {
 	@Delete('logout')
 	logout(@Request() req: any): void {
 		return this.authService.logout(req);
-	}
-
-	@Post('forgot-password')
-	async forgotPassword(@Body() email: string): Promise<string> {
-		return await this.authService.forgotPassword(email);
-	}
-
-	@Post('reset-password')
-	async resetPassword(
-		@Body() newPassword: string,
-		@Param('resetToken') resetToken: string
-	): Promise<User> {
-		return await this.authService.resetPassword(resetToken, newPassword);
 	}
 
 	@Post('check-password')
