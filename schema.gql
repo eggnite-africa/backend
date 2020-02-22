@@ -164,6 +164,7 @@ type Products {
 
 type Profile {
   profilePicture: String
+  fullName: String!
   firstName: String!
   lastName: String!
   gender: genderType
@@ -178,6 +179,7 @@ type Profile {
 
 input ProfileInput {
   profilePicture: String
+  fullName: String!
   firstName: String!
   lastName: String!
   gender: genderType
@@ -226,6 +228,7 @@ input UpdatedProductInput {
 
 input UpdateProfileInput {
   profilePicture: String
+  fullName: String
   firstName: String
   lastName: String
   gender: genderType

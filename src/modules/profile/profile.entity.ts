@@ -49,16 +49,6 @@ export class Profile extends BaseEntity {
 	@IsNotEmpty()
 	fullName!: string;
 
-	@Field(() => String)
-	@Column()
-	@IsNotEmpty()
-	firstName!: string;
-
-	@Field(() => String)
-	@Column()
-	@IsNotEmpty()
-	lastName!: string;
-
 	@Field(() => genderType, { nullable: true })
 	@Column({ type: 'enum', enum: genderType, nullable: true })
 	@IsOptional()

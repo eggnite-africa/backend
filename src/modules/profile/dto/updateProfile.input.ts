@@ -9,21 +9,10 @@ export class UpdateProfileInput implements Partial<Profile> {
 	@IsOptional()
 	profilePicture?: string;
 
-
 	@Field(() => String, { nullable: true })
 	@IsString()
 	@IsOptional()
 	fullName?: string;
-
-	@Field(() => String, { nullable: true })
-	@IsString()
-	@IsOptional()
-	firstName?: string;
-
-	@Field(() => String, { nullable: true })
-	@IsString()
-	@IsOptional()
-	lastName?: string;
 
 	@Field(() => genderType, { nullable: true })
 	@IsEnum(genderType)
