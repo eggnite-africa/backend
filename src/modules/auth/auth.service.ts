@@ -20,17 +20,21 @@ export class AuthService {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async validateUser(username: string, pass: string): Promise<any> {
-		const user = await this.userService.fetchUserByUsername(username);
-		const passwordMatches = await this.sharedService.verifyPassword(
-			user.password,
-			pass
-		);
-		if (user && passwordMatches) {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const { password, ...result } = user;
-			return result;
+		try {
+			const user = await this.userService.fetchUserByUsername(username);
+			const passwordMatches = await this.sharedService.verifyPassword(
+				user.password,
+				pass
+			);
+			if (user && passwordMatches) {
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				const { password, ...result } = user;
+				return result;
+			}
+			throw Error();
+		} catch (error) {
+			return null;
 		}
-		return null;
 	}
 
 	login(user: User): string {
