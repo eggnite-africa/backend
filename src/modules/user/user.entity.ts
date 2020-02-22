@@ -17,7 +17,7 @@ import {
 import { Comment } from '../comment/comment.entitiy';
 import { Vote } from '../vote/vote.entity';
 import { Product } from '../product/product.entity';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 import { Notification } from '../notification/notification.entity';
 import { Profile } from '../profile/profile.entity';
 
@@ -49,11 +49,11 @@ export class User extends BaseEntity {
 	@IsNotEmpty()
 	username!: string;
 
-	@Field(() => String)
-	@Column({ unique: true })
+	@Field(() => String, { nullable: true })
+	@Column({ unique: true, nullable: true })
 	@IsEmail()
-	@IsNotEmpty()
-	email!: string;
+	@IsOptional()
+	email?: string;
 
 	@Column()
 	@IsNotEmpty()

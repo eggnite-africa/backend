@@ -1,6 +1,12 @@
 import { InputType, Field } from 'type-graphql';
 import { User, userTypeEnum } from '../user.entity';
-import { IsEmail, IsNotEmpty, MinLength, IsEnum } from 'class-validator';
+import {
+	IsEmail,
+	IsNotEmpty,
+	MinLength,
+	IsEnum,
+	IsOptional
+} from 'class-validator';
 import { ProfileInput } from '../../profile/dto/newProfile.input';
 @InputType()
 export class UserInput implements Partial<User> {
@@ -8,9 +14,10 @@ export class UserInput implements Partial<User> {
 	@MinLength(2)
 	username!: string;
 
-	@Field(() => String)
+	@Field(() => String, { nullable: true })
 	@IsEmail()
-	email!: string;
+	@IsOptional()
+	email?: string;
 
 	@Field(() => String)
 	@IsNotEmpty()
