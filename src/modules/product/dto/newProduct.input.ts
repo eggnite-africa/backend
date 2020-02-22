@@ -1,10 +1,5 @@
 import { InputType, Field, ID } from 'type-graphql';
-import {
-	IsNotEmpty,
-	MaxLength,
-	IsOptional,
-	IsNumberString
-} from 'class-validator';
+import { IsNotEmpty, MaxLength, IsNumberString } from 'class-validator';
 import { MediaInput } from './media.input';
 import { NewLinksInput } from '../../product-links/dto/newLinks.input';
 
