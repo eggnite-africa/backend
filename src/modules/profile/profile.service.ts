@@ -40,7 +40,8 @@ export class ProfileService {
 
 	async deleteProfile(id: number): Promise<void> {
 		const profile = await this.profileRepository.findOneOrFail(id);
-		this.sharedService.deleteFile(profile.profilePicture);
+		if (profile.profilePicture)
+			this.sharedService.deleteFile(profile.profilePicture);
 		try {
 			await this.profileRepository.remove(profile);
 		} catch (e) {
