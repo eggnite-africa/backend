@@ -47,6 +47,11 @@ export class Profile extends BaseEntity {
 	@Field(() => String)
 	@Column()
 	@IsNotEmpty()
+	fullName!: string;
+
+	@Field(() => String)
+	@Column()
+	@IsNotEmpty()
 	firstName!: string;
 
 	@Field(() => String)

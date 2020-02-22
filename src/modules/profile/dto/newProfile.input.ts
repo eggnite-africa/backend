@@ -17,6 +17,11 @@ export class ProfileInput implements Partial<Profile> {
 	@Field(() => String)
 	@IsString()
 	@IsNotEmpty()
+	fullName!: string;
+
+	@Field(() => String)
+	@IsString()
+	@IsNotEmpty()
 	firstName!: string;
 
 	@Field(() => String)

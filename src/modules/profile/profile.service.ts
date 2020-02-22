@@ -17,6 +17,7 @@ export class ProfileService {
 	async addUserProfile(userProfile: newProfileInput): Promise<Profile> {
 		const newProfile = new Profile();
 		newProfile.profilePicture = userProfile.profilePicture || '';
+		newProfile.fullName = userProfile.fullName;
 		newProfile.firstName = userProfile.firstName;
 		newProfile.lastName = userProfile.lastName;
 		newProfile.gender = userProfile.gender;
