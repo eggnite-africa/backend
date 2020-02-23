@@ -16,7 +16,7 @@ export class ProfileService {
 
 	async addUserProfile(userProfile: newProfileInput): Promise<Profile> {
 		const newProfile = new Profile();
-		newProfile.profilePicture = userProfile.profilePicture || '';
+		newProfile.picture = userProfile.picture || '';
 		newProfile.fullName = userProfile.fullName;
 		newProfile.gender = userProfile.gender;
 		newProfile.birthDate = userProfile.birthDate;
@@ -39,8 +39,7 @@ export class ProfileService {
 
 	async deleteProfile(id: number): Promise<void> {
 		const profile = await this.profileRepository.findOneOrFail(id);
-		if (profile.profilePicture)
-			this.sharedService.deleteFile(profile.profilePicture);
+		if (profile.picture) this.sharedService.deleteFile(profile.picture);
 		try {
 			await this.profileRepository.remove(profile);
 		} catch (e) {

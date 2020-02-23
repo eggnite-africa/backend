@@ -7,7 +7,7 @@ export class UpdateProfileInput implements Partial<Profile> {
 	@Field(() => String, { nullable: true })
 	@IsString()
 	@IsOptional()
-	profilePicture?: string;
+	picture?: string;
 
 	@Field(() => String, { nullable: true })
 	@IsString()
