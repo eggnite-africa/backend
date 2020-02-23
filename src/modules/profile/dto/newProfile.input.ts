@@ -53,7 +53,8 @@ export class ProfileInput implements Partial<Profile> {
 	@IsOptional()
 	company?: string;
 
-	@Field(() => String)
+	@Field(() => String, { nullable: true })
 	@IsString()
-	country!: string;
+	@IsOptional()
+	country?: string;
 }
