@@ -224,7 +224,7 @@ input UpdatedProductInput {
 
 input UpdateProfileInput {
   picture: String
-  fullName: String
+  fullName: String!
   gender: genderType
   birthDate: DateTime
   occupation: OccupationType
@@ -232,7 +232,7 @@ input UpdateProfileInput {
   socialLinks: [String]
   university: String
   company: String
-  country: String!
+  country: String
 }
 
 type User {

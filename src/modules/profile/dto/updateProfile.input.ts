@@ -9,10 +9,9 @@ export class UpdateProfileInput implements Partial<Profile> {
 	@IsOptional()
 	picture?: string;
 
-	@Field(() => String, { nullable: true })
+	@Field(() => String)
 	@IsString()
-	@IsOptional()
-	fullName?: string;
+	fullName!: string;
 
 	@Field(() => genderType, { nullable: true })
 	@IsEnum(genderType)
@@ -49,7 +48,8 @@ export class UpdateProfileInput implements Partial<Profile> {
 	@IsOptional()
 	company?: string;
 
-	@Field(() => String)
+	@Field(() => String, { nullable: true })
 	@IsString()
-	country!: string;
+	@IsOptional()
+	country?: string;
 }
