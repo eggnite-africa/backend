@@ -42,7 +42,6 @@ export class AuthController {
 
 	@Post('change-email')
 	async changeEmail(@Body() { userId, email }: any): Promise<User | undefined> {
-		if (!email) return;
 		return await this.authService.changeUserEmail(userId, email);
 	}
 
