@@ -163,7 +163,7 @@ type Products {
 }
 
 type Profile {
-  profilePicture: String
+  picture: String
   fullName: String!
   gender: genderType
   birthDate: DateTime
@@ -176,7 +176,7 @@ type Profile {
 }
 
 input ProfileInput {
-  profilePicture: String
+  picture: String
   fullName: String!
   gender: genderType
   birthDate: DateTime
@@ -223,7 +223,7 @@ input UpdatedProductInput {
 }
 
 input UpdateProfileInput {
-  profilePicture: String
+  picture: String
   fullName: String
   gender: genderType
   birthDate: DateTime
