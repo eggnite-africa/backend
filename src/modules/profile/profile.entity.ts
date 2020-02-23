@@ -45,7 +45,7 @@ export class Profile extends BaseEntity {
 	profilePicture?: string;
 
 	@Field(() => String)
-	@Column()
+	@Column({ default: '' })
 	@IsNotEmpty()
 	fullName!: string;
 
