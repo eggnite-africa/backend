@@ -26,6 +26,9 @@ registerEnumType(genderType, {
 	name: 'genderType'
 });
 
+export const defaultProfilePicture =
+	'https://eggnite-assets.s3.eu-west-3.amazonaws.com/default_avatar.svg';
+
 @ObjectType()
 @Entity()
 export class Profile extends BaseEntity {
@@ -38,8 +41,8 @@ export class Profile extends BaseEntity {
 	@UpdateDateColumn()
 	updatedAt!: Date;
 
-	@Field(() => String, { nullable: true })
-	@Column({ nullable: true })
+	@Field(() => String, { defaultValue: defaultProfilePicture })
+	@Column({ default: defaultProfilePicture })
 	@IsString()
 	@IsOptional()
 	picture?: string;

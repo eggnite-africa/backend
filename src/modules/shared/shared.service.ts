@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 const upash = require('upash');
 import AWS = require('aws-sdk');
 import nanoid = require('nanoid');
+import { defaultProfilePicture } from '../profile/profile.entity';
 
 export interface SignedRequest {
 	signedUrl: string;
@@ -45,7 +46,7 @@ export class SharedService {
 	}
 
 	deleteFile(link: string): void {
-		if (!link) return;
+		if (!link || link === defaultProfilePicture) return;
 		const Key = link.split('.com/')[1].split('.')[0];
 		const s3 = new AWS.S3();
 		const s3Params = {
