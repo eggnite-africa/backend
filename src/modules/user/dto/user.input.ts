@@ -5,15 +5,13 @@ import {
 	IsNotEmpty,
 	MinLength,
 	IsEnum,
-	IsOptional,
-	IsAlphanumeric
+	IsOptional
 } from 'class-validator';
 import { ProfileInput } from '../../profile/dto/newProfile.input';
 @InputType()
 export class UserInput implements Partial<User> {
 	@Field(() => String)
 	@MinLength(2)
-	@IsAlphanumeric()
 	username!: string;
 
 	@Field(() => String, { nullable: true })
