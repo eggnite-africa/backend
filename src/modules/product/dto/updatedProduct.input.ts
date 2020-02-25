@@ -19,6 +19,7 @@ export class UpdatedProductInput {
 	description?: string;
 
 	@Field(() => UpdatedMediaInput, { nullable: true })
+	@ValidateNested()
 	@IsOptional()
 	media?: UpdatedMediaInput;
 
