@@ -65,12 +65,6 @@ type Media {
   videos: [String]
 }
 
-input MediaInput {
-  logo: String!
-  pictures: [String!]!
-  videos: [String]
-}
-
 type Mutation {
   addProduct(newProduct: NewProductInput!): Product!
   updateProduct(updatedProduct: UpdatedProductInput!): Product!
@@ -104,11 +98,17 @@ input NewLinksInput {
   playStore: String
 }
 
+input NewMediaInput {
+  logo: String
+  pictures: [String!]!
+  videos: [String]
+}
+
 input NewProductInput {
   name: String!
   tagline: String!
   description: String!
-  media: MediaInput!
+  media: NewMediaInput!
   links: NewLinksInput
   makersIds: [ID!]!
 }

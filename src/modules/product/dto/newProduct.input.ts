@@ -3,11 +3,12 @@ import {
 	IsNotEmpty,
 	MaxLength,
 	IsNumberString,
-	ValidateNested,
-	IsOptional
+	IsOptional,
+	ValidateNested
 } from 'class-validator';
 import { NewMediaInput } from './newMedia.input';
 import { NewLinksInput } from '../../product-links/dto/newLinks.input';
+import { Type } from 'class-transformer';
 
 @InputType()
 export class NewProductInput {
@@ -26,11 +27,11 @@ export class NewProductInput {
 	description!: string;
 
 	@Field(() => NewMediaInput)
-	@ValidateNested()
+	@ValidateNested() // perform validation on children too
+	@Type(() => NewMediaInput) // cast the payload to the correct DTO type
 	media!: NewMediaInput;
 
 	@Field(() => NewLinksInput, { nullable: true })
-	@ValidateNested()
 	@IsOptional()
 	links?: NewLinksInput;
 

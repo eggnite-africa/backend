@@ -1,19 +1,17 @@
 import { ObjectType, Field } from 'type-graphql';
-import { IsString, IsOptional, MinLength } from 'class-validator';
+import { IsOptional, ArrayNotEmpty } from 'class-validator';
 @ObjectType()
 export class Media {
 	@Field(() => String)
-	@IsString()
 	@IsOptional()
 	logo?: string;
 
 	@Field(() => [String])
-	@IsString({ each: true })
-	@MinLength(1)
+	@ArrayNotEmpty()
 	pictures!: string[];
 
 	@Field(() => [String], { nullable: 'itemsAndList' })
-	@IsString({ each: true })
+	@ArrayNotEmpty()
 	@IsOptional()
 	videos?: string[];
 }

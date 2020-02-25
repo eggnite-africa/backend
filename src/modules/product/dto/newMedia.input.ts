@@ -1,21 +1,18 @@
 import { InputType, Field } from 'type-graphql';
 import { Media } from './media.type';
-import { IsString, IsOptional, MinLength } from 'class-validator';
+import { IsOptional, ArrayNotEmpty } from 'class-validator';
 
 @InputType()
-export class MediaInput implements Partial<Media> {
-	@Field(() => String)
-	@IsString()
+export class NewMediaInput implements Partial<Media> {
+	@Field(() => String, { nullable: true })
 	@IsOptional()
 	logo?: string;
 
 	@Field(() => [String])
-	@IsString({ each: true })
-	@MinLength(1)
+	@ArrayNotEmpty()
 	pictures!: string[];
 
 	@Field(() => [String], { nullable: 'itemsAndList' })
-	@IsString({ each: true })
 	@IsOptional()
 	videos?: string[];
 }
