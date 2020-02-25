@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User, userTypeEnum } from './user.entity';
 import { Repository } from 'typeorm';
 import { ProductService } from '../product/product.service';
-import { UserInput } from './dto/user.input';
+import { NewUserInput } from './dto/newUser.input';
 import { SharedService } from '../shared/shared.service';
 import { ProfileService } from '../profile/profile.service';
 import { VoteService } from '../vote/vote.service';
@@ -56,7 +56,7 @@ export class UserService {
 		return await this.findUserByOptions({ id });
 	}
 
-	async addUser(newUser: UserInput): Promise<User> {
+	async addUser(newUser: NewUserInput): Promise<User> {
 		const [password, profile] = await Promise.all([
 			await this.sharedService.hashPassword(newUser.password),
 			await this.profileService.addUserProfile(newUser.profile)
