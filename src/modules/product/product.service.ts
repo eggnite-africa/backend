@@ -179,7 +179,9 @@ export class ProductService {
 		const makers = product.makers.map(m => +m.id);
 		const logo = product.media.logo;
 		const pictures = product.media.pictures;
-		deleteImage(logo);
+		if (logo) {
+			deleteImage(logo);
+		}
 		pictures.forEach(p => deleteImage(p));
 		await this.productRepository.remove(product);
 		for (let i = 0; i < makers.length; i++) {
