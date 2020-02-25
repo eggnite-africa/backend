@@ -1,6 +1,6 @@
 import { InputType, Field } from 'type-graphql';
 import { Media } from './media.type';
-import { IsOptional, IsString, MinLength } from 'class-validator';
+import { IsOptional, IsString, ArrayMinSize } from 'class-validator';
 
 @InputType()
 export class UpdatedMediaInput implements Partial<Media> {
@@ -10,8 +10,7 @@ export class UpdatedMediaInput implements Partial<Media> {
 	logo?: string;
 
 	@Field(() => [String], { nullable: 'itemsAndList' })
-	@IsString({ each: true })
-	@MinLength(1)
+	@ArrayMinSize(2)
 	@IsOptional()
 	pictures?: string[];
 

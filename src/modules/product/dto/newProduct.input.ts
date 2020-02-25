@@ -6,7 +6,7 @@ import {
 	ValidateNested,
 	IsOptional
 } from 'class-validator';
-import { MediaInput } from './media.input';
+import { NewMediaInput } from './newMedia.input';
 import { NewLinksInput } from '../../product-links/dto/newLinks.input';
 
 @InputType()
@@ -25,9 +25,9 @@ export class NewProductInput {
 	@MaxLength(280)
 	description!: string;
 
-	@Field(() => MediaInput)
+	@Field(() => NewMediaInput)
 	@ValidateNested()
-	media!: MediaInput;
+	media!: NewMediaInput;
 
 	@Field(() => NewLinksInput, { nullable: true })
 	@ValidateNested()
