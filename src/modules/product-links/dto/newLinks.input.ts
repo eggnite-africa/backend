@@ -1,5 +1,5 @@
 import { InputType, Field } from 'type-graphql';
-import { IsFQDN, ValidateIf, IsOptional } from 'class-validator';
+import { IsFQDN, IsOptional } from 'class-validator';
 import { ProductLinks } from '../product-links.entity';
 
 @InputType()
