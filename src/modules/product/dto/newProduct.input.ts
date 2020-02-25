@@ -22,8 +22,8 @@ export class NewProductInput {
 	@Field(() => MediaInput)
 	media!: MediaInput;
 
-	@Field(() => NewLinksInput)
-	links!: NewLinksInput;
+	@Field(() => NewLinksInput, { nullable: true })
+	links?: NewLinksInput;
 
 	@Field(() => [ID])
 	@IsNotEmpty({ each: true })

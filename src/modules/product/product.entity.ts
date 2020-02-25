@@ -51,12 +51,12 @@ export class Product extends BaseEntity {
 	@IsNotEmpty()
 	description!: string;
 
-	@Field(() => ProductLinks)
+	@Field(() => ProductLinks, { nullable: true })
 	@OneToOne(() => ProductLinks, {
 		onDelete: 'CASCADE'
 	})
 	@JoinColumn()
-	links!: ProductLinks;
+	links?: ProductLinks;
 	@Column()
 	linksId!: number;
 

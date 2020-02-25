@@ -24,7 +24,10 @@ export class ProductLinksService {
 		return await this.productLinksRepository.save(newLinks);
 	}
 
-	async addProductLinks(productLinks: NewLinksInput): Promise<ProductLinks> {
+	async addProductLinks(
+		productLinks: NewLinksInput | undefined
+	): Promise<ProductLinks | undefined> {
+		if (!productLinks) return;
 		return await this.modifyProductLinks(productLinks);
 	}
 

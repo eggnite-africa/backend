@@ -109,7 +109,7 @@ input NewProductInput {
   tagline: String!
   description: String!
   media: MediaInput!
-  links: NewLinksInput!
+  links: NewLinksInput
   makersIds: [ID!]!
 }
 
@@ -140,7 +140,7 @@ type Product {
   name: String!
   tagline: String!
   description: String!
-  links: ProductLinks!
+  links: ProductLinks
   media: Media!
   votes: [Vote!]
   comments: [Comment]

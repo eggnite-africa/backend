@@ -22,18 +22,18 @@ export class ProductLinks extends BaseEntity {
 	updatedAt!: Date;
 
 	@Field(() => String, { nullable: true })
-	@Column({ nullable: false })
+	@Column({ nullable: true })
 	website?: string;
 
 	@Field(() => String, { nullable: true })
-	@Column()
+	@Column({ nullable: true })
 	github?: string;
 
 	@Field(() => String, { nullable: true })
-	@Column()
+	@Column({ nullable: true })
 	appStore?: string;
 
 	@Field(() => String, { nullable: true })
-	@Column()
+	@Column({ nullable: true })
 	playStore?: string;
 }
