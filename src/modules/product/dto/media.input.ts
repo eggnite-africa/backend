@@ -6,11 +6,12 @@ import { IsString, IsOptional, MinLength } from 'class-validator';
 export class MediaInput implements Partial<Media> {
 	@Field(() => String)
 	@IsString()
-	logo!: string;
+	@IsOptional()
+	logo?: string;
 
 	@Field(() => [String])
 	@IsString({ each: true })
-	@MinLength(2)
+	@MinLength(1)
 	pictures!: string[];
 
 	@Field(() => [String], { nullable: 'itemsAndList' })

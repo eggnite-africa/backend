@@ -11,7 +11,7 @@ export class UpdatedMediaInput implements Partial<Media> {
 
 	@Field(() => [String], { nullable: 'itemsAndList' })
 	@IsString({ each: true })
-	@MinLength(2)
+	@MinLength(1)
 	@IsOptional()
 	pictures?: string[];
 
