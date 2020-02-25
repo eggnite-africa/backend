@@ -5,8 +5,8 @@ import { ProductLinks } from '../product-links.entity';
 @InputType()
 export class NewLinksInput implements Partial<ProductLinks> {
 	@Field(() => String, { nullable: true })
-	@ValidateIf(o => !o.github && !o.appStore && !o.playStore)
 	@IsFQDN()
+	@IsOptional()
 	website?: string;
 
 	@Field(() => String, { nullable: true })
