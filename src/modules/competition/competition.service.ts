@@ -9,10 +9,12 @@ import { NewCompetitionInput } from './dto/newCompetition.input';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 import { UpdatedCompetitionInput } from './dto/updatedCompetition.input';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CompetitionService {
 	constructor(
+		@InjectRepository(Competition)
 		private readonly competitionRepository: Repository<Competition>,
 		@Inject() private readonly userService: UserService
 	) {}
@@ -93,6 +95,27 @@ export class CompetitionService {
 		} catch (e) {
 			throw new InternalServerErrorException(
 				'There was a problem deleting the competition',
+				e
+			);
+		}
+	}
+
+	async deleteProductFromCompetition(
+		competitionId: number,
+		productId: number
+	): Promise<boolean> {
+		try {
+			const competitionToUpdate = await this.fetchCompetitionById(
+				competitionId
+			);
+			competitionToUpdate.products = competitionToUpdate.products.filter(
+				p => p.id !== productId
+			);
+			await this.competitionRepository.save(competitionToUpdate);
+			return true;
+		} catch (e) {
+			throw new InternalServerErrorException(
+				'There was a problem deleting product from competition',
 				e
 			);
 		}

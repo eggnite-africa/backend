@@ -69,4 +69,16 @@ export class CompetitionResolver {
 	): Promise<boolean> {
 		return await this.competitionService.deleteCompetition(id);
 	}
+
+	@Mutation(() => Boolean)
+	@UseGuards(GraphQLAuth)
+	async deleteProductFromCompetition(
+		@Args({ name: 'competitionId', type: () => ID }) competitionId: number,
+		@Args({ name: 'productId', type: () => ID }) productId: number
+	): Promise<boolean> {
+		return await this.competitionService.deleteProductFromCompetition(
+			competitionId,
+			productId
+		);
+	}
 }
