@@ -1,5 +1,5 @@
 import { InputType, Field, ID } from 'type-graphql';
-import { IsNotEmpty, IsNumberString } from 'class-validator';
+import { IsNotEmpty, ArrayNotEmpty } from 'class-validator';
 
 @InputType()
 export class NewCompetitionInput {
@@ -14,10 +14,11 @@ export class NewCompetitionInput {
 	@Field(() => String, { nullable: true })
 	logo?: string;
 
-	@Field(() => [ID], { nullable: true })
-	@IsNumberString({ each: true })
-	moderators?: number[];
+	@Field(() => [ID])
+	@ArrayNotEmpty()
+	moderators!: number[];
 
 	@Field(() => [ID])
+	@ArrayNotEmpty()
 	jury!: number[];
 }
