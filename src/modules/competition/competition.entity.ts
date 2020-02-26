@@ -43,17 +43,24 @@ export class Competition extends BaseEntity {
 	@Field(() => [Product])
 	@OneToMany(
 		() => Product,
-		Product => Product.competition
+		Product => Product.competition,
+		{
+			onDelete: 'CASCADE'
+		}
 	)
 	products!: Product[];
 
 	@Field(() => [User])
-	@ManyToMany(() => User)
+	@ManyToMany(() => User, {
+		onDelete: 'CASCADE'
+	})
 	@JoinTable()
 	moderators!: User[];
 
 	@Field(() => [User])
-	@ManyToMany(() => User)
+	@ManyToMany(() => User, {
+		onDelete: 'CASCADE'
+	})
 	@JoinTable()
 	jury!: User[];
 }

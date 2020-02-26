@@ -20,6 +20,7 @@ import { Product } from '../product/product.entity';
 import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 import { Notification } from '../notification/notification.entity';
 import { Profile } from '../profile/profile.entity';
+import { Competition } from '../competition/competition.entity';
 
 export enum userTypeEnum {
 	ADMIN = 'ADMIN',
@@ -104,4 +105,20 @@ export class User extends BaseEntity {
 
 	@Column({ type: 'float', default: 0.0 })
 	score!: number;
+
+	@ManyToMany(
+		() => Competition,
+		competition => competition.jury,
+		{
+			onDelete: 'SET NULL'
+		}
+	)
+	@ManyToMany(
+		() => Competition,
+		competition => competition.moderators,
+		{
+			onDelete: 'SET NULL'
+		}
+	)
+	competitions?: Competition[];
 }

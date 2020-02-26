@@ -1,4 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common';
+import {
+	Injectable,
+	Inject,
+	InternalServerErrorException
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Competition } from './competition.entity';
 import { NewCompetitionInput } from './dto/newCompetition.input';
@@ -71,5 +75,26 @@ export class CompetitionService {
 			competitionToUpdate.moderators = await this.fetchUsers(moderators);
 		}
 		return await this.competitionRepository.save(competitionToUpdate);
+	}
+
+	async deleteCompetition(id: number): Promise<boolean> {
+		try {
+			const { moderators, jury } = await this.fetchCompetitionById(id);
+			await this.competitionRepository.delete(id);
+			for (const mod of moderators) {
+				mod.competitions = mod.competitions?.filter(c => c.id !== id);
+				await this.userService.saveUser(mod);
+			}
+			for (const juror of jury) {
+				juror.competitions = juror.competitions?.filter(c => c.id !== id);
+				await this.userService.saveUser(juror);
+			}
+			return true;
+		} catch (e) {
+			throw new InternalServerErrorException(
+				'There was a problem deleting the competition',
+				e
+			);
+		}
 	}
 }
