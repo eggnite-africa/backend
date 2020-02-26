@@ -26,9 +26,9 @@ export class Competition extends BaseEntity {
 	@UpdateDateColumn()
 	updatedAt!: Date;
 
-	@Field(() => String)
-	@Column()
-	logo!: string;
+	@Field(() => String, { nullable: true })
+	@Column({ nullable: true })
+	logo?: string;
 
 	@Field(() => String)
 	@IsNotEmpty()
