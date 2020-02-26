@@ -6,8 +6,7 @@ import { Competitions } from './type/competitions.type';
 import { UseGuards } from '@nestjs/common';
 import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 import { NewCompetitionInput } from './dto/newCompetition.input';
-import { CurrentUser } from '../user/decorator/user.decorator';
-import { User } from '../user/user.entity';
+import { UpdatedCompetitionInput } from './dto/updatedCompetition.input';
 
 @Resolver(() => Competition)
 export class CompetitionResolver {
@@ -48,5 +47,18 @@ export class CompetitionResolver {
 		newCompetition: NewCompetitionInput
 	): Promise<Competition> {
 		return await this.competitionService.addCompetition(newCompetition);
+	}
+
+	@Mutation(() => Competition)
+	@UseGuards(GraphQLAuth)
+	async updateCompetition(
+		@Args({ name: 'id', type: () => ID }) id: number,
+		@Args({ name: 'updatedCompetition', type: () => UpdatedCompetitionInput })
+		updatedCompetition: UpdatedCompetitionInput
+	): Promise<Competition> {
+		return await this.competitionService.updateCompetition(
+			id,
+			updatedCompetition
+		);
 	}
 }

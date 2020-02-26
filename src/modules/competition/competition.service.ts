@@ -4,6 +4,7 @@ import { Competition } from './competition.entity';
 import { NewCompetitionInput } from './dto/newCompetition.input';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
+import { UpdatedCompetitionInput } from './dto/updatedCompetition.input';
 
 @Injectable()
 export class CompetitionService {
@@ -52,5 +53,23 @@ export class CompetitionService {
 		newCompetition.moderators = await this.fetchUsers(competition.moderators);
 		newCompetition.jury = await this.fetchUsers(competition.jury);
 		return await this.competitionRepository.save(newCompetition);
+	}
+
+	async updateCompetition(
+		id: number,
+		competition: UpdatedCompetitionInput
+	): Promise<Competition> {
+		const { logo, name, description, jury, moderators } = competition;
+		const competitionToUpdate = await this.fetchCompetitionById(id);
+		competitionToUpdate.logo = logo;
+		if (name) competitionToUpdate.name = name;
+		if (description) competitionToUpdate.description = description;
+		if (jury) {
+			competitionToUpdate.jury = await this.fetchUsers(jury);
+		}
+		if (moderators) {
+			competitionToUpdate.moderators = await this.fetchUsers(moderators);
+		}
+		return await this.competitionRepository.save(competitionToUpdate);
 	}
 }
