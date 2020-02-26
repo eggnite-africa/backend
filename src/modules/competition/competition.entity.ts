@@ -27,6 +27,10 @@ export class Competition extends BaseEntity {
 	updatedAt!: Date;
 
 	@Field(() => String)
+	@Column()
+	logo!: string;
+
+	@Field(() => String)
 	@IsNotEmpty()
 	@Column({ unique: true })
 	name!: string;
