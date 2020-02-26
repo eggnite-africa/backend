@@ -1,15 +1,31 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
 import { Competition } from './competition.entity';
 import { CompetitionService } from './competition.service';
-import { ID } from 'type-graphql';
+import { ID, Int } from 'type-graphql';
+import { Competitions } from './type/competitions.type';
 
 @Resolver(() => Competition)
 export class CompetitionResolver {
 	constructor(private readonly competitionService: CompetitionService) {}
 
-	@Query(() => [Competition])
-	async competitions(): Promise<Competition[]> {
-		return await this.competitionService.fetchAllCompetitions();
+	@Query(() => Competitions)
+	async competitionsList(
+		@Args({ name: 'page', type: () => Int, nullable: true })
+		page: number,
+		@Args({ name: 'pageSize', type: () => Int, defaultValue: 4 })
+		pageSize: number
+	): Promise<Competitions> {
+		const start = page * pageSize;
+		const end = start + pageSize;
+		const [
+			competitions,
+			totalCount
+		] = await this.competitionService.fetchAllCompetitions();
+		return {
+			totalCount,
+			competitions: competitions.slice(start, end),
+			hasMore: end < competitions.length
+		};
 	}
 
 	@Query(() => Competition)

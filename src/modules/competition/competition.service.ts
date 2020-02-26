@@ -8,8 +8,8 @@ export class CompetitionService {
 		private readonly competitionRepository: Repository<Competition>
 	) {}
 
-	async fetchAllCompetitions(): Promise<Competition[]> {
-		return await this.competitionRepository.find();
+	async fetchAllCompetitions(): Promise<[Competition[], number]> {
+		return await this.competitionRepository.findAndCount();
 	}
 
 	private async fetchCompetitionById(id?: number): Promise<Competition> {
