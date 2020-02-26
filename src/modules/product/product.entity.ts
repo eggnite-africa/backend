@@ -18,6 +18,7 @@ import { Vote } from '../vote/vote.entity';
 import { Comment } from '../comment/comment.entitiy';
 import { User } from '../user/user.entity';
 import { ProductLinks } from '../product-links/product-links.entity';
+import { Competition } from '../competition/competition.entity';
 
 @ObjectType()
 @Entity({
@@ -92,6 +93,14 @@ export class Product extends BaseEntity {
 	poster!: User;
 	@Column({ nullable: true })
 	posterId?: number;
+
+	@ManyToOne(() => Competition, {
+		onDelete: 'SET NULL'
+	})
+	@Field(() => Competition, { nullable: true })
+	competition!: Competition;
+	@Column({ nullable: true })
+	competitionId?: number;
 
 	@Column({ type: 'float', default: 0.0 })
 	score!: number;

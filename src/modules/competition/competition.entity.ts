@@ -5,7 +5,8 @@ import {
 	UpdateDateColumn,
 	Column,
 	Entity,
-	ManyToOne
+	ManyToOne,
+	OneToMany
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { Product } from '../product/product.entity';
@@ -35,6 +36,10 @@ export class Competition extends BaseEntity {
 	description!: string;
 
 	@Field(() => [Product])
+	@OneToMany(
+		() => Product,
+		Product => Product.competition
+	)
 	products!: Product[];
 
 	@Field(() => [User])
