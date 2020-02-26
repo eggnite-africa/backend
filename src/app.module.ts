@@ -24,6 +24,7 @@ import { Comment } from './modules/comment/comment.entitiy';
 import { Notification } from './modules/notification/notification.entity';
 import { constants } from './config/constants';
 import { CompetitionModule } from './modules/competition/competition.module';
+import { Competition } from './modules/competition/competition.entity';
 
 export const entities = [
 	Product,
@@ -33,7 +34,8 @@ export const entities = [
 	Profile,
 	Notification,
 	ProductLinks,
-	Feedback
+	Feedback,
+	Competition
 ];
 
 const ssl = (): boolean =>
