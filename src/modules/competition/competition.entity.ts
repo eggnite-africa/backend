@@ -5,8 +5,9 @@ import {
 	UpdateDateColumn,
 	Column,
 	Entity,
-	ManyToOne,
-	OneToMany
+	OneToMany,
+	ManyToMany,
+	JoinTable
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { Product } from '../product/product.entity';
@@ -43,8 +44,12 @@ export class Competition extends BaseEntity {
 	products!: Product[];
 
 	@Field(() => [User])
+	@ManyToMany(() => User)
+	@JoinTable()
 	moderators!: User[];
 
 	@Field(() => [User])
+	@ManyToMany(() => User)
+	@JoinTable()
 	jury!: User[];
 }
