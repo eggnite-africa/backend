@@ -7,6 +7,7 @@ import { UserModule } from '../user/user.module';
 
 @Module({
 	imports: [TypeOrmModule.forFeature([Competition]), UserModule],
-	providers: [CompetitionResolver, CompetitionService]
+	providers: [CompetitionResolver, CompetitionService],
+	exports: [CompetitionService]
 })
 export class CompetitionModule {}
