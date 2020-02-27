@@ -6,11 +6,6 @@ export class UpdatedCompetitionInput {
 	@Field(() => String, { nullable: true })
 	@IsNotEmpty()
 	@IsOptional()
-	name?: string;
-
-	@Field(() => String, { nullable: true })
-	@IsNotEmpty()
-	@IsOptional()
 	description?: string;
 
 	@Field(() => String, { nullable: true })

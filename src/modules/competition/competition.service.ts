@@ -61,10 +61,9 @@ export class CompetitionService {
 		id: number,
 		competition: UpdatedCompetitionInput
 	): Promise<Competition> {
-		const { logo, name, description, jury, moderators } = competition;
+		const { logo, description, jury, moderators } = competition;
 		const competitionToUpdate = await this.fetchCompetitionById(id);
 		competitionToUpdate.logo = logo;
-		if (name) competitionToUpdate.name = name;
 		if (description) competitionToUpdate.description = description;
 		if (jury) {
 			competitionToUpdate.jury = await this.fetchUsers(jury);

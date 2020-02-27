@@ -241,7 +241,6 @@ type Query {
 }
 
 input UpdatedCompetitionInput {
-  name: String
   description: String
   logo: String
   moderators: [ID!]
