@@ -95,13 +95,13 @@ type Mutation {
   addComment(commentInput: CommentInput!): Comment!
   deleteComment(commentId: ID!): Boolean!
   updateComment(commentInput: CommentInput!): Comment!
-  addFeedback(feedback: NewFeedbackInput!): Feedback!
-  markFeedbackAsDone(id: ID!): Feedback!
-  markFeedbackAsRefused(reason: String, id: ID!): Feedback!
   addCompetition(newCompetition: NewCompetitionInput!): Competition!
   updateCompetition(updatedCompetition: UpdatedCompetitionInput!, id: ID!): Competition!
   deleteCompetition(id: ID!): Boolean!
   deleteProductFromCompetition(productId: ID!, competitionId: ID!): Boolean!
+  addFeedback(feedback: NewFeedbackInput!): Feedback!
+  markFeedbackAsDone(id: ID!): Feedback!
+  markFeedbackAsRefused(reason: String, id: ID!): Feedback!
 }
 
 input NewCompetitionInput {
@@ -138,6 +138,7 @@ input NewProductInput {
   media: NewMediaInput!
   links: NewLinksInput
   makersIds: [ID!]!
+  competitionId: ID
 }
 
 input NewUserInput {
@@ -233,10 +234,10 @@ type Query {
   checkUsernameExistance(username: String!): Boolean!
   checkEmailExistance(email: String!): Boolean!
   user(id: ID, username: String): User!
-  fetchAllFeedback: [Feedback]
-  fetchFeedbackByUserId(userId: ID!): [Feedback]
   competitionsList(pageSize: Int = 4, page: Int): Competitions!
   competition(name: String, id: ID): Competition!
+  fetchAllFeedback: [Feedback]
+  fetchFeedbackByUserId(userId: ID!): [Feedback]
 }
 
 input UpdatedCompetitionInput {
@@ -266,6 +267,7 @@ input UpdatedProductInput {
   description: String
   media: UpdatedMediaInput
   links: UpdatedLinksInput
+  competitionId: ID
 }
 
 input UpdateProfileInput {
