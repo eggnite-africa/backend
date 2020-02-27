@@ -40,7 +40,7 @@ export class Competition extends BaseEntity {
 	@Column()
 	description!: string;
 
-	@Field(() => [Product])
+	@Field(() => [Product], { nullable: 'itemsAndList' })
 	@OneToMany(
 		() => Product,
 		Product => Product.competition,
