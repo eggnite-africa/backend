@@ -23,6 +23,21 @@ input CommentInput {
   parentId: ID
 }
 
+type Competition {
+  logo: String
+  name: String!
+  description: String!
+  products: [Product]
+  moderators: [User!]!
+  jury: [User!]!
+}
+
+type Competitions {
+  totalCount: Int!
+  competitions: [Competition]
+  hasMore: Boolean!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -74,7 +89,7 @@ type Mutation {
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
   markNotificationAsSeen(id: ID!): Notification!
-  signUp(UserInput: UserInput!): User!
+  signUp(UserInput: NewUserInput!): User!
   deleteUser(userId: ID!): Boolean!
   updateProfile(updatedProfile: UpdateProfileInput!, userId: ID!): Profile!
   addComment(commentInput: CommentInput!): Comment!
@@ -83,6 +98,18 @@ type Mutation {
   addFeedback(feedback: NewFeedbackInput!): Feedback!
   markFeedbackAsDone(id: ID!): Feedback!
   markFeedbackAsRefused(reason: String, id: ID!): Feedback!
+  addCompetition(newCompetition: NewCompetitionInput!): Competition!
+  updateCompetition(updatedCompetition: UpdatedCompetitionInput!, id: ID!): Competition!
+  deleteCompetition(id: ID!): Boolean!
+  deleteProductFromCompetition(productId: ID!, competitionId: ID!): Boolean!
+}
+
+input NewCompetitionInput {
+  name: String!
+  description: String!
+  logo: String
+  moderators: [ID!]!
+  jury: [ID!]!
 }
 
 input NewFeedbackInput {
@@ -111,6 +138,14 @@ input NewProductInput {
   media: NewMediaInput!
   links: NewLinksInput
   makersIds: [ID!]!
+}
+
+input NewUserInput {
+  username: String!
+  email: String
+  password: String!
+  profile: ProfileInput!
+  type: userTypeEnum = USER
 }
 
 type Notification {
@@ -146,6 +181,7 @@ type Product {
   comments: [Comment]
   makers: [User!]
   poster: User!
+  competition: Competition
 }
 
 type ProductLinks {
@@ -199,6 +235,16 @@ type Query {
   user(id: ID, username: String): User!
   fetchAllFeedback: [Feedback]
   fetchFeedbackByUserId(userId: ID!): [Feedback]
+  competitionsList(pageSize: Int = 4, page: Int): Competitions!
+  competition(name: String, id: ID): Competition!
+}
+
+input UpdatedCompetitionInput {
+  name: String
+  description: String
+  logo: String
+  moderators: [ID!]
+  jury: [ID!]
 }
 
 input UpdatedLinksInput {
@@ -245,14 +291,6 @@ type User {
   products: [Product]
   notifications(seen: Boolean): [Notification]
   type: userTypeEnum
-}
-
-input UserInput {
-  username: String!
-  email: String
-  password: String!
-  profile: ProfileInput!
-  type: userTypeEnum = USER
 }
 
 enum userTypeEnum {
