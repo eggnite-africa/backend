@@ -1,8 +1,4 @@
-import {
-	Injectable,
-	Inject,
-	InternalServerErrorException
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Competition } from './competition.entity';
 import { NewCompetitionInput } from './dto/newCompetition.input';
@@ -16,7 +12,7 @@ export class CompetitionService {
 	constructor(
 		@InjectRepository(Competition)
 		private readonly competitionRepository: Repository<Competition>,
-		@Inject() private readonly userService: UserService
+		private readonly userService: UserService
 	) {}
 
 	async fetchAllCompetitions(): Promise<[Competition[], number]> {
