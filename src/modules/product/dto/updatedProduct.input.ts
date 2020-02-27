@@ -27,4 +27,8 @@ export class UpdatedProductInput {
 	@ValidateNested()
 	@IsOptional()
 	links?: UpdatedLinksInput;
+
+	@Field(() => ID, { nullable: true })
+	@IsOptional()
+	competitionId?: number;
 }

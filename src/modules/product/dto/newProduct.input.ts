@@ -39,4 +39,8 @@ export class NewProductInput {
 	@IsNotEmpty({ each: true })
 	@IsNumberString({ each: true })
 	makersIds!: number[];
+
+	@Field(() => ID, { nullable: true })
+	@IsOptional()
+	competitionId?: number;
 }
