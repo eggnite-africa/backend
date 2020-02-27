@@ -14,6 +14,8 @@ import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 import { ProductLinksService } from '../product-links/product-links.service';
 import { SharedService } from '../shared/shared.service';
+import { CompetitionService } from '../competition/competition.service';
+import { Competition } from '../competition/competition.entity';
 
 @Injectable()
 export class ProductService {
@@ -23,6 +25,7 @@ export class ProductService {
 		@Inject(forwardRef(() => UserService))
 		private readonly userService: UserService,
 		private readonly productLinksService: ProductLinksService,
+		private readonly competitionService: CompetitionService,
 		private readonly sharedService: SharedService
 	) {}
 
@@ -76,6 +79,10 @@ export class ProductService {
 		return makers;
 	}
 
+	private async fetchCompetitionById(id: number): Promise<Competition> {
+		return await this.competitionService.fetchCompetitionByIdOrName(id);
+	}
+
 	async addProduct(
 		product: NewProductInput,
 		posterId: number
@@ -92,6 +99,11 @@ export class ProductService {
 		newProduct.links = links;
 		newProduct.makers = makers;
 		newProduct.posterId = posterId;
+		if (product.competitionId) {
+			newProduct.competition = await this.fetchCompetitionById(
+				product.competitionId
+			);
+		}
 		const addedProduct = await this.productRepository.save(newProduct);
 		for (let i = 0; i < makersIds.length; i++) {
 			await this.userService.setUserAsMaker(makersIds[i]);
@@ -112,7 +124,7 @@ export class ProductService {
 
 	async updateProduct(
 		id: number,
-		{ tagline, media, links, description }: UpdatedProductInput
+		{ tagline, media, links, description, competitionId }: UpdatedProductInput
 	): Promise<Product> {
 		const productToUpdate = await this.fetchProductById(id);
 		if (tagline) {
@@ -134,6 +146,11 @@ export class ProductService {
 				links
 			);
 			productToUpdate.links = updatedLinks;
+		}
+		if (competitionId) {
+			productToUpdate.competition = await this.fetchCompetitionById(
+				competitionId
+			);
 		}
 		return await this.productRepository.save(productToUpdate);
 	}
