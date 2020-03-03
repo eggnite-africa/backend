@@ -40,7 +40,7 @@ export class UserService {
 	async findUserByOptions(options: any = {}): Promise<User> {
 		return await this.userRepository.findOneOrFail({
 			where: { ...options },
-			relations: ['products', 'comments']
+			relations: ['products', 'comments', 'products.comments', 'products.votes']
 		});
 	}
 
