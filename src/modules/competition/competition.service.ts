@@ -19,12 +19,28 @@ export class CompetitionService {
 		return await this.competitionRepository.findAndCount();
 	}
 
+	private async fetchCompetition(
+		fieldName: string,
+		value: string | number | undefined
+	): Promise<Competition> {
+		return await this.competitionRepository.findOneOrFail({
+			where: { fieldName: value },
+			relations: [
+				'jury',
+				'moderators',
+				'products',
+				'products.votes',
+				'products.comments'
+			]
+		});
+	}
+
 	private async fetchCompetitionById(id?: number): Promise<Competition> {
-		return await this.competitionRepository.findOneOrFail({ id });
+		return await this.fetchCompetition('id', id);
 	}
 
 	private async fetchCompetitionByName(name?: string): Promise<Competition> {
-		return await this.competitionRepository.findOneOrFail({ name });
+		return await this.fetchCompetition('name', name);
 	}
 
 	async fetchCompetitionByIdOrName(
