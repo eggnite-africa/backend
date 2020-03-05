@@ -9,7 +9,7 @@ import {
 	ManyToMany,
 	JoinTable
 } from 'typeorm';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, ObjectType, ID } from 'type-graphql';
 import { Product } from '../product/product.entity';
 import { IsNotEmpty } from 'class-validator';
 import { User } from '../user/user.entity';
@@ -17,6 +17,7 @@ import { User } from '../user/user.entity';
 @ObjectType()
 @Entity()
 export class Competition extends BaseEntity {
+	@Field(() => ID)
 	@PrimaryGeneratedColumn()
 	readonly id!: number;
 

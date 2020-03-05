@@ -24,6 +24,7 @@ input CommentInput {
 }
 
 type Competition {
+  id: ID!
   logo: String
   name: String!
   description: String!
