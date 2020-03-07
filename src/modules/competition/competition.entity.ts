@@ -64,4 +64,12 @@ export class Competition extends BaseEntity {
 	})
 	@JoinTable()
 	jury!: User[];
+
+	@Field(() => Date)
+	@Column()
+	startDate!: Date;
+
+	@Field(() => Date)
+	@Column()
+	endDate!: Date;
 }

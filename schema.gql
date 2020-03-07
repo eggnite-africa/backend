@@ -31,6 +31,8 @@ type Competition {
   products: [Product]
   moderators: [User!]!
   jury: [User!]!
+  startDate: DateTime!
+  endDate: DateTime!
 }
 
 type Competitions {
@@ -111,6 +113,8 @@ input NewCompetitionInput {
   logo: String
   moderators: [ID!]!
   jury: [ID!]!
+  startDate: DateTime!
+  endDate: DateTime!
 }
 
 input NewFeedbackInput {
@@ -246,6 +250,8 @@ input UpdatedCompetitionInput {
   logo: String
   moderators: [ID!]
   jury: [ID!]
+  startDate: DateTime!
+  endDate: DateTime!
 }
 
 input UpdatedLinksInput {

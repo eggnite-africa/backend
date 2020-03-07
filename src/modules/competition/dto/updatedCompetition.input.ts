@@ -1,5 +1,5 @@
 import { InputType, Field, ID } from 'type-graphql';
-import { IsNotEmpty, ArrayNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty, ArrayNotEmpty, IsOptional, IsDate } from 'class-validator';
 
 @InputType()
 export class UpdatedCompetitionInput {
@@ -21,4 +21,12 @@ export class UpdatedCompetitionInput {
 	@ArrayNotEmpty()
 	@IsOptional()
 	jury?: number[];
+
+	@Field(() => Date)
+	@IsDate()
+	startDate?: Date;
+
+	@Field(() => Date)
+	@IsDate()
+	endDate?: Date;
 }
