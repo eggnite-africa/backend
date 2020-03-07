@@ -70,6 +70,8 @@ export class CompetitionService {
 		newCompetition.description = competition.description;
 		newCompetition.moderators = await this.fetchUsers(competition.moderators);
 		newCompetition.jury = await this.fetchUsers(competition.jury);
+		newCompetition.startDate = competition.startDate;
+		newCompetition.endDate = competition.endDate;
 		return await this.competitionRepository.save(newCompetition);
 	}
 
