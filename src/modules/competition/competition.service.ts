@@ -91,7 +91,11 @@ export class CompetitionService {
 			competitionToUpdate.moderators = await this.fetchUsers(moderators);
 		}
 		if (organizers) {
-			competitionToUpdate.organizers = organizers;
+			organizers.forEach(({ logo, name, website }, index) => {
+				if (logo) competitionToUpdate.organizers[index].logo = logo;
+				if (name) competitionToUpdate.organizers[index].name = name;
+				if (website) competitionToUpdate.organizers[index].website = website;
+			});
 		}
 		return await this.competitionRepository.save(competitionToUpdate);
 	}
