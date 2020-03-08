@@ -24,7 +24,7 @@ export class CompetitionService {
 		value: string | number | undefined
 	): Promise<Competition> {
 		return await this.competitionRepository.findOneOrFail({
-			where: { fieldName: value },
+			where: { [fieldName]: value },
 			relations: [
 				'jury',
 				'moderators',
