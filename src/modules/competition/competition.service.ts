@@ -72,6 +72,7 @@ export class CompetitionService {
 		newCompetition.jury = await this.fetchUsers(competition.jury);
 		newCompetition.startDate = competition.startDate;
 		newCompetition.endDate = competition.endDate;
+		newCompetition.organizers = competition.organizers;
 		return await this.competitionRepository.save(newCompetition);
 	}
 
@@ -79,7 +80,7 @@ export class CompetitionService {
 		id: number,
 		competition: UpdatedCompetitionInput
 	): Promise<Competition> {
-		const { logo, description, jury, moderators } = competition;
+		const { logo, description, jury, moderators, organizers } = competition;
 		const competitionToUpdate = await this.fetchCompetitionById(id);
 		competitionToUpdate.logo = logo;
 		if (description) competitionToUpdate.description = description;
@@ -88,6 +89,9 @@ export class CompetitionService {
 		}
 		if (moderators) {
 			competitionToUpdate.moderators = await this.fetchUsers(moderators);
+		}
+		if (organizers) {
+			competitionToUpdate.organizers = organizers;
 		}
 		return await this.competitionRepository.save(competitionToUpdate);
 	}
