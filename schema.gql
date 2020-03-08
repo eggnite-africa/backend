@@ -33,6 +33,7 @@ type Competition {
   jury: [User!]!
   startDate: DateTime!
   endDate: DateTime!
+  organizers: [Organizer!]!
 }
 
 type Competitions {
@@ -115,6 +116,7 @@ input NewCompetitionInput {
   jury: [ID!]!
   startDate: DateTime!
   endDate: DateTime!
+  organizers: [NewOrganizerInput!]!
 }
 
 input NewFeedbackInput {
@@ -134,6 +136,12 @@ input NewMediaInput {
   logo: String
   pictures: [String!]!
   videos: [String]
+}
+
+input NewOrganizerInput {
+  logo: String!
+  name: String!
+  website: String
 }
 
 input NewProductInput {
@@ -174,6 +182,12 @@ enum OccupationType {
   STUDENT
   DEVELOPER
   ENTREPRENEUR
+}
+
+type Organizer {
+  logo: String!
+  name: String!
+  website: String
 }
 
 type Product {
@@ -252,6 +266,7 @@ input UpdatedCompetitionInput {
   jury: [ID!]
   startDate: DateTime!
   endDate: DateTime!
+  organizers: [UpdatedOrganizerInput]
 }
 
 input UpdatedLinksInput {
@@ -265,6 +280,12 @@ input UpdatedMediaInput {
   logo: String
   pictures: [String]
   videos: [String]
+}
+
+input UpdatedOrganizerInput {
+  logo: String
+  name: String
+  website: String
 }
 
 input UpdatedProductInput {
