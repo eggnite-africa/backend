@@ -74,7 +74,7 @@ export class Competition extends BaseEntity {
 	@Column()
 	endDate!: Date;
 
-	@Field()
+	@Field(() => [Organizer])
 	@Column({ type: 'json' })
 	organizers!: Organizer[];
 }

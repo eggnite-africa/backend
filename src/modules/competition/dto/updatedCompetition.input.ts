@@ -31,6 +31,6 @@ export class UpdatedCompetitionInput {
 	@IsDate()
 	endDate?: Date;
 
-	@Field({ nullable: 'itemsAndList' })
+	@Field(() => [Organizer], { nullable: 'itemsAndList' })
 	organizers?: Organizer[];
 }
