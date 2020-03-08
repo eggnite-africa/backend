@@ -13,6 +13,7 @@ import { Field, ObjectType, ID } from 'type-graphql';
 import { Product } from '../product/product.entity';
 import { IsNotEmpty } from 'class-validator';
 import { User } from '../user/user.entity';
+import { Organizer } from './type/organizer.type';
 
 @ObjectType()
 @Entity()
@@ -72,4 +73,8 @@ export class Competition extends BaseEntity {
 	@Field(() => Date)
 	@Column()
 	endDate!: Date;
+
+	@Field()
+	@Column({ type: 'json' })
+	organizers!: Organizer[];
 }

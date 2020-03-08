@@ -1,5 +1,6 @@
 import { InputType, Field, ID } from 'type-graphql';
 import { IsNotEmpty, ArrayNotEmpty, IsOptional, IsDate } from 'class-validator';
+import { Organizer } from '../type/organizer.type';
 
 @InputType()
 export class UpdatedCompetitionInput {
@@ -29,4 +30,7 @@ export class UpdatedCompetitionInput {
 	@Field(() => Date)
 	@IsDate()
 	endDate?: Date;
+
+	@Field({ nullable: 'itemsAndList' })
+	organizers?: Organizer[];
 }
