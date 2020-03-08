@@ -2,12 +2,12 @@ import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export class Organizer {
-	@Field()
+	@Field(() => String)
 	logo!: string;
 
-	@Field()
+	@Field(() => String)
 	name!: string;
 
-	@Field({ nullable: true })
+	@Field(() => String, { nullable: true })
 	website?: string;
 }

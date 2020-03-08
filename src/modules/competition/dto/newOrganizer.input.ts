@@ -2,12 +2,12 @@ import { InputType, Field } from 'type-graphql';
 
 @InputType()
 export class NewOrganizerInput {
-	@Field()
+	@Field(() => String)
 	logo!: string;
 
-	@Field()
+	@Field(() => String)
 	name!: string;
 
-	@Field({ nullable: true })
+	@Field(() => String, { nullable: true })
 	website?: string;
 }
