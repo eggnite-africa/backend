@@ -1,6 +1,6 @@
 import { InputType, Field, ID } from 'type-graphql';
 import { IsNotEmpty, ArrayNotEmpty, IsOptional, IsDate } from 'class-validator';
-import { Organizer } from '../type/organizer.type';
+import { UpdatedOrganizerInput } from './updatedOrganizer.input';
 
 @InputType()
 export class UpdatedCompetitionInput {
@@ -31,6 +31,6 @@ export class UpdatedCompetitionInput {
 	@IsDate()
 	endDate?: Date;
 
-	@Field(() => [Organizer], { nullable: 'itemsAndList' })
-	organizers?: Organizer[];
+	@Field(() => [UpdatedOrganizerInput], { nullable: 'itemsAndList' })
+	organizers?: UpdatedOrganizerInput[];
 }
