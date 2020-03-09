@@ -44,7 +44,7 @@ export class ProductService {
 			where: {
 				id
 			},
-			relations: ['links', 'makers']
+			relations: ['links', 'makers', 'competition']
 		});
 	}
 
@@ -53,7 +53,7 @@ export class ProductService {
 			where: {
 				name
 			},
-			relations: ['links']
+			relations: ['links', 'makers', 'competition']
 		});
 	}
 
