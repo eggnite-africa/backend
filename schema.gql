@@ -74,7 +74,7 @@ type Mutation {
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
   markNotificationAsSeen(id: ID!): Notification!
-  signUp(UserInput: UserInput!): User!
+  signUp(UserInput: NewUserInput!): User!
   deleteUser(userId: ID!): Boolean!
   updateProfile(updatedProfile: UpdateProfileInput!, userId: ID!): Profile!
   addComment(commentInput: CommentInput!): Comment!
@@ -111,6 +111,14 @@ input NewProductInput {
   media: NewMediaInput!
   links: NewLinksInput
   makersIds: [ID!]!
+}
+
+input NewUserInput {
+  username: String!
+  email: String
+  password: String!
+  profile: ProfileInput!
+  type: userTypeEnum = USER
 }
 
 type Notification {
@@ -245,14 +253,6 @@ type User {
   products: [Product]
   notifications(seen: Boolean): [Notification]
   type: userTypeEnum
-}
-
-input UserInput {
-  username: String!
-  email: String
-  password: String!
-  profile: ProfileInput!
-  type: userTypeEnum = USER
 }
 
 enum userTypeEnum {
