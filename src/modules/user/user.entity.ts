@@ -53,8 +53,7 @@ export class User extends BaseEntity {
 	@Field(() => String, { nullable: true })
 	@Column({ unique: true, nullable: true })
 	@IsEmail()
-	@IsOptional()
-	email?: string;
+	email!: string;
 
 	@Column()
 	@IsNotEmpty()
