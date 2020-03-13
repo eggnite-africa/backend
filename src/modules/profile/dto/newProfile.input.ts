@@ -16,8 +16,8 @@ export class ProfileInput implements Partial<Profile> {
 
 	@Field(() => String)
 	@IsString()
-	@IsNotEmpty()
-	fullName!: string;
+	@IsOptional()
+	fullName?: string;
 
 	@Field(() => genderType, { nullable: true })
 	@IsEnum(genderType)
