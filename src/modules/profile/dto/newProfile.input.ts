@@ -8,7 +8,7 @@ export class NewProfileInput implements Partial<Profile> {
 	@IsOptional()
 	picture?: string;
 
-	@Field(() => String, { nullable: true })
+	@Field(() => String, { nullable: true, defaultValue: '' })
 	@IsString()
 	@IsOptional()
 	fullName?: string;

@@ -115,7 +115,7 @@ input NewProductInput {
 
 input NewProfileInput {
   picture: String
-  fullName: String
+  fullName: String = ""
   gender: genderType
   birthDate: DateTime
   occupation: OccupationType
