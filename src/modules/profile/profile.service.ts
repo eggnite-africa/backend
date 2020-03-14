@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Profile } from './profile.entity';
 import { Repository } from 'typeorm';
-import { ProfileInput as newProfileInput } from './dto/newProfile.input';
+import { NewProfileInput as newProfileInput } from './dto/newProfile.input';
 import { UpdateProfileInput } from './dto/updateProfile.input';
 import { SharedService } from '../shared/shared.service';
 

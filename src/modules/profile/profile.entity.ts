@@ -47,7 +47,7 @@ export class Profile extends BaseEntity {
 	@IsOptional()
 	picture?: string;
 
-	@Field(() => String)
+	@Field(() => String, { nullable: true })
 	@Column({ default: '' })
 	@IsOptional()
 	fullName?: string;
