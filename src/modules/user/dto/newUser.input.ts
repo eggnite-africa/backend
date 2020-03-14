@@ -5,10 +5,9 @@ import {
 	IsNotEmpty,
 	MinLength,
 	IsEnum,
-	IsOptional,
 	IsAlphanumeric
 } from 'class-validator';
-import { ProfileInput } from '../../profile/dto/newProfile.input';
+import { NewProfileInput } from '../../profile/dto/newProfile.input';
 @InputType()
 export class NewUserInput implements Partial<User> {
 	@Field(() => String)
@@ -16,19 +15,18 @@ export class NewUserInput implements Partial<User> {
 	@IsAlphanumeric()
 	username!: string;
 
-	@Field(() => String, { nullable: true })
+	@Field(() => String)
 	@IsEmail()
-	@IsOptional()
-	email?: string;
+	email!: string;
 
 	@Field(() => String)
 	@IsNotEmpty()
 	password!: string;
 
-	@Field(() => ProfileInput)
+	@Field(() => NewProfileInput)
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
-	profile!: ProfileInput;
+	profile!: NewProfileInput;
 
 	@Field(() => userTypeEnum)
 	@IsEnum(userTypeEnum)
