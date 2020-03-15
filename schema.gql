@@ -93,7 +93,11 @@ type Mutation {
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
   markNotificationAsSeen(id: ID!): Notification!
+<<<<<<< HEAD
   signUp(UserInput: NewUserInput!): User!
+=======
+  signUp(newUser: NewUserInput!): User!
+>>>>>>> dev
   deleteUser(userId: ID!): Boolean!
   updateProfile(updatedProfile: UpdateProfileInput!, userId: ID!): Profile!
   addComment(commentInput: CommentInput!): Comment!
@@ -162,6 +166,27 @@ input NewUserInput {
   type: userTypeEnum = USER
 }
 
+input NewProfileInput {
+  picture: String
+  fullName: String = ""
+  gender: genderType
+  birthDate: DateTime
+  occupation: OccupationType
+  bio: String
+  socialLinks: [String]
+  university: String
+  company: String
+  country: String
+}
+
+input NewUserInput {
+  username: String!
+  email: String!
+  password: String!
+  profile: NewProfileInput!
+  type: userTypeEnum = USER
+}
+
 type Notification {
   id: ID!
   seen: Boolean!
@@ -220,7 +245,7 @@ type Products {
 
 type Profile {
   picture: String
-  fullName: String!
+  fullName: String
   gender: genderType
   birthDate: DateTime
   occupation: OccupationType
@@ -229,19 +254,6 @@ type Profile {
   bio: String
   country: String
   socialLinks: [String]
-}
-
-input ProfileInput {
-  picture: String
-  fullName: String!
-  gender: genderType
-  birthDate: DateTime
-  occupation: OccupationType
-  bio: String
-  socialLinks: [String]
-  university: String
-  company: String
-  country: String
 }
 
 type Query {

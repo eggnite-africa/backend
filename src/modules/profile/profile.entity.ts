@@ -7,7 +7,7 @@ import {
 	Column
 } from 'typeorm';
 import { ObjectType, Field, registerEnumType } from 'type-graphql';
-import { IsNotEmpty, IsDate, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsOptional, IsString } from 'class-validator';
 
 export enum OccupationType {
 	STUDENT = 'STUDENT',
@@ -47,7 +47,7 @@ export class Profile extends BaseEntity {
 	@IsOptional()
 	picture?: string;
 
-	@Field(() => String)
+	@Field(() => String, { nullable: true })
 	@Column({ default: '' })
 	@IsOptional()
 	fullName?: string;

@@ -1,6 +1,6 @@
 import { Profile, genderType, OccupationType } from '../profile.entity';
 import { InputType, Field } from 'type-graphql';
-import { IsDateString, IsString, IsEnum, IsOptional } from 'class-validator';
+import { IsString, IsEnum, IsOptional, IsDate } from 'class-validator';
 
 @InputType()
 export class UpdateProfileInput implements Partial<Profile> {
@@ -20,7 +20,7 @@ export class UpdateProfileInput implements Partial<Profile> {
 	gender?: genderType;
 
 	@Field(() => Date, { nullable: true })
-	@IsDateString()
+	@IsDate()
 	@IsOptional()
 	birthDate?: Date;
 

@@ -1,20 +1,14 @@
 import { Profile, genderType, OccupationType } from '../profile.entity';
 import { InputType, Field } from 'type-graphql';
-import {
-	IsNotEmpty,
-	IsDateString,
-	IsEnum,
-	IsString,
-	IsOptional
-} from 'class-validator';
+import { IsEnum, IsString, IsOptional, IsDate } from 'class-validator';
 @InputType()
-export class ProfileInput implements Partial<Profile> {
+export class NewProfileInput implements Partial<Profile> {
 	@Field(() => String, { nullable: true })
 	@IsString()
 	@IsOptional()
 	picture?: string;
 
-	@Field(() => String)
+	@Field(() => String, { nullable: true, defaultValue: '' })
 	@IsString()
 	@IsOptional()
 	fullName?: string;
@@ -24,7 +18,7 @@ export class ProfileInput implements Partial<Profile> {
 	gender?: genderType;
 
 	@Field(() => Date, { nullable: true })
-	@IsDateString()
+	@IsDate()
 	@IsOptional()
 	birthDate?: Date;
 
