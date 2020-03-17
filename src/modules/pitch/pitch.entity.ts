@@ -3,10 +3,12 @@ import {
 	Entity,
 	PrimaryGeneratedColumn,
 	Column,
-	ManyToOne
+	ManyToOne,
+	OneToMany
 } from 'typeorm';
 import { ObjectType, ID, Field } from 'type-graphql';
 import { User } from '../user/user.entity';
+import { Vote } from '../vote/vote.entity';
 
 @Entity()
 @ObjectType()
@@ -31,4 +33,11 @@ export class Pitch extends BaseEntity {
 		user => user.pitch
 	)
 	user!: User;
+
+	@Field(() => [Vote], { nullable: true })
+	@OneToMany(
+		() => Vote,
+		vote => vote.product
+	)
+	votes?: Vote[];
 }

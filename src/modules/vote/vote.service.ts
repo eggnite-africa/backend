@@ -1,4 +1,9 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import {
+	Injectable,
+	Inject,
+	forwardRef,
+	InternalServerErrorException
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vote } from './vote.entity';
 import { Repository } from 'typeorm';
@@ -44,6 +49,41 @@ export class VoteService {
 		return score;
 	}
 
+	async addClap(pitchId: number, userId: number): Promise<Vote> {
+		const alreadyVoted = await this.voteRepository.findOne({
+			where: {
+				pitchId,
+				userId
+			}
+		});
+
+		if (alreadyVoted && alreadyVoted !== undefined)
+			throw new Error("You already voted. Can't vote twice.");
+
+		const newVote = new Vote();
+		newVote.userId = userId;
+		newVote.pitchId = pitchId;
+		const addedVote = await this.voteRepository.save(newVote);
+		const { user }: Vote = await this.voteRepository.findOneOrFail({
+			where: {
+				id: addedVote.id
+			}
+		});
+		await this.notificationService.addVoteNotification(newVote, [user]);
+		return addedVote;
+	}
+
+	async deleteClap(pitchId: number, userId: number): Promise<boolean> {
+		const voteToRemove = await this.voteRepository.findOneOrFail({
+			where: {
+				pitchId,
+				userId
+			}
+		});
+		const isDeleted = await this.voteRepository.remove(voteToRemove);
+		return isDeleted ? true : false;
+	}
+
 	async addVote(productId: number, userId: number): Promise<Vote> {
 		const alreadyVoted = await this.voteRepository.findOne({
 			where: {
@@ -66,6 +106,7 @@ export class VoteService {
 				relations: ['product', 'product.makers']
 			}
 		);
+		if (!product) throw new InternalServerErrorException();
 		const subscribers = product.makers.filter(
 			(maker: User) => maker.id != userId
 		);

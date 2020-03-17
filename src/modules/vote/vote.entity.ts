@@ -11,6 +11,7 @@ import {
 import { Product } from '../product/product.entity';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { User } from '../user/user.entity';
+import { Pitch } from '../pitch/pitch.entity';
 
 @ObjectType()
 @Entity()
@@ -22,18 +23,31 @@ export class Vote extends BaseEntity {
 	@CreateDateColumn()
 	createdAt!: Date;
 
-	@Field(() => ID)
-	@Column()
-	productId!: number;
-
 	@ManyToOne(
 		type => Product,
 		product => product.votes,
 		{
-			onDelete: 'CASCADE'
+			onDelete: 'CASCADE',
+			nullable: true
 		}
 	)
-	product!: Product;
+	product?: Product;
+	@Field(() => ID, { nullable: true })
+	@Column({ nullable: true })
+	productId?: number;
+
+	@ManyToOne(
+		type => Pitch,
+		pitch => pitch,
+		{
+			onDelete: 'CASCADE',
+			nullable: true
+		}
+	)
+	pitch?: Pitch;
+	@Field(() => ID, { nullable: true })
+	@Column({ nullable: true })
+	pitchId?: number;
 
 	@ManyToOne(
 		type => User,
