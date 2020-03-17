@@ -38,7 +38,7 @@ export class Vote extends BaseEntity {
 
 	@ManyToOne(
 		type => Pitch,
-		pitch => pitch,
+		pitch => pitch.votes,
 		{
 			onDelete: 'CASCADE',
 			nullable: true

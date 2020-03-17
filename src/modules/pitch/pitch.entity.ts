@@ -37,7 +37,7 @@ export class Pitch extends BaseEntity {
 	@Field(() => [Vote], { nullable: true })
 	@OneToMany(
 		() => Vote,
-		vote => vote.product
+		vote => vote.pitch
 	)
 	votes?: Vote[];
 }
