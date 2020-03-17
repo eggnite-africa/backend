@@ -83,6 +83,9 @@ type Mutation {
   addFeedback(feedback: NewFeedbackInput!): Feedback!
   markFeedbackAsDone(id: ID!): Feedback!
   markFeedbackAsRefused(reason: String, id: ID!): Feedback!
+  addPitch(newPitch: NewPitchInput!): Pitch!
+  updatePitch(userId: ID!, updatedPitch: UpdatedPitchInput!): Pitch!
+  deletePitch(userId: ID!, id: ID!): Boolean!
 }
 
 input NewFeedbackInput {
@@ -102,6 +105,12 @@ input NewMediaInput {
   logo: String
   pictures: [String!]!
   videos: [String]
+}
+
+input NewPitchInput {
+  title: String!
+  content: String!
+  userId: ID!
 }
 
 input NewProductInput {
@@ -156,6 +165,13 @@ enum OccupationType {
   ENTREPRENEUR
 }
 
+type Pitch {
+  id: ID!
+  title: String!
+  content: String!
+  user: User!
+}
+
 type Product {
   id: ID!
   name: String!
@@ -207,6 +223,8 @@ type Query {
   user(id: ID, username: String): User!
   fetchAllFeedback: [Feedback]
   fetchFeedbackByUserId(userId: ID!): [Feedback]
+  pitchList: [Pitch]
+  pitch(id: ID!): Pitch!
 }
 
 input UpdatedLinksInput {
@@ -220,6 +238,12 @@ input UpdatedMediaInput {
   logo: String
   pictures: [String]
   videos: [String]
+}
+
+input UpdatedPitchInput {
+  id: ID!
+  content: String
+  userId: ID!
 }
 
 input UpdatedProductInput {
@@ -252,6 +276,7 @@ type User {
   votes: [Vote]
   products: [Product]
   notifications(seen: Boolean): [Notification]
+  pitch: [Pitch]
   type: userTypeEnum
 }
 
