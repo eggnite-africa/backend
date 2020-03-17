@@ -9,6 +9,7 @@ import {
 import { ObjectType, ID, Field } from 'type-graphql';
 import { User } from '../user/user.entity';
 import { Vote } from '../vote/vote.entity';
+import { Comment } from '../comment/comment.entitiy';
 
 @Entity()
 @ObjectType()
@@ -40,4 +41,11 @@ export class Pitch extends BaseEntity {
 		vote => vote.pitch
 	)
 	votes?: Vote[];
+
+	@Field(() => [Comment], { nullable: true })
+	@OneToMany(
+		() => Comment,
+		comment => comment.pitch
+	)
+	comments?: Comment[];
 }

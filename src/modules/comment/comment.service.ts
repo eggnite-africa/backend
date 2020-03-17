@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { Comment } from './comment.entitiy';
 import { NotificationService } from '../notification/notification.service';
 import { User } from '../user/user.entity';
-import { Vote } from '../vote/vote.entity';
 
 @Injectable()
 export class CommentService {
@@ -18,6 +17,16 @@ export class CommentService {
 		return await this.commentRepository.find({
 			where: {
 				parentId: id
+			}
+		});
+	}
+
+	async fetchAllCommentsPitch(id: number): Promise<Comment[]> {
+		return await this.commentRepository.find({
+			where: {
+				pitchId: id,
+				parentId: null
+				// 👆 Here we only want to fetch the comments and not their replies
 			}
 		});
 	}
@@ -40,6 +49,7 @@ export class CommentService {
 		userId: number,
 		newComment: Comment
 	): Promise<User[]> {
+		let subscribers: User[];
 		const { product }: Comment = await this.commentRepository.findOneOrFail(
 			{
 				id: newComment.id
@@ -48,20 +58,30 @@ export class CommentService {
 				relations: ['product', 'product.makers']
 			}
 		);
-		const subscribers = product.makers.filter(
-			(maker: User) => maker.id != userId
+		const { user }: Comment = await this.commentRepository.findOneOrFail(
+			{
+				id: newComment.id
+			},
+			{
+				relations: ['user']
+			}
 		);
+		if (product)
+			subscribers = product.makers.filter((maker: User) => maker.id != userId);
+		else subscribers = [user];
+
 		return subscribers;
 	}
 
 	async addComment(
-		productId: number,
-		content: string,
 		userId: number,
+		content: string,
+		productId?: number,
+		pitchId?: number,
 		parentId?: number
 	): Promise<Comment> {
 		if (parentId) {
-			return await this.addReply(parentId, content, userId, productId);
+			return await this.addReply(parentId, content, userId, productId, pitchId);
 		}
 
 		const newComment = new Comment();
@@ -89,13 +109,18 @@ export class CommentService {
 		parentId: number,
 		content: string,
 		userId: number,
-		productId: number
+		productId?: number,
+		pitchId?: number
 	): Promise<Comment> {
 		const reply = new Comment();
 		reply.parentId = parentId;
 		reply.content = content;
 		reply.userId = userId;
-		reply.productId = productId;
+		if (productId) {
+			reply.productId = productId;
+		} else {
+			reply.pitchId = pitchId;
+		}
 		const newReply = await this.commentRepository.save(reply);
 		const { parent } = await this.commentRepository.findOneOrFail(
 			{ id: newReply.id },

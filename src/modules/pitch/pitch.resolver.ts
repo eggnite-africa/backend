@@ -1,16 +1,28 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import {
+	Parent,
+	Resolver,
+	Query,
+	Args,
+	Mutation,
+	ResolveProperty
+} from '@nestjs/graphql';
 import { Pitch } from './pitch.entity';
 import { PitchService } from './pitch.service';
 import { ID, Int } from 'type-graphql';
 import { NewPitchInput } from './dto/newPitch.input';
 import { UpdatedPitchInput } from './dto/updatedPitch.input';
 import { Pitchs } from './type/pitchs.type';
+import { CommentService } from '../comment/comment.service';
+import { Comment } from '../comment/comment.entitiy';
 // import { CurrentUser } from '../user/decorator/user.decorator';
 // import { User } from '../user/user.entity';
 
 @Resolver(() => Pitch)
 export class PitchResolver {
-	constructor(private readonly pitchService: PitchService) {}
+	constructor(
+		private readonly pitchService: PitchService,
+		private readonly commentService: CommentService
+	) {}
 
 	@Query(() => Pitchs)
 	async pitchList(
@@ -61,5 +73,10 @@ export class PitchResolver {
 		// @CurrentUser() { id: userId }: User
 	): Promise<boolean> {
 		return await this.pitchService.deletePitch(id, userId);
+	}
+
+	@ResolveProperty('comments')
+	async comments(@Parent() { id }: Pitch): Promise<Comment[]> {
+		return await this.commentService.fetchAllComments(id);
 	}
 }

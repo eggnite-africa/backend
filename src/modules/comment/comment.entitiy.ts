@@ -13,6 +13,7 @@ import { ObjectType, Field, ID } from 'type-graphql';
 import { Product } from '../product/product.entity';
 import { User } from '../user/user.entity';
 import { IsNotEmpty } from 'class-validator';
+import { Pitch } from '../pitch/pitch.entity';
 
 @Entity({
 	orderBy: {
@@ -35,20 +36,33 @@ export class Comment extends BaseEntity {
 	@Field(() => String)
 	@Column({ type: 'text' })
 	@IsNotEmpty()
-	@IsNotEmpty()
 	content!: string;
 
 	@ManyToOne(
-		tpe => Product,
+		() => Product,
 		product => product.comments,
 		{
-			onDelete: 'CASCADE'
+			onDelete: 'CASCADE',
+			nullable: true
 		}
 	)
-	product!: Product;
-	@Field(() => ID)
-	@Column()
-	productId!: number;
+	product?: Product;
+	@Field(() => ID, { nullable: true })
+	@Column({ nullable: true })
+	productId?: number;
+
+	@ManyToOne(
+		() => Pitch,
+		pitch => pitch.comments,
+		{
+			onDelete: 'CASCADE',
+			nullable: true
+		}
+	)
+	pitch?: Pitch;
+	@Field(() => ID, { nullable: true })
+	@Column({ nullable: true })
+	pitchId?: number;
 
 	@ManyToOne(
 		type => Comment,
