@@ -7,7 +7,10 @@ export class CommentInput implements Partial<Comment> {
 	// Because we're not always using all the fields,
 	// We need to set some of them as nullable.
 	@Field(() => ID, { nullable: true })
-	productId!: number;
+	productId?: number;
+
+	@Field(() => ID, { nullable: true })
+	pitchId?: number;
 
 	@Field(() => String)
 	@IsString()

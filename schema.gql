@@ -16,6 +16,7 @@ type Comment {
 
 input CommentInput {
   productId: ID
+  pitchId: ID
   content: String!
 
   """
@@ -80,7 +81,7 @@ type Mutation {
   signUp(newUser: NewUserInput!): User!
   deleteUser(userId: ID!): Boolean!
   updateProfile(updatedProfile: UpdateProfileInput!, userId: ID!): Profile!
-  addComment(commentInput: CommentInput!): Comment!
+  addComment(userId: ID!, commentInput: CommentInput!): Comment!
   deleteComment(commentId: ID!): Boolean!
   updateComment(commentInput: CommentInput!): Comment!
   addFeedback(feedback: NewFeedbackInput!): Feedback!
