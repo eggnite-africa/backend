@@ -77,6 +77,6 @@ export class PitchResolver {
 
 	@ResolveProperty('comments')
 	async comments(@Parent() { id }: Pitch): Promise<Comment[]> {
-		return await this.commentService.fetchAllComments(id);
+		return await this.commentService.fetchAllCommentsPitch(id);
 	}
 }
