@@ -12,7 +12,7 @@ import { Pitchs } from './type/pitchs.type';
 export class PitchResolver {
 	constructor(private readonly pitchService: PitchService) {}
 
-	@Query(() => Pitchs, { nullable: 'itemsAndList' })
+	@Query(() => Pitchs)
 	async pitchList(
 		@Args({ name: 'page', type: () => Int, nullable: true })
 		page: number,
