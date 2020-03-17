@@ -1,9 +1,10 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { Pitch } from './pitch.entity';
 import { PitchService } from './pitch.service';
-import { ID } from 'type-graphql';
+import { ID, Int } from 'type-graphql';
 import { NewPitchInput } from './dto/newPitch.input';
 import { UpdatedPitchInput } from './dto/updatedPitch.input';
+import { Pitchs } from './type/pitchs.type';
 // import { CurrentUser } from '../user/decorator/user.decorator';
 // import { User } from '../user/user.entity';
 
@@ -11,9 +12,21 @@ import { UpdatedPitchInput } from './dto/updatedPitch.input';
 export class PitchResolver {
 	constructor(private readonly pitchService: PitchService) {}
 
-	@Query(() => [Pitch], { nullable: 'itemsAndList' })
-	async pitchList(): Promise<Pitch[]> {
-		return await this.pitchService.fetchAllPitchs();
+	@Query(() => Pitchs, { nullable: 'itemsAndList' })
+	async pitchList(
+		@Args({ name: 'page', type: () => Int, nullable: true })
+		page: number,
+		@Args({ name: 'pageSize', type: () => Int, defaultValue: 7 })
+		pageSize: number
+	): Promise<Pitchs> {
+		const start = page * pageSize;
+		const end = start + pageSize;
+		const [pitchs, totalCount] = await this.pitchService.fetchAllPitchs();
+		return {
+			totalCount,
+			pitchs: pitchs.slice(start, end),
+			hasMore: end < pitchs.length
+		};
 	}
 
 	@Query(() => Pitch)

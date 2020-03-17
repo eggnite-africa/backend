@@ -14,8 +14,8 @@ export class PitchService {
 		private readonly pitchRepository: Repository<Pitch>,
 		private readonly userService: UserService
 	) {}
-	async fetchAllPitchs(): Promise<Pitch[]> {
-		return await this.pitchRepository.find({ relations: ['user'] });
+	async fetchAllPitchs(): Promise<[Pitch[], number]> {
+		return await this.pitchRepository.findAndCount({ relations: ['user'] });
 	}
 
 	async fetchPitchById(id: number): Promise<Pitch> {
