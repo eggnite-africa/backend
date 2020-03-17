@@ -73,6 +73,8 @@ type Mutation {
   deleteProduct(id: ID!): Boolean!
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
+  addClap(userId: ID!, voteInput: VoteInput!): Vote!
+  deleteClap(userId: ID!, voteInput: VoteInput!): Boolean!
   markNotificationAsSeen(id: ID!): Notification!
   signUp(newUser: NewUserInput!): User!
   deleteUser(userId: ID!): Boolean!
@@ -170,6 +172,13 @@ type Pitch {
   title: String!
   content: String!
   user: User!
+  votes: [Vote!]
+}
+
+type Pitchs {
+  totalCount: Int!
+  pitchs: [Pitch]
+  hasMore: Boolean!
 }
 
 type Product {
@@ -223,7 +232,7 @@ type Query {
   user(id: ID, username: String): User!
   fetchAllFeedback: [Feedback]
   fetchFeedbackByUserId(userId: ID!): [Feedback]
-  pitchList: [Pitch]
+  pitchList(pageSize: Int = 7, page: Int): Pitchs!
   pitch(id: ID!): Pitch!
 }
 
@@ -288,10 +297,12 @@ enum userTypeEnum {
 
 type Vote {
   id: ID!
-  productId: ID!
+  productId: ID
+  pitchId: ID
   userId: ID!
 }
 
 input VoteInput {
-  productId: ID!
+  productId: ID
+  pitchId: ID
 }
