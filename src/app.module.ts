@@ -23,6 +23,8 @@ import { Feedback } from './modules/feedback/feedback.entity';
 import { Comment } from './modules/comment/comment.entitiy';
 import { Notification } from './modules/notification/notification.entity';
 import { constants } from './config/constants';
+import { PitchModule } from './modules/pitch/pitch.module';
+import { Pitch } from './modules/pitch/pitch.entity';
 
 export const entities = [
 	Product,
@@ -32,7 +34,8 @@ export const entities = [
 	Profile,
 	Notification,
 	ProductLinks,
-	Feedback
+	Feedback,
+	Pitch
 ];
 
 const ssl = (): boolean =>
@@ -64,7 +67,8 @@ const ssl = (): boolean =>
 		SharedModule,
 		ProfileModule,
 		ProductLinksModule,
-		FeedbackModule
+		FeedbackModule,
+		PitchModule
 	]
 })
 export class AppModule {}

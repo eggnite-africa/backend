@@ -20,6 +20,7 @@ import { Product } from '../product/product.entity';
 import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 import { Notification } from '../notification/notification.entity';
 import { Profile } from '../profile/profile.entity';
+import { Pitch } from '../pitch/pitch.entity';
 
 export enum userTypeEnum {
 	ADMIN = 'ADMIN',
@@ -96,6 +97,13 @@ export class User extends BaseEntity {
 	)
 	@JoinTable()
 	notifications?: Notification[];
+
+	@Field(() => [Pitch], { nullable: 'itemsAndList' })
+	@OneToMany(
+		() => Pitch,
+		pitch => pitch.user
+	)
+	pitch?: Pitch[];
 
 	@Column({ type: 'enum', enum: userTypeEnum, default: userTypeEnum.USER })
 	@Field(() => userTypeEnum, { defaultValue: userTypeEnum.USER })
