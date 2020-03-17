@@ -85,9 +85,13 @@ export class CommentService {
 		}
 
 		const newComment = new Comment();
-		newComment.productId = productId;
-		newComment.content = content;
 		newComment.userId = userId;
+		newComment.content = content;
+		if (productId) {
+			newComment.productId = productId;
+		} else {
+			newComment.pitchId = pitchId;
+		}
 		const addedComment = await this.commentRepository.save(newComment);
 		const subscribers = await this.filterSubscribers(userId, newComment);
 		await this.addCommentNotification(subscribers, newComment);
