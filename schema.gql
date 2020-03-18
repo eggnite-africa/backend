@@ -75,8 +75,8 @@ type Mutation {
   deleteProduct(id: ID!): Boolean!
   upvote(voteInput: VoteInput!): Vote!
   deleteVote(voteInput: VoteInput!): Boolean!
-  addClap(userId: ID!, voteInput: VoteInput!): Vote!
-  deleteClap(userId: ID!, voteInput: VoteInput!): Boolean!
+  addClap(voteInput: VoteInput!): Vote!
+  deleteClap(voteInput: VoteInput!): Boolean!
   markNotificationAsSeen(id: ID!): Notification!
   signUp(newUser: NewUserInput!): User!
   deleteUser(userId: ID!): Boolean!
