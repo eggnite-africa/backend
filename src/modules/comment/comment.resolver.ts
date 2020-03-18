@@ -18,13 +18,13 @@ import { User } from '../user/user.entity';
 export class CommentResolver {
 	constructor(private readonly commentService: CommentService) {}
 
-	// @UseGuards(GraphQLAuth)
+	@UseGuards(GraphQLAuth)
 	@Mutation(() => Comment)
 	async addComment(
 		@Args('commentInput')
 		{ productId, pitchId, content, parentId }: CommentInput,
-		@Args({ name: 'userId', type: () => ID }) userId: number
-		// @CurrentUser() { id: userId }: Usùer
+		// @Args({ name: 'userId', type: () => ID }) userId: number
+		@CurrentUser() { id: userId }: User
 	): Promise<Comment | undefined> {
 		return await this.commentService.addComment(
 			userId,

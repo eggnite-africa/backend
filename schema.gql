@@ -81,7 +81,7 @@ type Mutation {
   signUp(newUser: NewUserInput!): User!
   deleteUser(userId: ID!): Boolean!
   updateProfile(updatedProfile: UpdateProfileInput!, userId: ID!): Profile!
-  addComment(userId: ID!, commentInput: CommentInput!): Comment!
+  addComment(commentInput: CommentInput!): Comment!
   deleteComment(commentId: ID!): Boolean!
   updateComment(commentInput: CommentInput!): Comment!
   addFeedback(feedback: NewFeedbackInput!): Feedback!
