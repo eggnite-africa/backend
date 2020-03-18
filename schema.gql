@@ -113,8 +113,10 @@ input NewMediaInput {
 
 input NewPitchInput {
   title: String!
-  content: String!
-  userId: ID!
+  problem: String!
+  solution: String!
+  skills: String!
+  needs: String!
 }
 
 input NewProductInput {
@@ -172,7 +174,10 @@ enum OccupationType {
 type Pitch {
   id: ID!
   title: String!
-  content: String!
+  problem: String!
+  solution: String!
+  skills: String!
+  needs: String!
   user: User!
   votes: [Vote!]
   comments: [Comment!]
@@ -254,8 +259,10 @@ input UpdatedMediaInput {
 
 input UpdatedPitchInput {
   id: ID!
-  content: String
-  userId: ID!
+  problem: String
+  solution: String
+  skills: String
+  needs: String
 }
 
 input UpdatedProductInput {
