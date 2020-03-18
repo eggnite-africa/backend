@@ -26,7 +26,19 @@ export class Pitch extends BaseEntity {
 
 	@Field(() => String)
 	@Column()
-	content!: string;
+	problem!: string;
+
+	@Field(() => String)
+	@Column()
+	solution!: string;
+
+	@Field(() => String)
+	@Column()
+	skills!: string;
+
+	@Field(() => String)
+	@Column()
+	needs!: string;
 
 	@Field(() => User)
 	@ManyToOne(

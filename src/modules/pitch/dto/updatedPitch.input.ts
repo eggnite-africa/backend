@@ -7,7 +7,16 @@ export class UpdatedPitchInput implements Partial<Pitch> {
 	id!: number;
 
 	@Field(() => String, { nullable: true })
-	content?: string;
+	problem?: string;
+
+	@Field(() => String, { nullable: true })
+	solution?: string;
+
+	@Field(() => String, { nullable: true })
+	skills?: string;
+
+	@Field(() => String, { nullable: true })
+	needs?: string;
 
 	@Field(() => ID)
 	userId!: number;

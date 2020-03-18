@@ -7,7 +7,16 @@ export class NewPitchInput implements Partial<Pitch> {
 	title!: string;
 
 	@Field(() => String)
-	content!: string;
+	problem!: string;
+
+	@Field(() => String)
+	solution!: string;
+
+	@Field(() => String)
+	skills!: string;
+
+	@Field(() => String)
+	needs!: string;
 
 	@Field(() => ID)
 	userId!: number;
