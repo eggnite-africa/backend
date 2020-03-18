@@ -7,10 +7,13 @@ type Comment {
   id: ID!
   postedAt: DateTime!
   content: String!
+  product: Product
   productId: ID
+  pitch: Pitch
   pitchId: ID
   parentId: ID
   replies: [Comment]
+  user: User!
   userId: ID!
 }
 
@@ -308,8 +311,11 @@ enum userTypeEnum {
 
 type Vote {
   id: ID!
+  product: Product
   productId: ID
+  pitch: Pitch
   pitchId: ID
+  user: User!
   userId: ID!
 }
 

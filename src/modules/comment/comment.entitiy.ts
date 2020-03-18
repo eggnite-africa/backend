@@ -38,12 +38,14 @@ export class Comment extends BaseEntity {
 	@IsNotEmpty()
 	content!: string;
 
+	@Field(() => Product, { nullable: true })
 	@ManyToOne(
 		() => Product,
 		product => product.comments,
 		{
 			onDelete: 'CASCADE',
-			nullable: true
+			nullable: true,
+			eager: true
 		}
 	)
 	product?: Product;
@@ -51,12 +53,14 @@ export class Comment extends BaseEntity {
 	@Column({ nullable: true })
 	productId?: number;
 
+	@Field(() => Pitch, { nullable: true })
 	@ManyToOne(
 		() => Pitch,
 		pitch => pitch.comments,
 		{
 			onDelete: 'CASCADE',
-			nullable: true
+			nullable: true,
+			eager: true
 		}
 	)
 	pitch?: Pitch;
@@ -80,11 +84,13 @@ export class Comment extends BaseEntity {
 	@Field(() => [Comment], { nullable: 'itemsAndList' })
 	replies?: Comment[];
 
+	@Field(() => User)
 	@ManyToOne(
 		type => User,
 		user => user.comments,
 		{
-			onDelete: 'CASCADE'
+			onDelete: 'CASCADE',
+			eager: true
 		}
 	)
 	user!: User;

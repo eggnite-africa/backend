@@ -23,12 +23,14 @@ export class Vote extends BaseEntity {
 	@CreateDateColumn()
 	createdAt!: Date;
 
+	@Field(() => Product, { nullable: true })
 	@ManyToOne(
 		type => Product,
 		product => product.votes,
 		{
 			onDelete: 'CASCADE',
-			nullable: true
+			nullable: true,
+			eager: true
 		}
 	)
 	product?: Product;
@@ -36,12 +38,14 @@ export class Vote extends BaseEntity {
 	@Column({ nullable: true })
 	productId?: number;
 
+	@Field(() => Pitch, { nullable: true })
 	@ManyToOne(
 		type => Pitch,
 		pitch => pitch.votes,
 		{
 			onDelete: 'CASCADE',
-			nullable: true
+			nullable: true,
+			eager: true
 		}
 	)
 	pitch?: Pitch;
@@ -49,11 +53,13 @@ export class Vote extends BaseEntity {
 	@Column({ nullable: true })
 	pitchId?: number;
 
+	@Field(() => User)
 	@ManyToOne(
 		type => User,
 		user => user.votes,
 		{
-			onDelete: 'CASCADE'
+			onDelete: 'CASCADE',
+			eager: true
 		}
 	)
 	user!: User;
