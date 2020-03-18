@@ -14,8 +14,10 @@ import { UpdatedPitchInput } from './dto/updatedPitch.input';
 import { Pitchs } from './type/pitchs.type';
 import { CommentService } from '../comment/comment.service';
 import { Comment } from '../comment/comment.entitiy';
-// import { CurrentUser } from '../user/decorator/user.decorator';
-// import { User } from '../user/user.entity';
+import { CurrentUser } from '../user/decorator/user.decorator';
+import { User } from '../user/user.entity';
+import { UseGuards } from '@nestjs/common';
+import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 
 @Resolver(() => Pitch)
 export class PitchResolver {
@@ -48,6 +50,7 @@ export class PitchResolver {
 		return await this.pitchService.fetchPitchById(id);
 	}
 
+	@UseGuards(GraphQLAuth)
 	@Mutation(() => Pitch)
 	async addPitch(
 		@Args({ name: 'newPitch', type: () => NewPitchInput })
@@ -55,22 +58,20 @@ export class PitchResolver {
 	): Promise<Pitch> {
 		return await this.pitchService.addPitch(newPitch);
 	}
-
+	@UseGuards(GraphQLAuth)
 	@Mutation(() => Pitch)
 	async updatePitch(
 		@Args({ name: 'updatedPitch', type: () => UpdatedPitchInput })
 		updatedPitch: UpdatedPitchInput,
-		@Args({ name: 'userId', type: () => ID }) userId: number
-		// @CurrentUser() { id: userId }: User
+		@CurrentUser() { id: userId }: User
 	): Promise<Pitch> {
 		return await this.pitchService.udpatePitch(updatedPitch, userId);
 	}
-
+	@UseGuards(GraphQLAuth)
 	@Mutation(() => Boolean)
 	async deletePitch(
 		@Args({ name: 'id', type: () => ID }) id: number,
-		@Args({ name: 'userId', type: () => ID }) userId: number
-		// @CurrentUser() { id: userId }: User
+		@CurrentUser() { id: userId }: User
 	): Promise<boolean> {
 		return await this.pitchService.deletePitch(id, userId);
 	}

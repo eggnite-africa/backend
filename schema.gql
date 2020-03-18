@@ -88,8 +88,8 @@ type Mutation {
   markFeedbackAsDone(id: ID!): Feedback!
   markFeedbackAsRefused(reason: String, id: ID!): Feedback!
   addPitch(newPitch: NewPitchInput!): Pitch!
-  updatePitch(userId: ID!, updatedPitch: UpdatedPitchInput!): Pitch!
-  deletePitch(userId: ID!, id: ID!): Boolean!
+  updatePitch(updatedPitch: UpdatedPitchInput!): Pitch!
+  deletePitch(id: ID!): Boolean!
 }
 
 input NewFeedbackInput {
