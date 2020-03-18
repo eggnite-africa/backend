@@ -17,7 +17,4 @@ export class NewPitchInput implements Partial<Pitch> {
 
 	@Field(() => String)
 	needs!: string;
-
-	@Field(() => ID)
-	userId!: number;
 }
