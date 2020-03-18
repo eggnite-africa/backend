@@ -8,7 +8,7 @@ import { UseGuards, InternalServerErrorException } from '@nestjs/common';
 import { GraphQLAuth } from '../auth/guard/GqlAuth.guard';
 import { ID } from 'type-graphql';
 
-// @UseGuards(GraphQLAuth)
+@UseGuards(GraphQLAuth)
 @Resolver(() => Vote)
 export class VoteResolver {
 	constructor(private readonly voteService: VoteService) {}
@@ -34,8 +34,7 @@ export class VoteResolver {
 	@Mutation(() => Vote)
 	async addClap(
 		@Args('voteInput') { pitchId }: VoteInput,
-		@Args({ name: 'userId', type: () => ID }) userId: number
-		// @CurrentUser() { id: userId }: User
+		@CurrentUser() { id: userId }: User
 	): Promise<Vote> {
 		if (!pitchId) throw new InternalServerErrorException();
 		return await this.voteService.addClap(pitchId, userId);
@@ -44,8 +43,7 @@ export class VoteResolver {
 	@Mutation(() => Boolean)
 	async deleteClap(
 		@Args('voteInput') { pitchId }: VoteInput,
-		@Args({ name: 'userId', type: () => ID }) userId: number
-		// @CurrentUser() { id: userId }: User
+		@CurrentUser() { id: userId }: User
 	): Promise<boolean> {
 		if (!pitchId) throw new InternalServerErrorException();
 		return await this.voteService.deleteClap(pitchId, userId);
