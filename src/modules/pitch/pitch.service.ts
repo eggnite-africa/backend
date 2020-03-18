@@ -44,6 +44,7 @@ export class PitchService {
 	async udpatePitch(pitch: UpdatedPitchInput, userId: number): Promise<Pitch> {
 		const updatedPitch = await this.fetchPitchById(pitch.id);
 		if (userId != updatedPitch.user.id) throw new UnauthorizedError();
+		if (pitch.title) updatedPitch.title = pitch.title;
 		if (pitch.problem) updatedPitch.problem = pitch.problem;
 		if (pitch.solution) updatedPitch.solution = pitch.solution;
 		if (pitch.skills) updatedPitch.skills = pitch.skills;

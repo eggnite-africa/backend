@@ -259,6 +259,7 @@ input UpdatedMediaInput {
 
 input UpdatedPitchInput {
   id: ID!
+  title: String
   problem: String
   solution: String
   skills: String

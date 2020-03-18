@@ -19,9 +19,7 @@ export class Pitch extends BaseEntity {
 	readonly id!: number;
 
 	@Field(() => String)
-	@Column({
-		unique: true
-	})
+	@Column()
 	title!: string;
 
 	@Field(() => String)
