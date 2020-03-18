@@ -29,21 +29,25 @@ export class PitchService {
 		});
 	}
 
-	async addPitch(pitch: NewPitchInput): Promise<Pitch> {
-		const user = await this.userService.fetchUserById(pitch.userId);
+	async addPitch(pitch: NewPitchInput, userId: number): Promise<Pitch> {
+		const user = await this.userService.fetchUserById(userId);
 		const newPitch = new Pitch();
 		newPitch.title = pitch.title;
-		newPitch.content = pitch.content;
+		newPitch.problem = pitch.problem;
+		newPitch.solution = pitch.solution;
+		newPitch.skills = pitch.skills;
+		newPitch.needs = pitch.needs;
 		newPitch.user = user;
 		return await this.pitchRepository.save(newPitch);
 	}
 
 	async udpatePitch(pitch: UpdatedPitchInput, userId: number): Promise<Pitch> {
 		const updatedPitch = await this.fetchPitchById(pitch.id);
-		if (userId != pitch.userId) throw new UnauthorizedError();
-		if (pitch.content) {
-			updatedPitch.content = pitch.content;
-		}
+		if (userId != updatedPitch.user.id) throw new UnauthorizedError();
+		if (pitch.problem) updatedPitch.problem = pitch.problem;
+		if (pitch.solution) updatedPitch.solution = pitch.solution;
+		if (pitch.skills) updatedPitch.skills = pitch.skills;
+		if (pitch.needs) updatedPitch.needs = pitch.needs;
 		return await this.pitchRepository.save(updatedPitch);
 	}
 

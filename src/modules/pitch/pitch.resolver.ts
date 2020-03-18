@@ -54,9 +54,10 @@ export class PitchResolver {
 	@Mutation(() => Pitch)
 	async addPitch(
 		@Args({ name: 'newPitch', type: () => NewPitchInput })
-		newPitch: NewPitchInput
+		newPitch: NewPitchInput,
+		@CurrentUser() { id: userId }: User
 	): Promise<Pitch> {
-		return await this.pitchService.addPitch(newPitch);
+		return await this.pitchService.addPitch(newPitch, userId);
 	}
 	@UseGuards(GraphQLAuth)
 	@Mutation(() => Pitch)
