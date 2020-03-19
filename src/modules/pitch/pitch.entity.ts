@@ -4,7 +4,9 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	ManyToOne,
-	OneToMany
+	OneToMany,
+	CreateDateColumn,
+	UpdateDateColumn
 } from 'typeorm';
 import { ObjectType, ID, Field } from 'type-graphql';
 import { User } from '../user/user.entity';
@@ -18,6 +20,12 @@ export class Pitch extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	@Field(() => ID)
 	readonly id!: number;
+
+	@CreateDateColumn()
+	createdAt!: Date;
+
+	@UpdateDateColumn()
+	updatedAt!: Date;
 
 	@Field(() => String)
 	@Column()
