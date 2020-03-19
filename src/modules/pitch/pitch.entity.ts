@@ -10,6 +10,7 @@ import { ObjectType, ID, Field } from 'type-graphql';
 import { User } from '../user/user.entity';
 import { Vote } from '../vote/vote.entity';
 import { Comment } from '../comment/comment.entitiy';
+import { IsNotEmpty } from 'class-validator';
 
 @Entity()
 @ObjectType()
@@ -20,22 +21,27 @@ export class Pitch extends BaseEntity {
 
 	@Field(() => String)
 	@Column()
-	title!: string;
+	@IsNotEmpty()
+	name!: string;
 
 	@Field(() => String)
 	@Column()
+	@IsNotEmpty()
 	problem!: string;
 
 	@Field(() => String)
 	@Column()
+	@IsNotEmpty()
 	solution!: string;
 
 	@Field(() => String)
 	@Column()
+	@IsNotEmpty()
 	skills!: string;
 
 	@Field(() => String)
 	@Column()
+	@IsNotEmpty()
 	needs!: string;
 
 	@Field(() => User)

@@ -32,7 +32,7 @@ export class PitchService {
 	async addPitch(pitch: NewPitchInput, userId: number): Promise<Pitch> {
 		const user = await this.userService.fetchUserById(userId);
 		const newPitch = new Pitch();
-		newPitch.title = pitch.title;
+		newPitch.name = pitch.name;
 		newPitch.problem = pitch.problem;
 		newPitch.solution = pitch.solution;
 		newPitch.skills = pitch.skills;
@@ -44,7 +44,7 @@ export class PitchService {
 	async udpatePitch(pitch: UpdatedPitchInput, userId: number): Promise<Pitch> {
 		const updatedPitch = await this.fetchPitchById(pitch.id);
 		if (userId != updatedPitch.user.id) throw new UnauthorizedError();
-		if (pitch.title) updatedPitch.title = pitch.title;
+		if (pitch.name) updatedPitch.name = pitch.name;
 		if (pitch.problem) updatedPitch.problem = pitch.problem;
 		if (pitch.solution) updatedPitch.solution = pitch.solution;
 		if (pitch.skills) updatedPitch.skills = pitch.skills;

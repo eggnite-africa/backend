@@ -115,7 +115,7 @@ input NewMediaInput {
 }
 
 input NewPitchInput {
-  title: String!
+  name: String!
   problem: String!
   solution: String!
   skills: String!
@@ -176,7 +176,7 @@ enum OccupationType {
 
 type Pitch {
   id: ID!
-  title: String!
+  name: String!
   problem: String!
   solution: String!
   skills: String!
@@ -262,7 +262,7 @@ input UpdatedMediaInput {
 
 input UpdatedPitchInput {
   id: ID!
-  title: String
+  name: String
   problem: String
   solution: String
   skills: String
