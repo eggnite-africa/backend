@@ -36,7 +36,7 @@
 		"graphql-subscriptions": "^1.1.0",
 		"graphql-tools": "^4.0.6",
 		"helmet": "^3.21.2",
-		"nanoid": "^2.1.7",
+		"nanoid": "^3.1.31",
 		"nodemailer": "^6.4.0",
 		"passport": "^0.4.0",
 		"passport-jwt": "^4.0.0",
